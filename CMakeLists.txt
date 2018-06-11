@@ -16,7 +16,7 @@ if (GLEW_FOUND)
     link_libraries(${GLEW_LIBRARIES})
 endif()
 
-add_executable(VixenEngine main.cpp)
+add_executable(VixenEngine main.cpp input/Camera.cpp input/Camera.h graphics/Window.cpp graphics/Window.h)
 
 include_directories(${GLFW_INCLUDE_DIRS})
 
