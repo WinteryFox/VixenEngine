@@ -8,6 +8,13 @@
 
 namespace graphics {
 	class Window {
+	private:
+		GLFWwindow *window;
+		
+		const char *name;
+		int width;
+		int height;
+		
 	public:
 		Window(const char *name, int width, int height);
 		~Window();
@@ -19,13 +26,6 @@ namespace graphics {
 		
 	private:
 		bool init();
-		
-	private:
-		GLFWwindow *window;
-		
-		const char *name;
-		int width;
-		int height;
 	};
 }
 
