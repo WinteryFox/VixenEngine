@@ -2,9 +2,9 @@
 #define VIXENENGINE_MESHRENDER_H
 
 #include <vector>
-#include "Mesh.h"
+#include "../model/Mesh.h"
 #include "../shaders/Shader.h"
-#include "Entity.h"
+#include "../model/Entity.h"
 
 namespace graphics::model {
 	class EntityRender {
