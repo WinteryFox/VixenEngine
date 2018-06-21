@@ -12,7 +12,7 @@ namespace graphics::loader {
 		std::vector<graphics::model::Mesh> meshes;
 	
 	public:
-		graphics::model::Mesh loadMesh(const char *path);
+		graphics::model::Mesh* loadMesh(const char *path);
 	};
 }
 
