@@ -4,12 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <glm/glm.hpp>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "../../irrxml/irrXML.h"
 #include "../model/Mesh.h"
 
 namespace graphics::loader {
+	using namespace irr::io;
 	using namespace glm;
 	class Loader {
 	public:

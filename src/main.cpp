@@ -34,7 +34,10 @@ int main() {
 		
 		phong->stop();
 		window->swap();
+		
+		GLenum error = glGetError();
+		if (error != GL_NO_ERROR)
+			std::cout << error << ": " << glewGetErrorString(error) << std::endl;
 	}
-	
 	return 0;
 }

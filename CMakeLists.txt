@@ -20,6 +20,4 @@ add_executable(VixenEngine src/main.cpp src/graphics/Window.cpp src/graphics/Win
 
 include_directories(${GLFW_INCLUDE_DIRS})
 
-include_directories(${ASSIMP_INCLUDE_DIRS})
-
-target_link_libraries(VixenEngine assimp glfw3 glew32 opengl32 gdi32)
+target_link_libraries(VixenEngine glfw3 glew32 opengl32 gdi32)
