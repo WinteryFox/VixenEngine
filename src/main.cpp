@@ -21,7 +21,7 @@ int main() {
 	std::vector<glm::vec2> nothing1 = std::vector<glm::vec2>{glm::vec2(0.0f)};
 	std::vector<unsigned int> nothing2 = std::vector<unsigned int>{0};
 	
-	graphics::model::Entity *entity = new graphics::model::Entity(loader->loadMesh(""), glm::vec3(0.0), glm::vec3(0.0), 0.0f);
+	graphics::model::Entity *entity = new graphics::model::Entity(loader->loadMesh("../src/resources/cube.dae"), glm::vec3(0.0), glm::vec3(0.0), 0.0f);
 	auto *render = new graphics::model::EntityRender();
 	render->use(phong);
 	render->add(entity);

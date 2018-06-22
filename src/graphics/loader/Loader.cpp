@@ -7,4 +7,6 @@ graphics::model::Mesh* graphics::loader::Loader::loadMesh(const char *path) {
 	std::vector<vec3> normals;
 	
 	
+	
+	return new graphics::model::Mesh(vertices, indices, uvs, normals);
 }
