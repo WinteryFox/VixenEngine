@@ -1,18 +1,19 @@
 #ifndef VIXENENGINE_LOADER_H
 #define VIXENENGINE_LOADER_H
 
+#include <stdexcept>
 #include <iostream>
 #include <vector>
 #include <glm/glm.hpp>
-#include "../../irrxml/irrXML.h"
-#include "../model/Mesh.h"
+#include <Assimp/Importer.hpp>
+#include <Assimp/scene.h>
+#include "Mesh.h"
 
 namespace graphics::loader {
-	using namespace irr::io;
 	using namespace glm;
 	class Loader {
 	public:
-		graphics::model::Mesh* loadMesh(const char *path);
+		graphics::model::Mesh loadMesh(const char *path);
 	};
 }
 

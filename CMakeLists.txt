@@ -16,8 +16,8 @@ if (GLEW_FOUND)
     link_libraries(${GLEW_LIBRARIES})
 endif()
 
-add_executable(VixenEngine src/main.cpp src/graphics/Window.cpp src/graphics/Window.h src/input/Camera.cpp src/input/Camera.h src/graphics/shaders/Shader.cpp src/graphics/shaders/Shader.h src/graphics/shaders/phong/Phong.cpp src/graphics/shaders/phong/Phong.h src/graphics/model/Mesh.cpp src/graphics/model/Mesh.h src/graphics/render/EntityRender.cpp src/graphics/render/EntityRender.h src/graphics/model/Entity.cpp src/graphics/model/Entity.h src/graphics/loader/Loader.cpp src/graphics/loader/Loader.h)
+add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.cpp src/Camera.h src/Shader.cpp src/Shader.h src/Phong.cpp src/Phong.h src/Mesh.cpp src/Mesh.h src/EntityRender.cpp src/EntityRender.h src/Entity.cpp src/Entity.h src/Loader.cpp src/Loader.h src/irrXML.h src/irrXML.cpp src/irrTypes.h src/irrString.h src/irrArray.h src/heapsort.h src/fast_atof.h src/CXMLReaderImpl.h)
 
-include_directories(${GLFW_INCLUDE_DIRS})
+include_directories(${GLFW_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIRS})
 
-target_link_libraries(VixenEngine glfw3 glew32 opengl32 gdi32)
+target_link_libraries(VixenEngine assimp glfw3 glew32 opengl32 gdi32)

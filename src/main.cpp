@@ -1,8 +1,8 @@
 #include <GL/glew.h>
-#include "graphics/Window.h"
-#include "graphics/render/EntityRender.h"
-#include "graphics/shaders/phong/Phong.h"
-#include "graphics/loader/Loader.h"
+#include "Window.h"
+#include "EntityRender.h"
+#include "Phong.h"
+#include "Loader.h"
 
 #ifdef _WIN32
 #define GLEW_STATIC
@@ -15,13 +15,14 @@ int main() {
 	
 	auto *loader = new graphics::loader::Loader();
 	
-	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("../src/graphics/shaders/phong/phong.vert", "../src/graphics/shaders/phong/phong.frag");
+	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("../src/phong.vert", "../src/phong.frag");
 	
 	std::vector<glm::vec3> nothing = std::vector<glm::vec3>{glm::vec3(0.0f)};
 	std::vector<glm::vec2> nothing1 = std::vector<glm::vec2>{glm::vec2(0.0f)};
 	std::vector<unsigned int> nothing2 = std::vector<unsigned int>{0};
 	
-	graphics::model::Entity *entity = new graphics::model::Entity(loader->loadMesh("../src/resources/cube.dae"), glm::vec3(0.0), glm::vec3(0.0), 0.0f);
+	graphics::model::Mesh mesh = loader->loadMesh("../src/resources/cube.dae");
+	graphics::model::Entity *entity = new graphics::model::Entity(&mesh, glm::vec3(0.0), glm::vec3(0.0), 1.0f);
 	auto *render = new graphics::model::EntityRender();
 	render->use(phong);
 	render->add(entity);
@@ -35,9 +36,9 @@ int main() {
 		phong->stop();
 		window->swap();
 		
-		GLenum error = glGetError();
-		if (error != GL_NO_ERROR)
-			std::cout << error << ": " << glewGetErrorString(error) << std::endl;
+		//GLenum error = glGetError();
+		//if (error != GL_NO_ERROR)
+		//	std::cout << error << ": " << glewGetErrorString(error) << std::endl;
 	}
 	return 0;
 }
