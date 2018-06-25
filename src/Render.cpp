@@ -8,8 +8,8 @@ namespace graphics::model {
 		shader->loadViewMatrix(camera->getView());
 		
 		for (auto &entity : entities) {
-			prepareMesh(entity->getMesh());
 			prepareInstance(entity);
+			prepareMesh(entity->getMesh());
 			glDrawElements(GL_TRIANGLES, entity->getMesh()->getIndices().size(), GL_UNSIGNED_INT, nullptr);
 		}
 		glDisableVertexAttribArray(0);

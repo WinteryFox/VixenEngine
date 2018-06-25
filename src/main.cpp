@@ -15,7 +15,7 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	
-	auto *camera = new input::Camera();
+	auto *camera = new input::Camera(glm::vec3(0.0, 0.0, 5.0));
 	
 	auto *loader = new graphics::loader::Loader();
 	
@@ -30,7 +30,7 @@ int main() {
 	while (!window->shouldClose()) {
 		window->update();
 		camera->update(window);
-		glClearColor(0.0, 1.0, 1.0, 1.0);
+		glClearColor(0.0, 0.0, 0.0, 1.0);
 		
 		render->render(camera);
 		

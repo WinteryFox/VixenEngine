@@ -40,12 +40,11 @@ namespace graphics::shaders{
 	}
 	
 	void Shader::getUniformLocations() {
-		projectionMatrixLocation = glGetUniformLocation(programID, "projection");
-		viewMatrixLocation = glGetUniformLocation(programID, "view");
 		modelMatrixLocation = glGetUniformLocation(programID, "model");
+		viewMatrixLocation = glGetUniformLocation(programID, "view");
+		projectionMatrixLocation = glGetUniformLocation(programID, "projection");
 		viewPositionLocation = glGetUniformLocation(programID, "viewPos");
 	}
-	
 	
 	// TODO: Move to a global loader
 	GLuint Shader::loadAndCompile(const char *vertex, const char *fragment) {
