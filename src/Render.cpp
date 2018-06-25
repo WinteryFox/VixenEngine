@@ -1,14 +1,15 @@
-#include "EntityRender.h"
+#include "Render.h"
 
 namespace graphics::model {
-	
-	void EntityRender::render() {
+	void Render::render(input::Camera *camera) {
 		shader->start();
 		
-		// TODO: Load matrices
+		shader->loadProjectionMatrix(camera->getProjection());
+		shader->loadViewMatrix(camera->getView());
 		
 		for (auto &entity : entities) {
-			prepare(entity->getMesh());
+			prepareMesh(entity->getMesh());
+			prepareInstance(entity);
 			glDrawElements(GL_TRIANGLES, entity->getMesh()->getIndices().size(), GL_UNSIGNED_INT, nullptr);
 		}
 		glDisableVertexAttribArray(0);
@@ -17,7 +18,11 @@ namespace graphics::model {
 		shader->stop();
 	}
 	
-	void EntityRender::prepare(Mesh *mesh) {
+	void Render::prepareInstance(graphics::model::Entity *entity) {
+		shader->loadModelMatrix(entity->getModelMatrix());
+	}
+	
+	void Render::prepareMesh(Mesh *mesh) {
 		glBindVertexArray(mesh->getVao());
 		
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->getVertexVBO());
@@ -35,11 +40,11 @@ namespace graphics::model {
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	}
 	
-	void EntityRender::use(graphics::shaders::Shader *shader) {
+	void Render::use(graphics::shaders::Shader *shader) {
 		this->shader = shader;
 	}
 	
-	void EntityRender::add(Entity *entity) {
+	void Render::add(Entity *entity) {
 		entities.push_back(entity);
 	}
 }

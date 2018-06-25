@@ -17,19 +17,19 @@ namespace graphics::loader {
 		vertices.reserve(mesh->mNumVertices);
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 			aiVector3D pos = mesh->mVertices[i];
-			vertices.emplace_back(pos.x, pos.y, pos.z);
+			vertices.push_back(vec3(pos.x, pos.y, pos.z));
 		}
 		
-		/*uvs.reserve(mesh->mNumVertices);
-		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-			aiVector3D UVW = mesh->mTextureCoords[0][i];
-			uvs.emplace_back(UVW.x, UVW.y);
-		}*/
+		//uvs.reserve(mesh->mNumVertices);
+		//for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+		//	aiVector3D UVW = mesh->mTextureCoords[0][i];
+		//	uvs.push_back(vec2(UVW.x, UVW.y));
+		//}
 		
 		normals.reserve(mesh->mNumVertices);
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 			aiVector3D n = mesh->mNormals[i];
-			normals.emplace_back(n.x, n.y, n.z);
+			normals.push_back(vec3(n.x, n.y, n.z));
 		}
 		
 		indices.reserve(3 * mesh->mNumFaces);

@@ -50,6 +50,15 @@ namespace graphics {
 	void Window::update() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwPollEvents();
+		
+		auto current = static_cast<float>(glfwGetTime());
+		deltaTime = static_cast<float>(current - lastTime);
+		fps++;
+		if (deltaTime >= 1.0) {
+			std::cout << fps << " fps" << std::endl;
+			fps = 0;
+			lastTime = glfwGetTime();
+		}
 	}
 	
 	void Window::swap() {
@@ -58,5 +67,13 @@ namespace graphics {
 	
 	bool Window::shouldClose() const {
 		return glfwWindowShouldClose(window) == 1;
+	}
+	
+	GLFWwindow *Window::getWindow() {
+		return window;
+	}
+	
+	float Window::getDeltaTime() {
+		return deltaTime;
 	}
 }

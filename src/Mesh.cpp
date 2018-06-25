@@ -13,7 +13,7 @@ namespace graphics::model {
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 		
-		glGenBuffers(1, &vao);
+		glGenBuffers(1, &vertexVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexVBO);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), &vertices.data()[0], GL_STATIC_DRAW);
 		
@@ -23,7 +23,7 @@ namespace graphics::model {
 		
 		glGenBuffers(1, &uvsVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, uvsVBO);
-		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), &normals.data()[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), &normals.data()[0], GL_STATIC_DRAW);
 		
 		glGenBuffers(1, &normalsVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
@@ -59,5 +59,9 @@ namespace graphics::model {
 	
 	vector<unsigned int> Mesh::getIndices() {
 		return indices;
+	}
+	
+	vector<vec3> Mesh::getVertices() {
+		return vertices;
 	}
 }

@@ -3,9 +3,11 @@
 namespace graphics::shaders{
 	Shader::Shader(const char *vertex, const char *fragment) {
 		programID = loadAndCompile(vertex, fragment);
+		getUniformLocations();
 	}
 	
 	Shader::~Shader() {
+		stop();
 		glDeleteProgram(programID);
 	}
 	

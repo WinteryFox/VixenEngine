@@ -27,6 +27,8 @@ namespace graphics::model {
 		
 		vector<unsigned int> getIndices();
 		
+		vector<vec3> getVertices();
+		
 		GLuint getVao() const;
 		
 		GLuint getVertexVBO() const;

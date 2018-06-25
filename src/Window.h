@@ -15,6 +15,10 @@ namespace graphics {
 		int width;
 		int height;
 		
+		int fps = 0;
+		double lastTime = glfwGetTime();
+		float deltaTime = 0;
+		
 	public:
 		Window(const char *name, int width, int height);
 		~Window();
@@ -23,6 +27,9 @@ namespace graphics {
 		
 		void update();
 		void swap();
+		
+		GLFWwindow* getWindow();
+		float getDeltaTime();
 		
 	private:
 		bool init();

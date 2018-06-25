@@ -1,12 +1,15 @@
 #include "Entity.h"
 
 namespace graphics::model {
-	Entity::Entity(Mesh *mesh, vec3 position, vec3 rotation, float scale) : mesh(mesh), position(position), eulerRotation(rotation), scale(scale){
-	
+	Entity::Entity(const Mesh &mesh, vec3 position, vec3 rotation, float scale) : mesh(mesh) {
+		this->mesh = mesh;
+		this->position = position;
+		this->rotation = quat(rotation);
+		this->scale = scale;
 	}
 	
-	void Entity::setMesh(Mesh *mesh) {
-		this->mesh = mesh;
+	Mesh *Entity::getMesh() {
+		return &mesh;
 	}
 	
 	vec3 Entity::getPosition() {
@@ -17,7 +20,7 @@ namespace graphics::model {
 		this->position = position;
 	}
 	
-	mat4 Entity::getRotation() {
+	quat Entity::getRotation() {
 		return rotation;
 	}
 	
@@ -27,7 +30,7 @@ namespace graphics::model {
 	
 	void Entity::setRotation(vec3 rotation) {
 		this->eulerRotation = rotation;
-		this->rotation = toMat4(quat(rotation));
+		this->rotation = quat(rotation);
 	}
 	
 	float Entity::getScale() {
@@ -38,7 +41,7 @@ namespace graphics::model {
 		this->scale = scale;
 	}
 	
-	Mesh* Entity::getMesh() {
-		return mesh;
+	mat4 Entity::getModelMatrix() {
+		return mat4(translate(mat4(), position) * toMat4(rotation) * glm::scale(vec3(scale)));
 	}
 }

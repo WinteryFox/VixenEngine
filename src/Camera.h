@@ -1,8 +1,11 @@
 #ifndef VIXENENGINE_CAMERA_H
 #define VIXENENGINE_CAMERA_H
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/vec3.hpp>
+#include "Window.h"
 
 namespace input {
 	using namespace glm;
@@ -11,26 +14,25 @@ namespace input {
 		bool firstMouse = true;
 		double lastX = 0, lastY = 0;
 		
-		vec3 position = vec3(0.0);
+		vec3 position;
 		float horizontal = 3.14f;
 		float vertical = 0.0f;
-		float FoV = 45.0f;
-		float speed = 50.0f;
-		float sensitivity = 1.0f;
+		float FoV;
+		float speed;
+		float sensitivity;
 		
-		mat4 projectionMatrix;
-		mat4 viewMatrix;
+		mat4 projection;
+		mat4 view;
 		
 	public:
-		explicit Camera(vec3 position = vec3(0.0f), float FoV = 45.0f, float speed = 50.0f, float sensitivity = 1.0f) : position(position), FoV(FoV), speed(speed), sensitivity(sensitivity) { }
+		explicit Camera(vec3 position = vec3(0.0), float FoV = 45.0f, float speed = 0.05f, float sensitivity = 1.0f) : position(position), FoV(FoV), speed(speed), sensitivity(sensitivity) { }
 		
-		mat4 getProjectionMatrix();
-		mat4 getViewMatrix();
+		mat4 getProjection();
+		mat4 getView();
 		
 		vec3 getPosition();
 		
-	protected:
-		void update(double xOffset, double yOffset);
+		void update(graphics::Window *window);
 	};
 }
 

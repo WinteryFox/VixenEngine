@@ -16,7 +16,7 @@ if (GLEW_FOUND)
     link_libraries(${GLEW_LIBRARIES})
 endif()
 
-add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.cpp src/Camera.h src/Shader.cpp src/Shader.h src/Phong.cpp src/Phong.h src/Mesh.cpp src/Mesh.h src/EntityRender.cpp src/EntityRender.h src/Entity.cpp src/Entity.h src/Loader.cpp src/Loader.h src/irrXML.h src/irrXML.cpp src/irrTypes.h src/irrString.h src/irrArray.h src/heapsort.h src/fast_atof.h src/CXMLReaderImpl.h)
+add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.cpp src/Camera.h src/Shader.cpp src/Shader.h src/Phong.cpp src/Phong.h src/Mesh.cpp src/Mesh.h src/Render.cpp src/Render.h src/Entity.cpp src/Entity.h src/Loader.cpp src/Loader.h)
 
 include_directories(${GLFW_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIRS})
 
