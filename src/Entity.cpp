@@ -42,6 +42,6 @@ namespace graphics::model {
 	}
 	
 	mat4 Entity::getModelMatrix() {
-		return mat4(translate(mat4(), position) * toMat4(rotation) * glm::scale(vec3(scale)));
+		return mat4(glm::translate(position) * toMat4(rotation) * glm::scale(vec3(scale)));
 	}
 }
