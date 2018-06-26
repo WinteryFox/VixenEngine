@@ -16,16 +16,16 @@ namespace input {
 	void Camera::update(graphics::Window *window) {
 		double currentX = 0, currentY = 0;
 		double xOffset = 0, yOffset = 0;
-		//glfwGetCursorPos(window->getWindow(), &currentX, &currentY);
-		//if (firstMouse) {
-		//	lastX = currentX;
-		//	lastY = currentY;
-		//	firstMouse = false;
-		//}
-		//xOffset = currentX - lastX;
-		//yOffset = currentY - lastY;
-		//lastX = currentX;
-		//lastY = currentY;
+		glfwGetCursorPos(window->getWindow(), &currentX, &currentY);
+		if (firstMouse) {
+			lastX = currentX;
+			lastY = currentY;
+			firstMouse = false;
+		}
+		xOffset = currentX - lastX;
+		yOffset = currentY - lastY;
+		lastX = currentX;
+		lastY = currentY;
 		
 		horizontal -= sensitivity * window->getDeltaTime() * xOffset;
 		vertical -= sensitivity * window->getDeltaTime() * yOffset;

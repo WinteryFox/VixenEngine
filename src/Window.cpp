@@ -24,8 +24,6 @@ namespace graphics {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
-		glfwWindowHint(GLFW_FOCUSED, GL_TRUE);
-		glfwSwapInterval(0);
 		
 		window = glfwCreateWindow(width, height, name, nullptr, nullptr);
 		if (!window) {
@@ -44,6 +42,8 @@ namespace graphics {
 			return false;
 		}
 		
+		glfwSwapInterval(0);
+		
 		return true;
 	}
 	
@@ -52,12 +52,14 @@ namespace graphics {
 		glfwPollEvents();
 		
 		auto current = static_cast<float>(glfwGetTime());
-		deltaTime = static_cast<float>(current - lastTime);
+		deltaTime = current - lastTime;
+		FPSTime = current - lastFPS;
+		lastTime = current;
 		fps++;
-		if (deltaTime >= 1.0) {
+		if (FPSTime >= 1.0) {
 			std::cout << fps << " fps" << std::endl;
 			fps = 0;
-			lastTime = glfwGetTime();
+			lastFPS = current;
 		}
 	}
 	

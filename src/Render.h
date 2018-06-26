@@ -8,6 +8,7 @@
 #include "Camera.h"
 
 namespace graphics::model {
+	using namespace objects::entity;
 	class Render {
 	private:
 		graphics::shaders::Shader *shader;

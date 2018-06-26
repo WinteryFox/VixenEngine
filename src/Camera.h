@@ -21,11 +21,11 @@ namespace input {
 		float speed;
 		float sensitivity;
 		
-		mat4 projection;
-		mat4 view;
+		mat4 projection = mat4(0.0);
+		mat4 view = mat4(0.0);
 		
 	public:
-		explicit Camera(vec3 position = vec3(0.0), float FoV = 45.0f, float speed = 0.05f, float sensitivity = 1.0f) : position(position), FoV(FoV), speed(speed), sensitivity(sensitivity) { }
+		explicit Camera(vec3 position = vec3(0.0), float FoV = 70.0f, float speed = 5.0f, float sensitivity = 0.1f) : position(position), FoV(FoV), speed(speed), sensitivity(sensitivity) { }
 		
 		mat4 getProjection();
 		mat4 getView();

@@ -22,7 +22,7 @@ int main() {
 	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("../src/phong.vert", "../src/phong.frag");
 	
 	graphics::model::Mesh mesh = loader->loadMesh("../src/resources/cube.dae");
-	graphics::model::Entity *entity = new graphics::model::Entity(mesh, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
+	objects::entity::Entity *entity = new objects::entity::Entity(mesh);
 	auto *render = new graphics::model::Render();
 	render->use(phong);
 	render->add(entity);

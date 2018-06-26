@@ -1,11 +1,9 @@
 #include "Entity.h"
 
-namespace graphics::model {
-	Entity::Entity(const Mesh &mesh, vec3 position, vec3 rotation, float scale) : mesh(mesh) {
-		this->mesh = mesh;
-		this->position = position;
+namespace objects::entity {
+	Entity::Entity(const Mesh &mesh, vec3 position, vec3 rotation, float scale) : mesh(mesh), position(position), scale(scale) {
+		this->eulerRotation = rotation;
 		this->rotation = quat(rotation);
-		this->scale = scale;
 	}
 	
 	Mesh *Entity::getMesh() {

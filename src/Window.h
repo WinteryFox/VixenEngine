@@ -16,8 +16,10 @@ namespace graphics {
 		int height;
 		
 		int fps = 0;
-		double lastTime = glfwGetTime();
-		float deltaTime = 0;
+		float FPSTime = 0.0f;
+		float lastFPS = 0.0f;
+		float lastTime = 0.0f;
+		float deltaTime = 0.0f;
 		
 	public:
 		Window(const char *name, int width, int height);
