@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
 namespace graphics::model {
-	Mesh::Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals) : vertices(vertices), indices(indices) ,uvs(uvs), normals(normals) {
+	Mesh::Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, GLuint texture) : vertices(vertices), indices(indices) ,uvs(uvs), normals(normals), texture(texture) {
 		generateBuffers();
 	}
 	
@@ -23,7 +23,7 @@ namespace graphics::model {
 		
 		glGenBuffers(1, &uvsVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, uvsVBO);
-		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), &normals.data()[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), &uvs.data()[0], GL_STATIC_DRAW);
 		
 		glGenBuffers(1, &normalsVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
@@ -57,11 +57,11 @@ namespace graphics::model {
 		return normalsVBO;
 	}
 	
-	vector<unsigned int> Mesh::getIndices() {
+	vector<unsigned int> Mesh::getIndices() const {
 		return indices;
 	}
 	
-	vector<vec3> Mesh::getVertices() {
+	vector<vec3> Mesh::getVertices() const {
 		return vertices;
 	}
 }

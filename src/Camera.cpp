@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Camera.h"
 
 namespace input {

@@ -6,6 +6,7 @@ namespace graphics::loader {
 		std::vector<unsigned int> indices;
 		std::vector<vec2> uvs;
 		std::vector<vec3> normals;
+		GLuint texture;
 		
 		Assimp::Importer importer;
 		const aiScene *scene = importer.ReadFile(path, 0);
@@ -20,11 +21,15 @@ namespace graphics::loader {
 			vertices.push_back(vec3(pos.x, pos.y, pos.z));
 		}
 		
-		//uvs.reserve(mesh->mNumVertices);
-		//for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-		//	aiVector3D UVW = mesh->mTextureCoords[0][i];
-		//	uvs.push_back(vec2(UVW.x, UVW.y));
-		//}
+		if (scene->HasTextures()) {
+			uvs.reserve(mesh->mNumVertices);
+			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+				aiVector3D UVW = mesh->mTextureCoords[0][i];
+				uvs.push_back(vec2(UVW.x, UVW.y));
+			}
+			
+			//aiTexture aiTexture = scene->mMaterials[0]->
+		}
 		
 		normals.reserve(mesh->mNumVertices);
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -39,6 +44,6 @@ namespace graphics::loader {
 			indices.push_back(mesh->mFaces[i].mIndices[2]);
 		}
 		
-		return graphics::model::Mesh(vertices, indices, uvs, normals);
+		return graphics::model::Mesh(vertices, indices, uvs, normals, texture);
 	}
 }
