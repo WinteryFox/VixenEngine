@@ -20,4 +20,4 @@ add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.c
 
 include_directories(${GLFW_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIRS})
 
-target_link_libraries(VixenEngine assimp glfw3 glew32 opengl32 gdi32)
+target_link_libraries(VixenEngine assimp glfw3 glew32 libpng opengl32 gdi32)

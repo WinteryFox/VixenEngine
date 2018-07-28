@@ -7,6 +7,8 @@
 #include <glm/glm.hpp>
 #include <Assimp/Importer.hpp>
 #include <Assimp/scene.h>
+#include <png.h>
+#include <readpng.h>
 #include "Mesh.h"
 
 namespace graphics::loader {
@@ -14,6 +16,7 @@ namespace graphics::loader {
 	class Loader {
 	public:
 		graphics::model::Mesh loadMesh(const char *path);
+		GLuint loadTexture(const char *path);
 	};
 }
 
