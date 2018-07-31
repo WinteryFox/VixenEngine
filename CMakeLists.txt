@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.12)
 project(VixenEngine)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -12,19 +12,28 @@ find_package(PkgConfig REQUIRED)
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
-if (WIN32)
-	find_package(OPENGL REQUIRED)
-	link_libraries(${OPENGL_LIBRARIES})
+find_package(OpenGL REQUIRED)
+link_libraries(${OPENGL_LIBRARIES})
+include_directories(${OPENGL_INCLUDE_DIR})
 
+if (WIN32)
 	find_package(GLEW REQUIRED)
-	include_directories(${GLEW_INCLUDE_DIR})
+	include_directories(${GLEW_INCLUDE_DIRS})
 	link_libraries(${GLEW_LIBRARIES})
+
+	find_package(Vulkan REQUIRED)
+	include_directories(${Vulkan_INCLUDE_DIRS})
+	link_libraries(${Vulkan_LIBRARIES})
 
 	link_libraries(assimp glfw3 png)
 else()
 	pkg_search_module(GLEW REQUIRED glew)
-	include_directories(${GLEW_INCLUDE_DIR})
+	include_directories(${GLEW_INCLUDE_DIRS})
 	link_libraries(${GLEW_LIBRARIES})
+
+	pkg_search_module(VULKAN REQUIRED vulkan)
+	include_directories(${VULKAN_INCLUDE_DIR})
+	link_libraries(${VULKAN_LIBRARIES})
 
 	pkg_search_module(GLFW REQUIRED glfw3)
 	include_directories(${GLFW_INCLUDE_DIR})
