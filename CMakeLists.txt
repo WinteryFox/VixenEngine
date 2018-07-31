@@ -3,10 +3,11 @@ project(VixenEngine)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 link_directories(${CMAKE_BINARY_DIR})
 
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
 find_package(GLEW REQUIRED)
@@ -20,4 +21,4 @@ add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.c
 
 include_directories(${GLFW_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIRS})
 
-target_link_libraries(VixenEngine assimp glfw3 glew32 libpng opengl32 gdi32)
+target_link_libraries(VixenEngine GL assimp glfw GLEW png)

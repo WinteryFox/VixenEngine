@@ -5,10 +5,9 @@
 #include <iostream>
 #include <vector>
 #include <glm/glm.hpp>
-#include <Assimp/Importer.hpp>
-#include <Assimp/scene.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
 #include <png.h>
-#include <readpng.h>
 #include "Mesh.h"
 
 namespace graphics::loader {
