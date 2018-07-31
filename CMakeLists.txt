@@ -19,9 +19,9 @@ find_package(GLEW REQUIRED)
 target_link_libraries(VixenEngine ${GLEW_LIBRARIES})
 target_include_directories(VixenEngine PUBLIC ${GLEW_INCLUDE_DIRS})
 
-find_package(Vulkan REQUIRED)
-target_link_libraries(VixenEngine ${Vulkan_LIBRARIES})
-target_include_directories(VixenEngine PUBLIC ${Vulkan_INCLUDE_DIRS})
+#find_package(Vulkan REQUIRED)
+#target_link_libraries(VixenEngine ${Vulkan_LIBRARIES})
+#target_include_directories(VixenEngine PUBLIC ${Vulkan_INCLUDE_DIRS})
 
 if (WIN32)
 	target_link_libraries(VixenEngine assimp glfw3 png)
