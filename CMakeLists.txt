@@ -19,6 +19,8 @@ if (WIN32)
 	find_package(GLEW REQUIRED)
 	include_directories(${GLEW_INCLUDE_DIR})
 	link_libraries(${GLEW_LIBRARIES})
+
+	link_libraries(assimp glfw3 png)
 else()
 	pkg_search_module(GLEW REQUIRED glew)
 	include_directories(${GLEW_INCLUDE_DIR})
@@ -36,7 +38,5 @@ else()
 	include_directories(${PNG_INCLUDE_DIRS})
 	link_libraries(${PNG_LIBRARIES})
 endif()
-
-link_libraries(assimp glfw png)
 
 add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.cpp src/Camera.h src/Shader.cpp src/Shader.h src/Phong.cpp src/Phong.h src/Mesh.cpp src/Mesh.h src/Render.cpp src/Render.h src/Entity.cpp src/Entity.h src/Loader.cpp src/Loader.h)
