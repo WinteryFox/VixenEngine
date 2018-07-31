@@ -2,6 +2,7 @@
 
 layout(location = 0) in vec3 pos;
 layout(location = 1) in vec2 texCoords;
+layout(location = 2) in vec3 norms;
 
 out vec2 uvs;
 

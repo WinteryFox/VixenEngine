@@ -21,7 +21,7 @@ namespace graphics::loader {
 			vertices.push_back(vec3(pos.x, pos.y, pos.z));
 		}
 		
-		//if (mesh->HasTextureCoords(0)) {
+		if (mesh->HasTextureCoords(0)) {
 			uvs.reserve(mesh->mNumVertices);
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 				aiVector3D UVW = mesh->mTextureCoords[0][i];
@@ -29,12 +29,12 @@ namespace graphics::loader {
 			}
 			
 			aiString peth;
-			std::cout << scene->mMaterials[0]->GetTextureCount(aiTextureType_EMISSIVE) << std::endl;
-			if (aiReturn_SUCCESS == scene->mMaterials[mesh->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, 0, &peth)) {
-				texture = loadTexture(static_cast<const char*>(peth.data));
-				std::cout << static_cast<const char*>(peth.data) << std::endl;
+			if (aiReturn_SUCCESS == scene->mMaterials[0]->GetTexture(aiTextureType_DIFFUSE, 0, &peth)) {
+				char temp[256] = "../src/resources/";
+				strcat(temp, static_cast<char*>(peth.data));
+				texture = loadTexture(static_cast<const char*>(temp));
 			}
-		//}
+		}
 		
 		normals.reserve(mesh->mNumVertices);
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {

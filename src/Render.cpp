@@ -38,6 +38,9 @@ namespace graphics::model {
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->getNormalsVBO());
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, mesh->getTexture());
 	}
 	
 	void Render::use(graphics::shaders::Shader *shader) {

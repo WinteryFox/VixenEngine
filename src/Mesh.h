@@ -15,21 +15,23 @@ namespace graphics::model {
 		vector<vec2> uvs;
 		vector<vec3> normals;
 		
+		GLuint texture;
+		
 		GLuint vao;
 		GLuint vertexVBO;
 		GLuint indicesVBO;
 		GLuint uvsVBO;
 		GLuint normalsVBO;
-		
-		GLuint texture;
 	
 	public:
-		explicit Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, GLuint texture);
+		explicit Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, GLuint &texture);
 		~Mesh();
 		
 		vector<unsigned int> getIndices() const;
 		
 		vector<vec3> getVertices() const;
+		
+		GLuint getTexture() const;
 		
 		GLuint getVao() const;
 		
