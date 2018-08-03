@@ -42,7 +42,7 @@ namespace graphics {
 			return false;
 		}
 		
-		glfwSwapInterval(0);
+		glfwSwapInterval(1);
 		
 		return true;
 	}

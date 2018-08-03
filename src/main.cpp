@@ -19,7 +19,7 @@ int main() {
 	
 	auto *loader = new graphics::loader::Loader();
 	
-	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("../src/phong.vert", "../src/phong.frag");
+	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("../src/resources/shaders/phong.vert", "../src/resources/shaders/phong.frag");
 	
 	graphics::model::Mesh mesh = loader->loadMesh("../src/resources/tree.dae");
 	auto *entity = new objects::entity::Entity(mesh);
