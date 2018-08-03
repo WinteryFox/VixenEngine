@@ -15,7 +15,7 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	
-	auto *camera = new input::Camera(glm::vec3(0.0, 0.0, 5.0));
+	auto *camera = new input::Camera(glm::vec3(0.0, 0.0, 5.0), 70, 5, 2);
 	
 	auto *loader = new graphics::loader::Loader();
 	

@@ -30,6 +30,8 @@ namespace input {
 		
 		horizontal -= sensitivity * window->getDeltaTime() * xOffset;
 		vertical -= sensitivity * window->getDeltaTime() * yOffset;
+
+		vertical = glm::clamp(vertical, -1.5f, 1.5f);
 		
 		vec3 direction(cos(vertical) * sin(horizontal), sin(vertical), cos(vertical) * cos(horizontal));
 		vec3 right(sin(horizontal - 3.14f / 2.0f), 0, cos(horizontal - 3.14f / 2.0f));
