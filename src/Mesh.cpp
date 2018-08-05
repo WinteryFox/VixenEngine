@@ -28,6 +28,8 @@ namespace graphics::model {
 		glGenBuffers(1, &normalsVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
 		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), &normals.data()[0], GL_STATIC_DRAW);
+		
+		glBindVertexArray(0);
 	}
 	
 	void Mesh::deleteBuffers() {

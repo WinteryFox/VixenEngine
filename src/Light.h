@@ -7,15 +7,15 @@ namespace graphics {
 	using namespace glm;
 	class Light {
 	private:
-		vec3 position;
+		vec3 direction;
 		vec3 color;
 	
 	public:
 		Light(vec3 position, vec3 color);
 		
-		const vec3 &getPosition() const;
+		const vec3 &getDirection() const;
 		
-		void setPosition(const vec3 &position);
+		void setDirection(const vec3 &direction);
 		
 		const vec3 &getColor() const;
 		

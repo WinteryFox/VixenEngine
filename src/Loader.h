@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
+#include <assimp/postprocess.h>
 #include <png.h>
 #include "Mesh.h"
 
@@ -14,7 +15,7 @@ namespace graphics::loader {
 	using namespace glm;
 	class Loader {
 	public:
-		graphics::model::Mesh loadMesh(const char *path);
+		std::vector<graphics::model::Mesh*> loadMesh(const std::string &path);
 		GLuint loadTexture(const char *path);
 	};
 }

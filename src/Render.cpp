@@ -15,6 +15,7 @@ namespace graphics::model {
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
+		glBindVertexArray(0);
 		shader->stop();
 	}
 	

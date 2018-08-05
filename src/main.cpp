@@ -21,11 +21,14 @@ int main() {
 	
 	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("../src/resources/shaders/phong.vert", "../src/resources/shaders/phong.frag");
 	
-	graphics::model::Mesh mesh = loader->loadMesh("../src/resources/tree.dae");
-	auto *entity = new objects::entity::Entity(mesh);
 	auto *render = new graphics::model::Render();
 	render->use(phong);
-	render->add(entity);
+	
+	std::vector<graphics::model::Mesh*> meshes = loader->loadMesh("../src/resources/models/kizuna/kizuna.dae");
+	for (int i = 0; i < meshes.size(); i++) {
+		auto *entity = new objects::entity::Entity(*meshes[i]);
+		render->add(entity);
+	}
 	
 	while (!window->shouldClose()) {
 		window->update();

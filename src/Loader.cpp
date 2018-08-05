@@ -1,55 +1,60 @@
 #include "Loader.h"
 
 namespace graphics::loader {
-	graphics::model::Mesh Loader::loadMesh(const char *path) {
-		std::vector<vec3> vertices;
-		std::vector<unsigned int> indices;
-		std::vector<vec2> uvs;
-		std::vector<vec3> normals;
-		GLuint texture;
+	std::vector<graphics::model::Mesh*> Loader::loadMesh(const std::string &path) {
+		std::vector<graphics::model::Mesh*> meshes;
 		
 		Assimp::Importer importer;
-		const aiScene *scene = importer.ReadFile(path, 0);
+		const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 		if (!scene) {
 			throw std::runtime_error(std::string("Assimp: ") + importer.GetErrorString());
 		}
-		const aiMesh *mesh = scene->mMeshes[0];
 		
-		vertices.reserve(mesh->mNumVertices);
-		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-			aiVector3D pos = mesh->mVertices[i];
-			vertices.push_back(vec3(pos.x, pos.y, pos.z));
-		}
-		
-		if (mesh->HasTextureCoords(0)) {
-			uvs.reserve(mesh->mNumVertices);
+		for (int x = 0; x < scene->mNumMeshes; x++) {
+			aiMesh *mesh = scene->mMeshes[x];
+			
+			std::vector<vec3> vertices;
+			std::vector<unsigned int> indices;
+			std::vector<vec2> uvs;
+			std::vector<vec3> normals;
+			GLuint texture = 0;
+			
+			if (!mesh->HasTextureCoords(0))
+				throw std::runtime_error("Mesh does not have texture coordinates, please export them and try again.");
+			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-				aiVector3D UVW = mesh->mTextureCoords[0][i];
-				uvs.push_back(vec2(UVW.x, UVW.y));
+				aiVector3D pos = mesh->mVertices[i];
+				vertices.emplace_back(pos.x, pos.y, pos.z);
 			}
 			
-			aiString peth;
-			if (aiReturn_SUCCESS == scene->mMaterials[0]->GetTexture(aiTextureType_DIFFUSE, 0, &peth)) {
-				char temp[256] = "../src/resources/";
-				strcat(temp, static_cast<char*>(peth.data));
-				texture = loadTexture(static_cast<const char*>(temp));
+			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+				aiVector3D UVW = mesh->mTextureCoords[0][i];
+				uvs.emplace_back(UVW.x, UVW.y);
 			}
+			
+			aiString mPath;
+			if (aiReturn_SUCCESS ==
+			    scene->mMaterials[mesh->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
+				std::string temp = path.substr(0, path.find_last_of('/')) + "/";
+				temp += mPath.C_Str();
+				texture = loadTexture(temp.c_str());
+			}
+			
+			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+				aiVector3D n = mesh->mNormals[i];
+				normals.emplace_back(n.x, n.y, n.z);
+			}
+			
+			for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+				indices.push_back(mesh->mFaces[i].mIndices[0]);
+				indices.push_back(mesh->mFaces[i].mIndices[1]);
+				indices.push_back(mesh->mFaces[i].mIndices[2]);
+			}
+			
+			meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, texture));
 		}
 		
-		normals.reserve(mesh->mNumVertices);
-		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-			aiVector3D n = mesh->mNormals[i];
-			normals.push_back(vec3(n.x, n.y, n.z));
-		}
-		
-		indices.reserve(3 * mesh->mNumFaces);
-		for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
-			indices.push_back(mesh->mFaces[i].mIndices[0]);
-			indices.push_back(mesh->mFaces[i].mIndices[1]);
-			indices.push_back(mesh->mFaces[i].mIndices[2]);
-		}
-		
-		return graphics::model::Mesh(vertices, indices, uvs, normals, texture);
+		return meshes;
 	}
 	
 	GLuint Loader::loadTexture(const char *file_name) {

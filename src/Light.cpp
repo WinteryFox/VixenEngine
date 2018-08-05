@@ -1,16 +1,16 @@
 #include "Light.h"
 
 namespace graphics {
-	Light::Light(glm::vec3 position, glm::vec3 color) : position(position), color(color) {
+	Light::Light(glm::vec3 direction, glm::vec3 color) : direction(direction), color(color) {
 	
 	}
 	
-	const vec3 &Light::getPosition() const {
-		return position;
+	const vec3 &Light::getDirection() const {
+		return direction;
 	}
 	
-	void Light::setPosition(const vec3 &position) {
-		Light::position = position;
+	void Light::setDirection(const vec3 &direction) {
+		Light::direction = direction;
 	}
 	
 	const vec3 &Light::getColor() const {
