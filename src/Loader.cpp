@@ -1,7 +1,7 @@
 #include "Loader.h"
 
 namespace graphics::loader {
-	std::vector<graphics::model::Mesh*> Loader::loadMesh(const std::string &path) {
+	graphics::model::Model Loader::loadModel(const std::string &path) {
 		std::vector<graphics::model::Mesh*> meshes;
 		
 		Assimp::Importer importer;
@@ -9,6 +9,9 @@ namespace graphics::loader {
 		if (!scene) {
 			throw std::runtime_error(std::string("Assimp: ") + importer.GetErrorString());
 		}
+		
+		glm::mat4 rootNodeMatrix = glm::rotate(glm::mat4(1.0f), -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+		
 		
 		for (int x = 0; x < scene->mNumMeshes; x++) {
 			aiMesh *mesh = scene->mMeshes[x];
@@ -54,7 +57,7 @@ namespace graphics::loader {
 			meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, texture));
 		}
 		
-		return meshes;
+		return graphics::model::Model(meshes);
 	}
 	
 	GLuint Loader::loadTexture(const char *file_name) {

@@ -7,6 +7,7 @@
 #include <vector>
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include "Light.h"
 
 namespace graphics::shaders {
 	using namespace glm;
@@ -18,6 +19,8 @@ namespace graphics::shaders {
 		GLint viewMatrixLocation;
 		GLint modelMatrixLocation;
 		GLint viewPositionLocation;
+		GLint directionalLightColorLocation;
+		GLint directionalLightDirectionLocation;
 		
 	public:
 		Shader(const char *vertex, const char *fragment);
@@ -32,6 +35,7 @@ namespace graphics::shaders {
 		void loadViewMatrix(mat4 matrix);
 		void loadModelMatrix(mat4 matrix);
 		void loadViewPosition(vec3 position);
+		void loadDirectionalLight(graphics::Light *light);
 		
 		void getUniformLocations();
 		

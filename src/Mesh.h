@@ -42,6 +42,10 @@ namespace graphics::model {
 		GLuint getUvsVBO() const;
 		
 		GLuint getNormalsVBO() const;
+		
+		bool isVisible() const;
+		
+		void setVisible(bool visible);
 	
 	private:
 		void generateBuffers();

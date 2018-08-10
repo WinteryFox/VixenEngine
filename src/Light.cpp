@@ -1,11 +1,11 @@
 #include "Light.h"
 
 namespace graphics {
-	Light::Light(glm::vec3 direction, glm::vec3 color) : direction(direction), color(color) {
+	Light::Light(const vec3 &direction, const vec3 &color) : direction(direction), color(color) {
 	
 	}
 	
-	const vec3 &Light::getDirection() const {
+	vec3 Light::getDirection() {
 		return direction;
 	}
 	
@@ -13,7 +13,7 @@ namespace graphics {
 		Light::direction = direction;
 	}
 	
-	const vec3 &Light::getColor() const {
+	vec3 Light::getColor() {
 		return color;
 	}
 	

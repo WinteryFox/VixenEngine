@@ -1,12 +1,10 @@
 #include <GL/glew.h>
+#include "Entity.h"
 #include "Window.h"
 #include "Render.h"
 #include "Phong.h"
 #include "Loader.h"
-
-#ifdef _WIN32
-#define GLEW_STATIC
-#endif
+#include "Light.h"
 
 int main() {
 	auto *window = new graphics::Window("Vixen Engine", 1020, 780);
@@ -19,21 +17,21 @@ int main() {
 	
 	auto *loader = new graphics::loader::Loader();
 	
-	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("../src/resources/shaders/phong.vert", "../src/resources/shaders/phong.frag");
+	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("../resources/shaders/phong.vert", "../resources/shaders/phong.frag");
 	
 	auto *render = new graphics::model::Render();
 	render->use(phong);
 	
-	std::vector<graphics::model::Mesh*> meshes = loader->loadMesh("../src/resources/models/kizuna/kizuna.dae");
-	for (int i = 0; i < meshes.size(); i++) {
-		auto *entity = new objects::entity::Entity(*meshes[i]);
-		render->add(entity);
-	}
+	auto *light = new graphics::Light(glm::vec3(-0.2f, -1.0f, -0.3f), glm::vec3(1.0f, 1.0f, 1.0f));
+	render->addLight(light);
+	
+	graphics::model::Model model = loader->loadModel("../resources/models/kizuna/kizuna.dae");
+	render->add(new objects::entity::Entity(model));
 	
 	while (!window->shouldClose()) {
 		window->update();
 		camera->update(window);
-		glClearColor(0.0, 0.0, 0.0, 1.0);
+		glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 		
 		render->render(camera);
 		

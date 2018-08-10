@@ -10,12 +10,13 @@
 #include <assimp/postprocess.h>
 #include <png.h>
 #include "Mesh.h"
+#include "Model.h"
 
 namespace graphics::loader {
 	using namespace glm;
 	class Loader {
 	public:
-		std::vector<graphics::model::Mesh*> loadMesh(const std::string &path);
+		graphics::model::Model loadModel(const std::string &path);
 		GLuint loadTexture(const char *path);
 	};
 }

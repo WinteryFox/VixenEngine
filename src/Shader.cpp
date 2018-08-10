@@ -39,11 +39,18 @@ namespace graphics::shaders{
 		glUniform3fv(viewPositionLocation, 1, &position[0]);
 	}
 	
+	void Shader::loadDirectionalLight(graphics::Light *light) {
+		glUniform3fv(directionalLightColorLocation, 1, &light->getColor()[0]);
+		glUniform3fv(directionalLightDirectionLocation, 1, &light->getDirection()[0]);
+	}
+	
 	void Shader::getUniformLocations() {
 		modelMatrixLocation = glGetUniformLocation(programID, "model");
 		viewMatrixLocation = glGetUniformLocation(programID, "view");
 		projectionMatrixLocation = glGetUniformLocation(programID, "projection");
 		viewPositionLocation = glGetUniformLocation(programID, "viewPos");
+		directionalLightColorLocation = glGetUniformLocation(programID, "dirLight.color");
+		directionalLightDirectionLocation = glGetUniformLocation(programID, "dirLight.direction");
 	}
 	
 	// TODO: Move to a global loader

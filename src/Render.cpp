@@ -7,10 +7,18 @@ namespace graphics::model {
 		shader->loadProjectionMatrix(camera->getProjection());
 		shader->loadViewMatrix(camera->getView());
 		
+		shader->loadViewPosition(camera->getPosition());
+		
+		shader->loadDirectionalLight(sun);
+		
 		for (auto &entity : entities) {
-			prepareInstance(entity);
-			prepareMesh(entity->getMesh());
-			glDrawElements(GL_TRIANGLES, entity->getMesh()->getIndices().size(), GL_UNSIGNED_INT, nullptr);
+			if (entity->getModel()->isVisible()) {
+				prepareInstance(entity);
+				for (auto *mesh : entity->getModel()->getMeshes()) {
+					prepareMesh(mesh);
+					glDrawElements(GL_TRIANGLES, mesh->getIndices().size(), GL_UNSIGNED_INT, nullptr);
+				}
+			}
 		}
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -23,7 +31,7 @@ namespace graphics::model {
 		shader->loadModelMatrix(entity->getModelMatrix());
 	}
 	
-	void Render::prepareMesh(Mesh *mesh) {
+	void Render::prepareMesh(const Mesh *mesh) {
 		glBindVertexArray(mesh->getVao());
 		
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->getVertexVBO());
@@ -50,5 +58,9 @@ namespace graphics::model {
 	
 	void Render::add(Entity *entity) {
 		entities.push_back(entity);
+	}
+	
+	void Render::addLight(graphics::Light *light) {
+		this->sun = light;
 	}
 }

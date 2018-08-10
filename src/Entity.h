@@ -8,23 +8,23 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Mesh.h"
+#include "Model.h"
 
 namespace objects::entity {
 	using namespace glm;
 	using namespace graphics::model;
 	class Entity {
 	private:
-		Mesh mesh;
+		Model model;
 		vec3 position;
 		quat rotation;
 		vec3 eulerRotation;
 		float scale;
 		
 	public:
-		Entity(const Mesh &mesh, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
+		explicit Entity(Model model, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
 		
-		Mesh* getMesh();
+		Model* getModel();
 		vec3 getPosition();
 		void setPosition(vec3 position);
 		quat getRotation();

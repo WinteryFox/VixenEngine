@@ -11,13 +11,13 @@ namespace graphics {
 		vec3 color;
 	
 	public:
-		Light(vec3 position, vec3 color);
+		Light(const vec3 &direction, const vec3 &color);
 		
-		const vec3 &getDirection() const;
+		vec3 getDirection();
 		
 		void setDirection(const vec3 &direction);
 		
-		const vec3 &getColor() const;
+		vec3 getColor();
 		
 		void setColor(const vec3 &color);
 	};

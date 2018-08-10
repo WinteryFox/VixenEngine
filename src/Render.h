@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Entity.h"
 #include "Camera.h"
+#include "Light.h"
 
 namespace graphics::model {
 	using namespace objects::entity;
@@ -13,14 +14,16 @@ namespace graphics::model {
 	private:
 		graphics::shaders::Shader *shader;
 		std::vector<Entity*> entities;
+		graphics::Light *sun;
 	
 	public:
 		void render(input::Camera *camera);
 		void use(graphics::shaders::Shader *shader);
 		void add(Entity *entity);
+		void addLight(graphics::Light *light);
 	
 	private:
-		void prepareMesh(Mesh *mesh);
+		void prepareMesh(const Mesh *mesh);
 		void prepareInstance(Entity *entity);
 	};
 }
