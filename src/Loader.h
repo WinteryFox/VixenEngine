@@ -17,6 +17,8 @@ namespace graphics::loader {
 	class Loader {
 	public:
 		graphics::model::Model loadModel(const std::string &path);
+		void processNode(aiNode *node, const aiScene *scene, const std::string &path, std::vector<graphics::model::Mesh*> &meshes);
+		
 		GLuint loadTexture(const char *path);
 	};
 }

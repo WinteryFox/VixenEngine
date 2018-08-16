@@ -12,9 +12,14 @@ namespace graphics::loader {
 		
 		glm::mat4 rootNodeMatrix = glm::rotate(glm::mat4(1.0f), -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 		
+		processNode(scene->mRootNode, scene, path, meshes);
 		
-		for (int x = 0; x < scene->mNumMeshes; x++) {
-			aiMesh *mesh = scene->mMeshes[x];
+		return graphics::model::Model(meshes);
+	}
+	
+	void Loader::processNode(aiNode *node, const aiScene *scene, const std::string &path, std::vector<graphics::model::Mesh*> &meshes) {
+		for (unsigned int j = 0; j < node->mNumMeshes; j++) {
+			aiMesh *mesh = scene->mMeshes[node->mMeshes[j]];
 			
 			std::vector<vec3> vertices;
 			std::vector<unsigned int> indices;
@@ -57,7 +62,9 @@ namespace graphics::loader {
 			meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, texture));
 		}
 		
-		return graphics::model::Model(meshes);
+		for (unsigned int i = 0; i < node->mNumChildren; i++) {
+			processNode(node->mChildren[i], scene, path, meshes);
+		}
 	}
 	
 	GLuint Loader::loadTexture(const char *file_name) {

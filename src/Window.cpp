@@ -31,7 +31,7 @@ namespace graphics {
 			return false;
 		}
 		
-		//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		
 		glfwMakeContextCurrent(window);
 		glfwSetWindowUserPointer(window, this);
