@@ -59,15 +59,6 @@ namespace graphics::loader {
 		return graphics::model::Model(meshes);
 	}
 	
-	GLuint Loader::generateTexture(const GLint format, const unsigned int width, const unsigned int height, png_byte *data) {
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
-	
 	GLuint Loader::loadTexture(const char *file_name) {
 		png_byte header[8];
 		
@@ -202,7 +193,12 @@ namespace graphics::loader {
 		// read the png into image_data through row_pointers
 		png_read_image(png_ptr, row_pointers);
 		
-		generateTexture(format, temp_width, temp_height, image_data);
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, temp_width, temp_height, 0, format, GL_UNSIGNED_BYTE, image_data);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
 		// clean up
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
@@ -210,6 +206,6 @@ namespace graphics::loader {
 		free(row_pointers);
 		fclose(fp);
 		
-		return ...
+		return texture;
 	}
 }

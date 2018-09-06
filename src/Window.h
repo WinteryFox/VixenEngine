@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <png.h>
 
 namespace graphics {
 	class Window {
@@ -32,6 +33,8 @@ namespace graphics {
 		
 		GLFWwindow* getWindow();
 		float getDeltaTime();
+		
+		void setIcon(const char *file_name);
 		
 	private:
 		bool init();

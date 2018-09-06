@@ -1,6 +1,7 @@
 #ifndef VIXENENGINE_LOADER_H
 #define VIXENENGINE_LOADER_H
 
+#include <stdlib.h>
 #include <stdexcept>
 #include <iostream>
 #include <vector>
@@ -18,8 +19,7 @@ namespace graphics::loader {
 	public:
 		graphics::model::Model loadModel(const std::string &path);
 		
-		GLuint generateTexture(const GLint format, const unsigned int width, const unsigned int height, png_byte *data);
-		GLuint loadTexture(const char *path);
+		GLuint loadTexture(const char *file_name);
 	};
 }
 
