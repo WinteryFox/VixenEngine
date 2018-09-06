@@ -12,14 +12,8 @@ namespace graphics::loader {
 		
 		glm::mat4 rootNodeMatrix = glm::rotate(glm::mat4(1.0f), -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 		
-		processNode(scene->mRootNode, scene, path, meshes);
-		
-		return graphics::model::Model(meshes);
-	}
-	
-	void Loader::processNode(aiNode *node, const aiScene *scene, const std::string &path, std::vector<graphics::model::Mesh*> &meshes) {
-		for (unsigned int j = 0; j < node->mNumMeshes; j++) {
-			aiMesh *mesh = scene->mMeshes[node->mMeshes[j]];
+		for (unsigned int j = 0; j < scene->mNumMeshes; j++) {
+			aiMesh *mesh = scene->mMeshes[j];
 			
 			std::vector<vec3> vertices;
 			std::vector<unsigned int> indices;
@@ -62,9 +56,16 @@ namespace graphics::loader {
 			meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, texture));
 		}
 		
-		for (unsigned int i = 0; i < node->mNumChildren; i++) {
-			processNode(node->mChildren[i], scene, path, meshes);
-		}
+		return graphics::model::Model(meshes);
+	}
+	
+	GLuint Loader::generateTexture(const GLint format, const unsigned int width, const unsigned int height, png_byte *data) {
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 	
 	GLuint Loader::loadTexture(const char *file_name) {
@@ -201,19 +202,14 @@ namespace graphics::loader {
 		// read the png into image_data through row_pointers
 		png_read_image(png_ptr, row_pointers);
 		
-		// Generate the OpenGL texture object
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, temp_width, temp_height, 0, format, GL_UNSIGNED_BYTE, image_data);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		generateTexture(format, temp_width, temp_height, image_data);
 		
 		// clean up
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 		free(image_data);
 		free(row_pointers);
 		fclose(fp);
-		return texture;
+		
+		return ...
 	}
 }
