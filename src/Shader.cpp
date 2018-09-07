@@ -44,6 +44,13 @@ namespace graphics::shaders{
 		glUniform3fv(directionalLightDirectionLocation, 1, &light->getDirection()[0]);
 	}
 	
+	void Shader::loadMaterial(Material *material) {
+		glUniform3fv(materialAmbientLocation, 1, &material->getAmbient()[0]);
+		glUniform3fv(materialDiffuseLocation, 1, &material->getDiffuse()[0]);
+		glUniform3fv(materialSpecularLocation, 1, &material->getSpecular()[0]);
+		glUniform1f(materialShininessLocation, material->getShininess());
+	}
+	
 	void Shader::getUniformLocations() {
 		modelMatrixLocation = glGetUniformLocation(programID, "model");
 		viewMatrixLocation = glGetUniformLocation(programID, "view");
@@ -51,6 +58,11 @@ namespace graphics::shaders{
 		viewPositionLocation = glGetUniformLocation(programID, "viewPos");
 		directionalLightColorLocation = glGetUniformLocation(programID, "dirLight.color");
 		directionalLightDirectionLocation = glGetUniformLocation(programID, "dirLight.direction");
+		
+		materialAmbientLocation = glGetUniformLocation(programID, "material.ambient");
+		materialDiffuseLocation = glGetUniformLocation(programID, "material.diffuse");
+		materialSpecularLocation = glGetUniformLocation(programID, "material.specular");
+		materialShininessLocation = glGetUniformLocation(programID, "material.shininess");
 	}
 	
 	// TODO: Move to a global loader

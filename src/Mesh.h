@@ -16,7 +16,7 @@ namespace graphics::model {
 		vector<vec2> uvs;
 		vector<vec3> normals;
 		
-		Material material;
+		Material *material;
 		
 		GLuint vao;
 		GLuint vertexVBO;
@@ -25,14 +25,14 @@ namespace graphics::model {
 		GLuint normalsVBO;
 	
 	public:
-		explicit Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, Material &material);
+		explicit Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, Material *material);
 		~Mesh();
 		
 		vector<unsigned int> getIndices() const;
 		
 		vector<vec3> getVertices() const;
 		
-		Material getMaterial() const;
+		Material* getMaterial() const;
 		
 		GLuint getVao() const;
 		

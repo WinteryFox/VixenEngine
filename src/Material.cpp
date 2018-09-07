@@ -1,7 +1,7 @@
 #include "Material.h"
 
 namespace graphics {
-	GLuint Material::getTexture() const {
+	GLuint Material::getTexture() {
 		return texture;
 	}
 	

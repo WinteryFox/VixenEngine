@@ -19,7 +19,7 @@ namespace graphics::loader {
 			std::vector<unsigned int> indices;
 			std::vector<vec2> uvs;
 			std::vector<vec3> normals;
-			Material material = Material();
+			Material *material = new Material();
 			
 			if (!mesh->HasTextureCoords(0))
 				throw std::runtime_error("Mesh does not have texture coordinates, please export them and try again.");
@@ -38,20 +38,20 @@ namespace graphics::loader {
 			aiString mPath;
 			if (aiReturn_SUCCESS ==
 					aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
-				std::cout << "\n\nMaterial:" << std::endl;
-				for (int i = 0; i < material->mNumProperties; i++) {
-					std::cout << material->mProperties[i]->mKey.C_Str() << std::endl;
-				}
 				std::string temp = path.substr(0, path.find_last_of('/')) + "/";
 				temp += mPath.C_Str();
-				//material.setTexture(loadTexture(temp.c_str()));
-				vec3 ambient;
-				aiMat->Get("clr.ambient", GL_VECTOR_EXT, 0, ambient);
-				std::cout << ambient.x << " " << ambient.y << " " << ambient.z << std::endl;
-				vec3 diffuse;
-				vec3 specular;
+				
+				aiColor4D aiAmbient;
+				aiColor4D aiDiffuse;
+				aiColor4D aiSpecular;
 				float shininess;
-				material = Material(loadTexture(temp.c_str()), ambient, diffuse, specular, shininess);
+				
+				aiMat->Get(AI_MATKEY_COLOR_AMBIENT, aiAmbient);
+				aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, aiDiffuse);
+				aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
+				aiMat->Get(AI_MATKEY_SHININESS, shininess);
+				
+				material = new Material(loadTexture(temp.c_str()), vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b), vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b), vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
 			}
 			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {

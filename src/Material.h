@@ -21,7 +21,7 @@ namespace graphics {
 			glDeleteTextures(1, &texture);
 		}
 		
-		GLuint getTexture() const;
+		GLuint getTexture();
 		
 		void setTexture(GLuint texture);
 		
@@ -39,7 +39,7 @@ namespace graphics {
 		
 		float getShininess() const;
 		
-		void setShininess(float shininess);;
+		void setShininess(GLfloat shininess);;
 	};
 }
 

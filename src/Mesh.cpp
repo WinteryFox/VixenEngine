@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
 namespace graphics::model {
-	Mesh::Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, Material &material) : vertices(vertices), indices(indices) ,uvs(uvs), normals(normals), material(material) {
+	Mesh::Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, Material *material) : vertices(vertices), indices(indices) ,uvs(uvs), normals(normals), material(material) {
 		generateBuffers();
 	}
 	
@@ -67,7 +67,7 @@ namespace graphics::model {
 		return vertices;
 	}
 	
-	Material Mesh::getMaterial() const {
+	Material* Mesh::getMaterial() const {
 		return material;
 	}
 }
