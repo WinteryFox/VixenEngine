@@ -4,6 +4,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <GL/glew.h>
+#include "Material.h"
 
 namespace graphics::model {
 	using namespace std;
@@ -15,7 +16,7 @@ namespace graphics::model {
 		vector<vec2> uvs;
 		vector<vec3> normals;
 		
-		GLuint texture;
+		Material material;
 		
 		GLuint vao;
 		GLuint vertexVBO;
@@ -24,14 +25,14 @@ namespace graphics::model {
 		GLuint normalsVBO;
 	
 	public:
-		explicit Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, GLuint &texture);
+		explicit Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, Material &material);
 		~Mesh();
 		
 		vector<unsigned int> getIndices() const;
 		
 		vector<vec3> getVertices() const;
 		
-		GLuint getTexture() const;
+		Material getMaterial() const;
 		
 		GLuint getVao() const;
 		

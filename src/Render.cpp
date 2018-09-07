@@ -49,7 +49,7 @@ namespace graphics::model {
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mesh->getTexture());
+		glBindTexture(GL_TEXTURE_2D, mesh->getMaterial().getTexture());
 	}
 	
 	void Render::use(graphics::shaders::Shader *shader) {

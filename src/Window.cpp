@@ -198,9 +198,11 @@ namespace graphics {
 		}
 		
 		// set the individual row_pointers to point at the correct offsets of image_data
-		for (unsigned int i = 0; i < temp_height; i++) {
-			//row_pointers[temp_height - 1 - i] = image_data + i * rowbytes;
+		for (unsigned int i = temp_height - 1; i > 0; i--) {
 			row_pointers[temp_height - 1 - i] = image_data + i * rowbytes;
+			// TODO: Fix image loading upside down
+			//row_pointers[temp_height - 1 - i] = image_data + i * rowbytes;
+			//row_pointers[temp_height - 1 - i] = image_data
 		}
 		
 		// read the png into image_data through row_pointers

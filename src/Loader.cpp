@@ -19,7 +19,7 @@ namespace graphics::loader {
 			std::vector<unsigned int> indices;
 			std::vector<vec2> uvs;
 			std::vector<vec3> normals;
-			GLuint texture = 0;
+			Material material = Material();
 			
 			if (!mesh->HasTextureCoords(0))
 				throw std::runtime_error("Mesh does not have texture coordinates, please export them and try again.");
@@ -34,12 +34,24 @@ namespace graphics::loader {
 				uvs.emplace_back(UVW.x, UVW.y);
 			}
 			
+			aiMaterial *aiMat = scene->mMaterials[mesh->mMaterialIndex];
 			aiString mPath;
 			if (aiReturn_SUCCESS ==
-			    scene->mMaterials[mesh->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
+					aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
+				std::cout << "\n\nMaterial:" << std::endl;
+				for (int i = 0; i < material->mNumProperties; i++) {
+					std::cout << material->mProperties[i]->mKey.C_Str() << std::endl;
+				}
 				std::string temp = path.substr(0, path.find_last_of('/')) + "/";
 				temp += mPath.C_Str();
-				texture = loadTexture(temp.c_str());
+				//material.setTexture(loadTexture(temp.c_str()));
+				vec3 ambient;
+				aiMat->Get("clr.ambient", GL_VECTOR_EXT, 0, ambient);
+				std::cout << ambient.x << " " << ambient.y << " " << ambient.z << std::endl;
+				vec3 diffuse;
+				vec3 specular;
+				float shininess;
+				material = Material(loadTexture(temp.c_str()), ambient, diffuse, specular, shininess);
 			}
 			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -53,7 +65,7 @@ namespace graphics::loader {
 				indices.push_back(mesh->mFaces[i].mIndices[2]);
 			}
 			
-			meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, texture));
+			meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, material));
 		}
 		
 		return graphics::model::Model(meshes);
