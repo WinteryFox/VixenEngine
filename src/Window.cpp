@@ -96,14 +96,14 @@ namespace graphics {
 		if (png_sig_cmp(header, 0, 8)) {
 			fprintf(stderr, "error: %s is not a PNG.\n", file_name);
 			fclose(fp);
-			throw std::runtime_error("Failed to open file");
+			throw std::runtime_error("Failed to open file 0");
 		}
 		
 		png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 		if (!png_ptr) {
 			fprintf(stderr, "error: png_create_read_struct returned 0.\n");
 			fclose(fp);
-			throw std::runtime_error("Failed to open file");
+			throw std::runtime_error("Failed to open file 1");
 		}
 		
 		// create png info struct
@@ -112,7 +112,7 @@ namespace graphics {
 			fprintf(stderr, "error: png_create_info_struct returned 0.\n");
 			png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
 			fclose(fp);
-			throw std::runtime_error("Failed to open file");
+			throw std::runtime_error("Failed to open file 2");
 		}
 		
 		// create png info struct
@@ -121,7 +121,7 @@ namespace graphics {
 			fprintf(stderr, "error: png_create_info_struct returned 0.\n");
 			png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
 			fclose(fp);
-			throw std::runtime_error("Failed to open file");
+			throw std::runtime_error("Failed to open file 3");
 		}
 		
 		// the code in this if statement gets called if libpng encounters an error
@@ -129,7 +129,7 @@ namespace graphics {
 			fprintf(stderr, "error from libpng\n");
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 			fclose(fp);
-			throw std::runtime_error("Failed to open file");
+			throw std::runtime_error("Failed to open file 4");
 		}
 		
 		// init png reading
@@ -153,7 +153,7 @@ namespace graphics {
 		
 		if (bit_depth != 8) {
 			fprintf(stderr, "%s: Unsupported bit depth %d.  Must be 8.\n", file_name, bit_depth);
-			throw std::runtime_error("Failed to open file");
+			throw std::runtime_error("Failed to open file 5");
 		}
 		
 		GLint format;
@@ -166,7 +166,7 @@ namespace graphics {
 				break;
 			default:
 				fprintf(stderr, "%s: Unknown libpng color type %d.\n", file_name, color_type);
-				throw std::runtime_error("Failed to open file");
+				throw std::runtime_error("Failed to open file 6");
 		}
 		
 		// Update the png info struct.
@@ -184,7 +184,7 @@ namespace graphics {
 			fprintf(stderr, "error: could not allocate memory for PNG image data\n");
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 			fclose(fp);
-			throw std::runtime_error("Failed to open file");
+			throw std::runtime_error("Failed to open file 7");
 		}
 		
 		// row_pointers is for pointing to image_data for reading the png with libpng
@@ -194,11 +194,11 @@ namespace graphics {
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 			free(image_data);
 			fclose(fp);
-			throw std::runtime_error("Failed to open file");
+			throw std::runtime_error("Failed to open file 8");
 		}
 		
 		// set the individual row_pointers to point at the correct offsets of image_data
-		for (unsigned int i = temp_height - 1; i > 0; i--) {
+		for (unsigned int i = 0; i < temp_height - 1; i++) {
 			row_pointers[temp_height - 1 - i] = image_data + i * rowbytes;
 			// TODO: Fix image loading upside down
 			//row_pointers[temp_height - 1 - i] = image_data + i * rowbytes;

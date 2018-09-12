@@ -25,7 +25,7 @@ target_include_directories(VixenEngine PUBLIC ${GLEW_INCLUDE_DIRS})
 
 if (WIN32)
 	target_link_libraries(VixenEngine assimp glfw3 png)
-else (UNIX)
+elseif (UNIX)
 	find_package(PkgConfig REQUIRED)
 
 	pkg_search_module(GLFW REQUIRED glfw3)
