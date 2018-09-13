@@ -200,7 +200,8 @@ namespace graphics {
 		// set the individual row_pointers to point at the correct offsets of image_data
 		for (unsigned int i = 0; i < temp_height; i++)
 		{
-			row_pointers[temp_height - 1 - i] = image_data + i * rowbytes;
+			png_uint_32 q = (temp_height - i - 1) * rowbytes;
+			row_pointers[temp_height - i - 1] = (png_bytep) image_data + q;
 		}
 		
 		// read the png into image_data through row_pointers
@@ -210,6 +211,7 @@ namespace graphics {
 		image.width = temp_width;
 		image.height = temp_height;
 		image.pixels = image_data;
+		
 		glfwSetWindowIcon(window, 1, &image);
 		
 		// clean up
