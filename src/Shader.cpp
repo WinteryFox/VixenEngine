@@ -39,9 +39,17 @@ namespace graphics::shaders{
 		glUniform3fv(viewPositionLocation, 1, &position[0]);
 	}
 	
-	void Shader::loadDirectionalLight(graphics::Light *light) {
-		glUniform3fv(directionalLightColorLocation, 1, &light->getColor()[0]);
-		glUniform3fv(directionalLightDirectionLocation, 1, &light->getDirection()[0]);
+	void Shader::loadLight(graphics::Light *light) {
+		if (light->getType() == graphics::Light::DIRECTIONAL) {
+			glUniform3fv(directionalLightDirectionLocation, 1, &light->getDirection()[0]);
+			glUniform3fv(directionalLightColorLocation, 1, &light->getColor()[0]);
+		} else {
+			glUniform3fv(lightColorLocation, 1, &light->getColor()[0]);
+			glUniform3fv(lightPositionLocation, 1, &light->getPosition()[0]);
+			glUniform1f(lightQuadraticLocation, light->getQuadratic());
+			glUniform1f(lightLinearLocation, light->getLinear());
+			glUniform1f(lightConstantLocation, light->getConstant());
+		}
 	}
 	
 	void Shader::loadMaterial(Material *material) {
@@ -56,8 +64,17 @@ namespace graphics::shaders{
 		viewMatrixLocation = glGetUniformLocation(programID, "view");
 		projectionMatrixLocation = glGetUniformLocation(programID, "projection");
 		viewPositionLocation = glGetUniformLocation(programID, "viewPos");
+		
 		directionalLightColorLocation = glGetUniformLocation(programID, "dirLight.color");
 		directionalLightDirectionLocation = glGetUniformLocation(programID, "dirLight.direction");
+		
+		for (unsigned int i = 0; i < 16; i++) {
+			lightColorLocation = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].color").c_str());
+			lightPositionLocation = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].position").c_str());
+			lightQuadraticLocation = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].quadratic").c_str());
+			lightLinearLocation = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].linear").c_str());
+			lightConstantLocation = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].constant").c_str());
+		}
 		
 		materialAmbientLocation = glGetUniformLocation(programID, "material.ambient");
 		materialDiffuseLocation = glGetUniformLocation(programID, "material.diffuse");

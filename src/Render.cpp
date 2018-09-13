@@ -9,7 +9,11 @@ namespace graphics::model {
 		
 		shader->loadViewPosition(camera->getPosition());
 		
-		shader->loadDirectionalLight(sun);
+		shader->loadLight(sun);
+		
+		for (auto &light : lights) {
+			shader->loadLight(light);
+		}
 		
 		for (auto &entity : entities) {
 			if (entity->getModel()->isVisible()) {

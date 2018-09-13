@@ -6,20 +6,49 @@
 namespace graphics {
 	using namespace glm;
 	class Light {
-	private:
-		vec3 direction;
-		vec3 color;
-	
 	public:
-		Light(const vec3 &direction, const vec3 &color);
+		enum Type {
+			DIRECTIONAL = 0,
+			POINT = 1,
+		};
 		
-		vec3 getDirection();
+		explicit Light(Type type) : type(type) { }
+	
+	private:
+		Type type;
+		vec3 direction{};
+		
+		vec3 position{};
+		vec3 color{};
+		
+		float quadratic{};
+		float linear{};
+		float constant{};
+		
+	public:
+		Type getType() const;
+		
+		void setType(Type type);
+		
+		const vec3 &getDirection() const;
 		
 		void setDirection(const vec3 &direction);
 		
-		vec3 getColor();
+		const vec3 &getPosition() const;
 		
-		void setColor(const vec3 &color);
+		void setPosition(const vec3 &position);
+		
+		const vec3 &getColor() const;
+		
+		float getQuadratic() const;
+		
+		float getLinear() const;
+		
+		float getConstant() const;
+		
+		void setAttenuation(vec3 position, vec3 color, float quadratic, float linear, float constant);
+		
+		void setDirectional(vec3 &direction, vec3 &color);
 	};
 }
 

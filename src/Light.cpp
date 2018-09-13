@@ -1,11 +1,15 @@
 #include "Light.h"
 
 namespace graphics {
-	Light::Light(const vec3 &direction, const vec3 &color) : direction(direction), color(color) {
-	
+	Light::Type Light::getType() const {
+		return type;
 	}
 	
-	vec3 Light::getDirection() {
+	void Light::setType(Light::Type type) {
+		Light::type = type;
+	}
+	
+	const vec3 &Light::getDirection() const {
 		return direction;
 	}
 	
@@ -13,11 +17,42 @@ namespace graphics {
 		Light::direction = direction;
 	}
 	
-	vec3 Light::getColor() {
+	const vec3 &Light::getPosition() const {
+		return position;
+	}
+	
+	void Light::setPosition(const vec3 &position) {
+		Light::position = position;
+	}
+	
+	const vec3 &Light::getColor() const {
 		return color;
 	}
 	
-	void Light::setColor(const vec3 &color) {
-		Light::color = color;
+	float Light::getQuadratic() const {
+		return quadratic;
+	}
+	
+	float Light::getLinear() const {
+		return linear;
+	}
+	
+	float Light::getConstant() const {
+		return constant;
+	}
+	
+	void Light::setDirectional(vec3 &direction, vec3 &color) {
+		this->type = Type::DIRECTIONAL;
+		this->direction = direction;
+		this->color = color;
+	}
+	
+	void Light::setAttenuation(vec3 position, vec3 color, float quadratic, float linear, const float constant) {
+		this->type = Type::POINT;
+		this->position = position;
+		this->color = color;
+		this->quadratic = quadratic;
+		this->linear = linear;
+		this->constant = constant;
 	}
 }

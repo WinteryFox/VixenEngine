@@ -15,6 +15,7 @@ namespace graphics::model {
 		graphics::shaders::Shader *shader;
 		std::vector<Entity*> entities;
 		graphics::Light *sun;
+		std::vector<graphics::Light*> lights;
 	
 	public:
 		void render(input::Camera *camera);
