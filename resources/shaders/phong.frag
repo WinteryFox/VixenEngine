@@ -32,6 +32,7 @@ uniform vec3 viewPos;
 
 uniform Material material;
 
+uniform int lightCount;
 uniform DirectionalLight dirLight;
 uniform PointLight lights[16];
 
@@ -70,7 +71,7 @@ void main() {
 	vec3 viewDir = normalize(viewPos - world);
 
 	vec4 result = calcDirLight(dirLight, viewDir, normal);
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < lightCount; i++)
 		result += calcPointLight(lights[i], viewDir, normal);
 
 	color = result * texture(texDiffuse, uv);

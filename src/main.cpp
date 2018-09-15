@@ -23,7 +23,7 @@ int main() {
 	render->use(phong);
 	
 	auto *light = new graphics::Light(graphics::Light::Type::POINT);
-	light->setAttenuation(glm::vec3(0.0f, 100.0f, 0.0f), glm::vec3(1.0, 1.0, 1.0), 0.0002f, 0.007, 1.0f);
+	light->setAttenuation(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(1.0, 1.0, 1.0), 0.02f, 0.7, 1.0f);
 	render->addLight(light);
 	
 	graphics::model::Model model = loader->loadModel("../resources/models/kizuna/kizuna.dae");

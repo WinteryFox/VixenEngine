@@ -25,11 +25,12 @@ namespace graphics::shaders {
 		GLint directionalLightColorLocation;
 		GLint directionalLightDirectionLocation;
 		
-		GLint lightColorLocation;
-		GLint lightPositionLocation;
-		GLint lightQuadraticLocation;
-		GLint lightLinearLocation;
-		GLint lightConstantLocation;
+		GLint lightCountLocation;
+		GLint lightColorLocation[16];
+		GLint lightPositionLocation[16];
+		GLint lightQuadraticLocation[16];
+		GLint lightLinearLocation[16];
+		GLint lightConstantLocation[16];
 		
 		GLint materialAmbientLocation;
 		GLint materialDiffuseLocation;
@@ -49,7 +50,7 @@ namespace graphics::shaders {
 		void loadViewMatrix(mat4 matrix);
 		void loadModelMatrix(mat4 matrix);
 		void loadViewPosition(vec3 position);
-		void loadLight(graphics::Light *light);
+		void loadLights(std::vector<graphics::Light*> lights);
 		void loadMaterial(Material *material);
 		
 		void getUniformLocations();

@@ -9,11 +9,7 @@ namespace graphics::model {
 		
 		shader->loadViewPosition(camera->getPosition());
 		
-		shader->loadLight(sun);
-		
-		for (auto &light : lights) {
-			shader->loadLight(light);
-		}
+		shader->loadLights(lights);
 		
 		for (auto &entity : entities) {
 			if (entity->getModel()->isVisible()) {
@@ -67,6 +63,6 @@ namespace graphics::model {
 	}
 	
 	void Render::addLight(graphics::Light *light) {
-		this->sun = light;
+		lights.push_back(light);
 	}
 }
