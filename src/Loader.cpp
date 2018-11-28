@@ -2,73 +2,85 @@
 
 namespace graphics::loader {
 	graphics::model::Model Loader::loadModel(const std::string &path) {
-		std::vector<graphics::model::Mesh*> meshes;
-		
-		Assimp::Importer importer;
-		const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
-		if (!scene) {
-			throw std::runtime_error(std::string("Assimp: ") + importer.GetErrorString());
+		try {
+			std::vector<graphics::model::Mesh *> meshes;
+			
+			Assimp::Importer importer;
+			const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+			if (!scene) {
+				throw std::runtime_error(std::string("Assimp: ") + importer.GetErrorString());
+			}
+			
+			glm::mat4 rootNodeMatrix = glm::rotate(glm::mat4(1.0f), -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+			
+			for (unsigned int j = 0; j < scene->mNumMeshes; j++) {
+				aiMesh *mesh = scene->mMeshes[j];
+				
+				std::vector<vec3> vertices;
+				std::vector<unsigned int> indices;
+				std::vector<vec2> uvs;
+				std::vector<vec3> normals;
+				auto *material = new Material();
+				
+				if (!mesh->HasTextureCoords(0))
+					throw std::runtime_error(
+							"Mesh does not have texture coordinates, please export them and try again.");
+				
+				for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+					aiVector3D pos = mesh->mVertices[i];
+					vertices.emplace_back(pos.x, pos.y, pos.z);
+				}
+				
+				if (mesh->mTextureCoords[0] != NULL) {
+					for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+						aiVector3D UVW = mesh->mTextureCoords[0][i];
+						uvs.emplace_back(UVW.x, UVW.y);
+					}
+				} else {
+					throw std::runtime_error("Mesh does not have texture coordinates");
+				}
+				
+				aiMaterial *aiMat = scene->mMaterials[mesh->mMaterialIndex];
+				aiString mPath;
+				if (aiReturn_SUCCESS ==
+				    aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
+					std::string temp = path.substr(0, path.find_last_of('/')) + "/";
+					temp += mPath.C_Str();
+					
+					aiColor4D aiAmbient;
+					aiColor4D aiDiffuse;
+					aiColor4D aiSpecular;
+					float shininess;
+					
+					aiMat->Get(AI_MATKEY_COLOR_AMBIENT, aiAmbient);
+					aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, aiDiffuse);
+					aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
+					aiMat->Get(AI_MATKEY_SHININESS, shininess);
+					
+					material = new Material(loadTexture(temp.c_str()), vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
+					                        vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
+					                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
+				}
+				
+				for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+					aiVector3D n = mesh->mNormals[i];
+					normals.emplace_back(n.x, n.y, n.z);
+				}
+				
+				for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+					indices.push_back(mesh->mFaces[i].mIndices[0]);
+					indices.push_back(mesh->mFaces[i].mIndices[1]);
+					indices.push_back(mesh->mFaces[i].mIndices[2]);
+				}
+				
+				meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, material));
+			}
+			return graphics::model::Model(meshes);
+		} catch (std::runtime_error exception) {
+			std::cout << "Failed to load model: " << exception.what() << std::endl;
+			exit(1);
+			// TODO: Load fallback model
 		}
-		
-		glm::mat4 rootNodeMatrix = glm::rotate(glm::mat4(1.0f), -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-		
-		for (unsigned int j = 0; j < scene->mNumMeshes; j++) {
-			aiMesh *mesh = scene->mMeshes[j];
-			
-			std::vector<vec3> vertices;
-			std::vector<unsigned int> indices;
-			std::vector<vec2> uvs;
-			std::vector<vec3> normals;
-			Material *material = new Material();
-			
-			if (!mesh->HasTextureCoords(0))
-				throw std::runtime_error("Mesh does not have texture coordinates, please export them and try again.");
-			
-			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-				aiVector3D pos = mesh->mVertices[i];
-				vertices.emplace_back(pos.x, pos.y, pos.z);
-			}
-			
-			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-				aiVector3D UVW = mesh->mTextureCoords[0][i];
-				uvs.emplace_back(UVW.x, UVW.y);
-			}
-			
-			aiMaterial *aiMat = scene->mMaterials[mesh->mMaterialIndex];
-			aiString mPath;
-			if (aiReturn_SUCCESS ==
-					aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
-				std::string temp = path.substr(0, path.find_last_of('/')) + "/";
-				temp += mPath.C_Str();
-				
-				aiColor4D aiAmbient;
-				aiColor4D aiDiffuse;
-				aiColor4D aiSpecular;
-				float shininess;
-				
-				aiMat->Get(AI_MATKEY_COLOR_AMBIENT, aiAmbient);
-				aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, aiDiffuse);
-				aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
-				aiMat->Get(AI_MATKEY_SHININESS, shininess);
-				
-				material = new Material(loadTexture(temp.c_str()), vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b), vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b), vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
-			}
-			
-			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-				aiVector3D n = mesh->mNormals[i];
-				normals.emplace_back(n.x, n.y, n.z);
-			}
-			
-			for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
-				indices.push_back(mesh->mFaces[i].mIndices[0]);
-				indices.push_back(mesh->mFaces[i].mIndices[1]);
-				indices.push_back(mesh->mFaces[i].mIndices[2]);
-			}
-			
-			meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, material));
-		}
-		
-		return graphics::model::Model(meshes);
 	}
 	
 	GLuint Loader::loadTexture(const char *file_name) {

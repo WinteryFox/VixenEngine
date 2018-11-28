@@ -7,7 +7,7 @@
 namespace graphics::shaders::phong {
 	class Phong : public Shader {
 	public:
-		Phong(const char *vertexFilePath, const char *fragmentFilePath);
+		Phong(std::string vertexFilePath, std::string fragmentFilePath);
 	};
 }
 

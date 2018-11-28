@@ -1,8 +1,10 @@
+#include <utility>
+
 #include "Phong.h"
 
 namespace graphics::shaders::phong {
-	Phong::Phong(const char *vertexFilePath, const char *fragmentFilePath) : Shader(vertexFilePath,
-	                                                                                fragmentFilePath) {
+	Phong::Phong(std::string vertexFilePath, std::string fragmentFilePath) : Shader(std::move(vertexFilePath),
+	                                                                                std::move(fragmentFilePath)) {
 		
 	}
 }

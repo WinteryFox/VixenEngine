@@ -38,7 +38,7 @@ namespace graphics::shaders {
 		GLint materialShininessLocation;
 		
 	public:
-		Shader(const char *vertex, const char *fragment);
+		Shader(std::string vertex, std::string fragment);
 		~Shader();
 		
 		GLuint getProgramID();
@@ -56,7 +56,7 @@ namespace graphics::shaders {
 		void getUniformLocations();
 		
 	private:
-		GLuint loadAndCompile(const char *vertex, const char *fragment);
+		GLuint loadAndCompile(std::string vertex, std::string fragment);
 	};
 }
 

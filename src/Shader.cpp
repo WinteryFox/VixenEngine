@@ -1,7 +1,7 @@
 #include "Shader.h"
 
 namespace graphics::shaders{
-	Shader::Shader(const char *vertex, const char *fragment) {
+	Shader::Shader(std::string vertex, std::string fragment) {
 		programID = loadAndCompile(vertex, fragment);
 		getUniformLocations();
 	}
@@ -88,7 +88,7 @@ namespace graphics::shaders{
 	}
 	
 	// TODO: Move to a global loader
-	GLuint Shader::loadAndCompile(const char *vertex, const char *fragment) {
+	GLuint Shader::loadAndCompile(std::string vertex, std::string fragment) {
 		GLuint vertexID = glCreateShader(GL_VERTEX_SHADER);
 		GLuint fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 		
@@ -99,7 +99,7 @@ namespace graphics::shaders{
 			while (getline(vertexShaderStream, line)) vertexShaderCode += "\n" + line;
 			vertexShaderStream.close();
 		} else {
-			printf("Impossible to open %s. Are you in the right directory?\n", vertex);
+			std::cout << "Impossible to open " << vertex.c_str() << ". Are you in the right directory?\n" << std::endl;
 			getchar();
 		}
 		
