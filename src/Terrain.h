@@ -12,7 +12,7 @@ namespace model {
 		int y;
 		
 	public:
-		Terrain(graphics::model::Mesh, int tileX, int tileZ, int y);
+		Terrain(graphics::model::Mesh mesh, int tileX, int tileZ, int y);
 	};
 }
 

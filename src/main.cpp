@@ -34,7 +34,7 @@ int main() {
 	while (!window->shouldClose()) {
 		window->update();
 		camera->update(window);
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
 		render->render(camera);
 		
