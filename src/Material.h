@@ -16,7 +16,6 @@ namespace graphics {
 	
 	public:
 		Material(GLuint texture, vec3 ambient, vec3 diffuse, vec3 specular, float shininess) : texture(texture), ambient(ambient), diffuse(diffuse), specular(specular), shininess(shininess) {}
-		Material() {}
 		~Material() {
 			glDeleteTextures(1, &texture);
 		}

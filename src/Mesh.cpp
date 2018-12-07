@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-namespace graphics::model {
+namespace graphics {
 	Mesh::Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, Material *material) : vertices(vertices), indices(indices) ,uvs(uvs), normals(normals), material(material) {
 		generateBuffers();
 	}
@@ -15,19 +15,19 @@ namespace graphics::model {
 		
 		glGenBuffers(1, &vertexVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexVBO);
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), &vertices.data()[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), &vertices[0], GL_STATIC_DRAW);
 		
 		glGenBuffers(1, &indicesVBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesVBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices.data()[0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 		
 		glGenBuffers(1, &uvsVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, uvsVBO);
-		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), &uvs.data()[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), &uvs[0], GL_STATIC_DRAW);
 		
 		glGenBuffers(1, &normalsVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
-		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), &normals.data()[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), &normals[0], GL_STATIC_DRAW);
 		
 		glBindVertexArray(0);
 	}

@@ -3,7 +3,7 @@
 namespace graphics::loader {
 	graphics::model::Model Loader::loadModel(const std::string &path) {
 		try {
-			std::vector<graphics::model::Mesh *> meshes;
+			std::vector<graphics::Mesh *> meshes;
 			
 			Assimp::Importer importer;
 			const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
@@ -20,7 +20,7 @@ namespace graphics::loader {
 				std::vector<unsigned int> indices;
 				std::vector<vec2> uvs;
 				std::vector<vec3> normals;
-				auto *material = new Material();
+				graphics::Material *material = nullptr;
 				
 				if (!mesh->HasTextureCoords(0))
 					throw std::runtime_error(
@@ -73,7 +73,7 @@ namespace graphics::loader {
 					indices.push_back(mesh->mFaces[i].mIndices[2]);
 				}
 				
-				meshes.push_back(new graphics::model::Mesh(vertices, indices, uvs, normals, material));
+				meshes.push_back(new graphics::Mesh(vertices, indices, uvs, normals, material));
 			}
 			return graphics::model::Model(meshes);
 		} catch (std::runtime_error exception) {

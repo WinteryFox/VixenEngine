@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 #include "Material.h"
 
-namespace graphics::model {
+namespace graphics {
 	using namespace std;
 	using namespace glm;
 	class Mesh {

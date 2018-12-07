@@ -1,6 +1,6 @@
 #include "Render.h"
 
-namespace graphics::model {
+namespace graphics {
 	void Render::render(input::Camera *camera) {
 		shader->start();
 		
@@ -27,7 +27,7 @@ namespace graphics::model {
 		shader->stop();
 	}
 	
-	void Render::prepareInstance(graphics::model::Entity *entity) {
+	void Render::prepareInstance(Entity *entity) {
 		shader->loadModelMatrix(entity->getModelMatrix());
 	}
 	

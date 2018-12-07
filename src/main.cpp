@@ -5,6 +5,8 @@
 #include "Phong.h"
 #include "Loader.h"
 #include "Light.h"
+#include "Chunk.h"
+#include "Generator.h"
 
 int main() {
 	auto *window = new graphics::Window("Vixen Engine", 1020, 780);
@@ -21,7 +23,7 @@ int main() {
 	
 	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong(resourcePath + "shaders/phong.vert", resourcePath + "shaders/phong.frag");
 	
-	auto *render = new graphics::model::Render();
+	auto *render = new graphics::Render();
 	render->use(phong);
 	
 	auto *light = new graphics::Light(graphics::Light::Type::POINT);
@@ -30,6 +32,13 @@ int main() {
 	
 	graphics::model::Model model = loader->loadModel(resourcePath + "models/kizuna/kizuna.dae");
 	render->add(new objects::entity::Entity(model, glm::vec3(0.0), glm::vec3(-90.0f, 0.0f, 0.0f)));
+	
+	auto *generator = new terrain::Generator();
+	auto *chunk = new terrain::Chunk(generator->flatChunk(), 0, 0, 0);
+	
+	std::vector<graphics::Mesh*> meshes;
+	meshes.push_back(chunk->mesh);
+	render->add(new objects::entity::Entity(graphics::Model(meshes), glm::vec3(0), glm::vec3(0), 1.0f));
 	
 	while (!window->shouldClose()) {
 		window->update();

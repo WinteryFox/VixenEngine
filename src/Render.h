@@ -8,7 +8,7 @@
 #include "Camera.h"
 #include "Light.h"
 
-namespace graphics::model {
+namespace graphics {
 	using namespace objects::entity;
 	class Render {
 	private:
