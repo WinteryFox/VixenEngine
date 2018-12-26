@@ -1,12 +1,26 @@
+#include <utility>
+
 #include "Loader.h"
 
 namespace graphics::loader {
-	graphics::model::Model Loader::loadModel(const std::string &path) {
+	Loader::Loader(std::string resourcePath) : resourcePath(std::move(resourcePath)) {
+		glBindTexture(GL_TEXTURE_2D, 0);
+		Image missing = loadImage(resourcePath + "textures/missing.png");
+		glTexImage2D(GL_TEXTURE_2D, 0, missing.format, missing.width, missing.height, 0, missing.format, GL_UNSIGNED_BYTE, missing.data);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	
+	graphics::model::Model Loader::loadModel(std::string file) {
 		try {
-			std::vector<graphics::Mesh *> meshes;
+			std::vector<graphics::Mesh*> meshes;
+			
+			std::string path = resourcePath + file;
 			
 			Assimp::Importer importer;
-			const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+			const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_PreTransformVertices);
 			if (!scene) {
 				throw std::runtime_error(std::string("Assimp: ") + importer.GetErrorString());
 			}
@@ -24,27 +38,22 @@ namespace graphics::loader {
 				
 				if (!mesh->HasTextureCoords(0))
 					throw std::runtime_error(
-							"Mesh does not have texture coordinates, please export them and try again.");
+							"Mesh does not have UV coordinates, please export them and try again.");
 				
 				for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 					aiVector3D pos = mesh->mVertices[i];
 					vertices.emplace_back(pos.x, pos.y, pos.z);
 				}
 				
-				if (mesh->mTextureCoords[0] != NULL) {
-					for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-						aiVector3D UVW = mesh->mTextureCoords[0][i];
-						uvs.emplace_back(UVW.x, UVW.y);
-					}
-				} else {
-					throw std::runtime_error("Mesh does not have texture coordinates");
+				for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+					aiVector3D UVW = mesh->mTextureCoords[0][i];
+					uvs.emplace_back(UVW.x, UVW.y);
 				}
 				
 				aiMaterial *aiMat = scene->mMaterials[mesh->mMaterialIndex];
 				aiString mPath;
-				if (aiReturn_SUCCESS ==
-				    aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
-					std::string temp = path.substr(0, path.find_last_of('/')) + "/";
+				if (aiReturn_SUCCESS == aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
+					std::string temp = file.substr(0, file.find_last_of('/')) + "/";
 					temp += mPath.C_Str();
 					
 					aiColor4D aiAmbient;
@@ -57,7 +66,7 @@ namespace graphics::loader {
 					aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
 					aiMat->Get(AI_MATKEY_SHININESS, shininess);
 					
-					material = new Material(loadTexture(temp.c_str()), vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
+					material = new Material(generateTexture(loadImage(temp), GL_NEAREST), vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
 					                        vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
 					                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
 				}
@@ -76,21 +85,23 @@ namespace graphics::loader {
 				meshes.push_back(new graphics::Mesh(vertices, indices, uvs, normals, material));
 			}
 			return graphics::model::Model(meshes);
-		} catch (std::runtime_error exception) {
+		} catch (std::runtime_error &exception) {
 			std::cout << "Failed to load model: " << exception.what() << std::endl;
 			exit(1);
 			// TODO: Load fallback model
 		}
 	}
 	
-	GLuint Loader::loadTexture(const char *file_name) {
+	Image Loader::loadImage(std::string file) {
 		png_byte header[8];
 		
-		FILE *fp = fopen(file_name, "rb");
+		std::string path = resourcePath + file;
+		
+		FILE *fp = fopen(path.c_str(), "rb");
 		if (fp == 0)
 		{
-			perror(file_name);
-			return 0;
+			perror(path.c_str());
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
 		// read the header
@@ -98,9 +109,9 @@ namespace graphics::loader {
 		
 		if (png_sig_cmp(header, 0, 8))
 		{
-			fprintf(stderr, "error: %s is not a PNG.\n", file_name);
+			fprintf(stderr, "error: %s is not a PNG.\n", path.c_str());
 			fclose(fp);
-			return 0;
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
 		png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
@@ -108,7 +119,7 @@ namespace graphics::loader {
 		{
 			fprintf(stderr, "error: png_create_read_struct returned 0.\n");
 			fclose(fp);
-			return 0;
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
 		// create png info struct
@@ -118,7 +129,7 @@ namespace graphics::loader {
 			fprintf(stderr, "error: png_create_info_struct returned 0.\n");
 			png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
 			fclose(fp);
-			return 0;
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
 		// create png info struct
@@ -128,7 +139,7 @@ namespace graphics::loader {
 			fprintf(stderr, "error: png_create_info_struct returned 0.\n");
 			png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
 			fclose(fp);
-			return 0;
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
 		// the code in this if statement gets called if libpng encounters an error
@@ -136,7 +147,7 @@ namespace graphics::loader {
 			fprintf(stderr, "error from libpng\n");
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 			fclose(fp);
-			return 0;
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
 		// init png reading
@@ -150,7 +161,7 @@ namespace graphics::loader {
 		
 		// variables to pass to get info
 		int bit_depth, color_type;
-		png_uint_32 temp_width, temp_height;
+		unsigned int temp_width, temp_height;
 		
 		// get info about png
 		png_get_IHDR(png_ptr, info_ptr, &temp_width, &temp_height, &bit_depth, &color_type,
@@ -160,11 +171,11 @@ namespace graphics::loader {
 		
 		if (bit_depth != 8)
 		{
-			fprintf(stderr, "%s: Unsupported bit depth %d.  Must be 8.\n", file_name, bit_depth);
-			return 0;
+			fprintf(stderr, "%s: Unsupported bit depth %d.  Must be 8.\n", path.c_str(), bit_depth);
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
-		GLint format;
+		GLenum format;
 		switch(color_type)
 		{
 			case PNG_COLOR_TYPE_RGB:
@@ -174,8 +185,8 @@ namespace graphics::loader {
 				format = GL_RGBA;
 				break;
 			default:
-				fprintf(stderr, "%s: Unknown libpng color type %d.\n", file_name, color_type);
-				return 0;
+				fprintf(stderr, "%s: Unknown libpng color type %d.\n", path.c_str(), color_type);
+				throw runtime_error("Failed to load image: " + path);
 		}
 		
 		// Update the png info struct.
@@ -194,7 +205,7 @@ namespace graphics::loader {
 			fprintf(stderr, "error: could not allocate memory for PNG image data\n");
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 			fclose(fp);
-			return 0;
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
 		// row_pointers is for pointing to image_data for reading the png with libpng
@@ -205,7 +216,7 @@ namespace graphics::loader {
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 			free(image_data);
 			fclose(fp);
-			return 0;
+			throw runtime_error("Failed to load image: " + path);
 		}
 		
 		// set the individual row_pointers to point at the correct offsets of image_data
@@ -217,19 +228,28 @@ namespace graphics::loader {
 		// read the png into image_data through row_pointers
 		png_read_image(png_ptr, row_pointers);
 		
-		GLuint texture;
+		/*GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, temp_width, temp_height, 0, format, GL_UNSIGNED_BYTE, image_data);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);*/
 		
 		// clean up
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-		free(image_data);
 		free(row_pointers);
 		fclose(fp);
 		
+		return Image(format, temp_width, temp_height, image_data);
+	}
+	
+	GLuint Loader::generateTexture(Image image, GLenum filterType) {
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		return texture;
 	}
 }

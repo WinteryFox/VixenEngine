@@ -19,7 +19,7 @@ int main() {
 	
 	auto *camera = new input::Camera(glm::vec3(0.0, 0.0, 5.0), 70, 5, 2);
 	
-	auto *loader = new graphics::loader::Loader();
+	auto *loader = new graphics::loader::Loader("../resources/");
 	
 	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong(resourcePath + "shaders/phong.vert", resourcePath + "shaders/phong.frag");
 	
@@ -30,8 +30,8 @@ int main() {
 	light->setAttenuation(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(1.0, 1.0, 1.0), 0.00000002f, 0.0000007, 1.0f);
 	render->addLight(light);
 	
-	graphics::model::Model model = loader->loadModel(resourcePath + "models/kizuna/kizuna.dae");
-	render->add(new objects::entity::Entity(model, glm::vec3(0.0), glm::vec3(-90.0f, 0.0f, 0.0f)));
+	graphics::model::Model model = loader->loadModel("models/kizuna/kizuna.dae");
+	render->add(new objects::entity::Entity(model, glm::vec3(0.0), glm::vec3(0.0f, 0.0f, 0.0f)));
 	
 	auto *generator = new terrain::Generator();
 	auto *chunk = new terrain::Chunk(generator->flatChunk(), 0, 0, 0);

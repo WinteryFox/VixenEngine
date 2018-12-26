@@ -12,14 +12,20 @@
 #include <png.h>
 #include "Mesh.h"
 #include "Model.h"
+#include "Image.h"
 
 namespace graphics::loader {
 	using namespace glm;
 	class Loader {
-	public:
-		graphics::model::Model loadModel(const std::string &path);
+	private:
+		const std::string resourcePath;
 		
-		GLuint loadTexture(const char *file_name);
+	public:
+		explicit Loader(std::string resourcePath);
+		
+		graphics::model::Model loadModel(std::string file);
+		Image loadImage(std::string file);
+		GLuint generateTexture(Image image, GLenum filterType);
 	};
 }
 
