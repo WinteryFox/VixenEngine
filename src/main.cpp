@@ -9,7 +9,7 @@
 #include "Generator.h"
 
 int main() {
-	auto *window = new graphics::Window("Vixen Engine", 1020, 780);
+	auto *window = new graphics::Window("Vixen Engine", 1280, 720);
 	
 	const std::string resourcePath = "../resources/";
 	

@@ -7,21 +7,21 @@ namespace terrain {
 		vector<vec2> uvs;
 		vector<vec3> normals;
 		
-		for (int i = 0; i < maxVertices; i++) {
-			for (int j = 0; j < maxVertices; j++) {
+		for (unsigned int i = 0; i < maxVertices; i++) {
+			for (unsigned int j = 0; j < maxVertices; j++) {
 				vertices.emplace_back(
 						(float) j / ((float) maxVertices - 1) * size,
 						0,
 						(float) i / ((float) maxVertices - 1) * size);
 				uvs.emplace_back(
-						(float) j / ((float) maxVertices - 1) * 20,
-						(float) i / ((float) maxVertices - 1) * 20);
+						(float) j / ((float) maxVertices - 1) * 40,
+						(float) i / ((float) maxVertices - 1) * 40);
 				normals.emplace_back(0, 1, 0);
 			}
 		}
 		
-		for(int gz = 0; gz < maxVertices - 1; gz++) {
-			for(int gx = 0; gx < maxVertices - 1; gx++) {
+		for(unsigned int gz = 0; gz < maxVertices - 1; gz++) {
+			for(unsigned int gx = 0; gx < maxVertices - 1; gx++) {
 				unsigned int topLeft = (gz * maxVertices) + gx;
 				unsigned int topRight = topLeft + 1;
 				unsigned int bottomLeft = ((gz + 1) * maxVertices) + gx;
