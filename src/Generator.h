@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <vector>
+#include "Loader.h"
 #include "Mesh.h"
 #include "Material.h"
 

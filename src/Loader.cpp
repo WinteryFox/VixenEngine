@@ -233,13 +233,15 @@ namespace graphics::loader {
 		return new Image(format, temp_width, temp_height, image_data);
 	}
 	
-	GLuint Loader::generateTexture(Image* image, GLenum filterType) {
+	GLuint Loader::generateTexture(Image* image, GLenum wrap, GLenum filter) {
 		GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, image->format, image->width, image->height, 0, image->format, GL_UNSIGNED_BYTE, image->data);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
 		return texture;
 	}
 }
