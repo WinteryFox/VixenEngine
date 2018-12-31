@@ -13,6 +13,7 @@ std::string resourcePath = "../resources/";
 int main() {
 	auto *window = new graphics::Window("Vixen Engine", 1280, 720);
 	
+	// TODO: Move somewhere better
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Image* missing = graphics::loader::Loader::loadImage(resourcePath + "textures/missing.png");
 	glTexImage2D(GL_TEXTURE_2D, 0, missing->format, missing->width, missing->height, 0, missing->format, GL_UNSIGNED_BYTE, missing->data);
