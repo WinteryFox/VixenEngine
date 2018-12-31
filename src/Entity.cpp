@@ -1,13 +1,13 @@
 #include "Entity.h"
 
 namespace objects::entity {
-	Entity::Entity(Model model, vec3 position, vec3 rotation, float scale) : model(model), position(position), scale(scale) {
+	Entity::Entity(Model* model, vec3 position, vec3 rotation, float scale) : model(model), position(position), scale(scale) {
 		this->eulerRotation = rotation;
 		this->rotation = quat(rotation);
 	}
 	
-	Model *Entity::getModel() {
-		return &model;
+	Model* Entity::getModel() {
+		return model;
 	}
 	
 	vec3 Entity::getPosition() {

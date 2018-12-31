@@ -3,17 +3,7 @@
 #include "Loader.h"
 
 namespace graphics::loader {
-	Loader::Loader(std::string resourcePath) : resourcePath(std::move(resourcePath)) {
-		glBindTexture(GL_TEXTURE_2D, 0);
-		Image missing = loadImage(resourcePath + "textures/missing.png");
-		glTexImage2D(GL_TEXTURE_2D, 0, missing.format, missing.width, missing.height, 0, missing.format, GL_UNSIGNED_BYTE, missing.data);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
-	
-	graphics::model::Model Loader::loadModel(std::string file) {
+	graphics::model::Model* Loader::loadModel(std::string file) {
 		try {
 			std::vector<graphics::Mesh*> meshes;
 			
@@ -84,7 +74,7 @@ namespace graphics::loader {
 				
 				meshes.push_back(new graphics::Mesh(vertices, indices, uvs, normals, material));
 			}
-			return graphics::model::Model(meshes);
+			return new graphics::model::Model(meshes);
 		} catch (std::runtime_error &exception) {
 			std::cout << "Failed to load model: " << exception.what() << std::endl;
 			exit(1);
@@ -92,7 +82,7 @@ namespace graphics::loader {
 		}
 	}
 	
-	Image Loader::loadImage(std::string file) {
+	Image* Loader::loadImage(std::string file) {
 		png_byte header[8];
 		
 		std::string path = resourcePath + file;
@@ -240,14 +230,14 @@ namespace graphics::loader {
 		free(row_pointers);
 		fclose(fp);
 		
-		return Image(format, temp_width, temp_height, image_data);
+		return new Image(format, temp_width, temp_height, image_data);
 	}
 	
-	GLuint Loader::generateTexture(Image image, GLenum filterType) {
+	GLuint Loader::generateTexture(Image* image, GLenum filterType) {
 		GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+		glTexImage2D(GL_TEXTURE_2D, 0, image->format, image->width, image->height, 0, image->format, GL_UNSIGNED_BYTE, image->data);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		return texture;

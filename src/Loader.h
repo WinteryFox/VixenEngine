@@ -14,18 +14,15 @@
 #include "Model.h"
 #include "Image.h"
 
+extern std::string resourcePath;
+
 namespace graphics::loader {
 	using namespace glm;
 	class Loader {
-	private:
-		const std::string resourcePath;
-		
 	public:
-		explicit Loader(std::string resourcePath);
-		
-		graphics::model::Model loadModel(std::string file);
-		Image loadImage(std::string file);
-		GLuint generateTexture(Image image, GLenum filterType);
+		static graphics::model::Model* loadModel(std::string file);
+		static Image* loadImage(std::string file);
+		static GLuint generateTexture(Image* image, GLenum filterType);
 	};
 }
 

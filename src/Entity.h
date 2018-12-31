@@ -15,14 +15,14 @@ namespace objects::entity {
 	using namespace graphics::model;
 	class Entity {
 	private:
-		Model model;
+		Model* model;
 		vec3 position;
 		quat rotation;
 		vec3 eulerRotation;
 		float scale;
 		
 	public:
-		explicit Entity(Model model, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
+		explicit Entity(Model* model, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
 		
 		Model* getModel();
 		vec3 getPosition();

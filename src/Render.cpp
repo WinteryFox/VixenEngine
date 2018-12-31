@@ -58,7 +58,7 @@ namespace graphics {
 		this->shader = shader;
 	}
 	
-	void Render::add(Entity *entity) {
+	void Render::add(Entity* entity) {
 		entities.push_back(entity);
 	}
 	
