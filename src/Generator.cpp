@@ -14,8 +14,8 @@ namespace terrain {
 						0,
 						(float) i / ((float) maxVertices - 1) * size);
 				uvs.emplace_back(
-						(float) j / ((float) maxVertices - 1) * 40,
-						(float) i / ((float) maxVertices - 1) * 40);
+						(float) j / ((float) maxVertices - 1) * 20,
+						(float) i / ((float) maxVertices - 1) * 20);
 				normals.emplace_back(0, 1, 0);
 			}
 		}

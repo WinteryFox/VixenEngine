@@ -15,7 +15,7 @@ namespace terrain {
 		
 	public:
 		explicit Generator(int seed = 0) : seed(seed) {};
-		graphics::Mesh* flatChunk(int size = 34, int maxVertices = 128);
+		graphics::Mesh* flatChunk(int size = 16, int maxVertices = 64);
 	};
 }
 
