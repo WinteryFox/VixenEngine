@@ -13,6 +13,7 @@
 #include "Mesh.h"
 #include "Model.h"
 #include "Image.h"
+#include "Texture.h"
 
 extern std::string resourcePath;
 
@@ -22,7 +23,7 @@ namespace graphics::loader {
 	public:
 		static graphics::model::Model* loadModel(std::string file);
 		static Image* loadImage(std::string file);
-		static GLuint generateTexture(Image* image, GLenum wrap = GL_REPEAT, GLenum filter = GL_NEAREST);
+		static graphics::Texture* generateTexture(Image* image, GLenum wrap = GL_REPEAT, GLenum filter = GL_NEAREST);
 	};
 }
 

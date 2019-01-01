@@ -57,10 +57,10 @@ namespace graphics::shaders{
 	}
 	
 	void Shader::loadMaterial(Material *material) {
-		glUniform3fv(materialAmbientLocation, 1, &material->getAmbient()[0]);
-		glUniform3fv(materialDiffuseLocation, 1, &material->getDiffuse()[0]);
-		glUniform3fv(materialSpecularLocation, 1, &material->getSpecular()[0]);
-		glUniform1f(materialShininessLocation, material->getShininess());
+		glUniform3fv(materialAmbientLocation, 1, &material->ambient[0]);
+		glUniform3fv(materialDiffuseLocation, 1, &material->diffuse[0]);
+		glUniform3fv(materialSpecularLocation, 1, &material->specular[0]);
+		glUniform1f(materialShininessLocation, material->shininess);
 	}
 	
 	void Shader::getUniformLocations() {

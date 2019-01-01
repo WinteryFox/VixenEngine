@@ -12,9 +12,9 @@ namespace graphics {
 		shader->loadLights(lights);
 		
 		for (auto &entity : entities) {
-			if (entity->getModel()->isVisible()) {
+			if (entity->model->isVisible()) {
 				prepareInstance(entity);
-				for (auto *mesh : entity->getModel()->getMeshes()) {
+				for (auto *mesh : entity->model->getMeshes()) {
 					prepareMesh(mesh);
 					glDrawElements(GL_TRIANGLES, mesh->getIndices().size(), GL_UNSIGNED_INT, nullptr);
 				}
@@ -51,7 +51,7 @@ namespace graphics {
 		shader->loadMaterial(mesh->getMaterial());
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mesh->getMaterial()->getTexture());
+		glBindTexture(GL_TEXTURE_2D, mesh->getMaterial()->texture->id);
 	}
 	
 	void Render::use(graphics::shaders::Shader *shader) {

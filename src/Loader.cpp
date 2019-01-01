@@ -233,7 +233,7 @@ namespace graphics::loader {
 		return new Image(format, temp_width, temp_height, image_data);
 	}
 	
-	GLuint Loader::generateTexture(Image* image, GLenum wrap, GLenum filter) {
+	graphics::Texture* Loader::generateTexture(Image* image, GLenum wrap, GLenum filter) {
 		GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -242,6 +242,6 @@ namespace graphics::loader {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
-		return texture;
+		return new graphics::Texture(texture);
 	}
 }

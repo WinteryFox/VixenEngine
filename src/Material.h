@@ -3,42 +3,19 @@
 
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
+#include "Texture.h"
 
 namespace graphics {
 	using namespace glm;
 	class Material {
-	private:
-		GLuint texture = 0;
+	public:
+		Texture* texture;
 		vec3 ambient;
 		vec3 diffuse;
 		vec3 specular;
 		float shininess;
-	
-	public:
-		Material(GLuint texture, vec3 ambient, vec3 diffuse, vec3 specular, float shininess) : texture(texture), ambient(ambient), diffuse(diffuse), specular(specular), shininess(shininess) {}
-		~Material() {
-			glDeleteTextures(1, &texture);
-		}
 		
-		GLuint getTexture();
-		
-		void setTexture(GLuint texture);
-		
-		const vec3 &getAmbient() const;
-		
-		void setAmbient(const vec3 &ambient);
-		
-		const vec3 &getDiffuse() const;
-		
-		void setDiffuse(const vec3 &diffuse);
-		
-		const vec3 &getSpecular() const;
-		
-		void setSpecular(const vec3 &specular);
-		
-		float getShininess() const;
-		
-		void setShininess(GLfloat shininess);;
+		Material(Texture* texture, vec3 ambient, vec3 diffuse, vec3 specular, float shininess) : texture(texture), ambient(ambient), diffuse(diffuse), specular(specular), shininess(shininess) {}
 	};
 }
 

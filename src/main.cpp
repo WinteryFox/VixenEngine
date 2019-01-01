@@ -34,12 +34,12 @@ int main() {
 	render->use(phong);
 	
 	auto* light = new graphics::Light(graphics::Light::Type::POINT);
-	light->setAttenuation(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(1.0, 1.0, 1.0), 0.00000002f, 0.0000007, 1.0f);
+	light->setAttenuation(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(1.0, 1.0, 1.0), 0.002f, 0.07, 1.0f);
 	render->addLight(light);
 	
 	graphics::model::Model* model = graphics::loader::Loader::loadModel("models/kizuna/kizuna.dae");
-	auto* entity = new objects::entity::Entity(model);
-	render->add(entity);
+	render->add(new objects::entity::Entity(model));
+	render->add(new objects::entity::Entity(model, glm::vec3(1.0f), glm::vec3(0), 0.5f));
 	
 	auto* generator = new terrain::Generator();
 	auto* chunk = new terrain::Chunk(generator->flatChunk(), 0, 0, 0);
@@ -59,7 +59,7 @@ int main() {
 		
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
-			std::cout << error << ": " << glewGetErrorString(error) << std::endl;
+			std::cout << error << ": " << gluErrorString(error) << std::endl;
 	}
 	return 0;
 }
