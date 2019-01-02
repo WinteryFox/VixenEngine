@@ -1,3 +1,5 @@
+#include <utility>
+
 #ifndef VIXWORLD_MAT_HPP
 #define VIXWORLD_MAT_HPP
 
@@ -7,7 +9,7 @@
 namespace graphics::shaders::phong {
 	class Phong : public Shader {
 	public:
-		Phong(std::string vertexFilePath, std::string fragmentFilePath);
+		Phong(std::string vertex, std::string fragment) : Shader(std::move(vertex), std::move(fragment)) {};
 	};
 }
 

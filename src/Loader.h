@@ -10,6 +10,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <png.h>
+#include <GL/glew.h>
 #include "Mesh.h"
 #include "Model.h"
 #include "Image.h"
@@ -23,7 +24,7 @@ namespace graphics::loader {
 	public:
 		static graphics::model::Model* loadModel(std::string file);
 		static Image* loadImage(std::string file);
-		static graphics::Texture* generateTexture(Image* image, GLenum wrap = GL_REPEAT, GLenum filter = GL_NEAREST);
+		static graphics::Texture* generateTexture(Image* image, GLint wrap = GL_REPEAT, GLint filter = GL_NEAREST);
 	};
 }
 

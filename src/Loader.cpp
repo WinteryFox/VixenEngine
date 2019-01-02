@@ -104,7 +104,7 @@ namespace graphics::loader {
 			throw runtime_error("Failed to load image: " + path);
 		}
 		
-		png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+		png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
 		if (!png_ptr)
 		{
 			fprintf(stderr, "error: png_create_read_struct returned 0.\n");
@@ -117,7 +117,7 @@ namespace graphics::loader {
 		if (!info_ptr)
 		{
 			fprintf(stderr, "error: png_create_info_struct returned 0.\n");
-			png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
+			png_destroy_read_struct(&png_ptr, (png_infopp)nullptr, (png_infopp)nullptr);
 			fclose(fp);
 			throw runtime_error("Failed to load image: " + path);
 		}
@@ -127,7 +127,7 @@ namespace graphics::loader {
 		if (!end_info)
 		{
 			fprintf(stderr, "error: png_create_info_struct returned 0.\n");
-			png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
+			png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) nullptr);
 			fclose(fp);
 			throw runtime_error("Failed to load image: " + path);
 		}
@@ -155,7 +155,7 @@ namespace graphics::loader {
 		
 		// get info about png
 		png_get_IHDR(png_ptr, info_ptr, &temp_width, &temp_height, &bit_depth, &color_type,
-		             NULL, NULL, NULL);
+		             nullptr, nullptr, nullptr);
 		
 		//printf("%s: %lux%lu %d\n", file_name, temp_width, temp_height, color_type);
 		
@@ -189,8 +189,8 @@ namespace graphics::loader {
 		rowbytes += 3 - ((rowbytes-1) % 4);
 		
 		// Allocate the image_data as a big block, to be given to opengl
-		png_byte * image_data = (png_byte *)malloc(rowbytes * temp_height * sizeof(png_byte)+15);
-		if (image_data == NULL)
+		auto * image_data = (png_byte *)malloc(rowbytes * temp_height * sizeof(png_byte)+15);
+		if (image_data == nullptr)
 		{
 			fprintf(stderr, "error: could not allocate memory for PNG image data\n");
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
@@ -199,8 +199,8 @@ namespace graphics::loader {
 		}
 		
 		// row_pointers is for pointing to image_data for reading the png with libpng
-		png_byte ** row_pointers = (png_byte **)malloc(temp_height * sizeof(png_byte *));
-		if (row_pointers == NULL)
+		auto ** row_pointers = (png_byte **)malloc(temp_height * sizeof(png_byte *));
+		if (row_pointers == nullptr)
 		{
 			fprintf(stderr, "error: could not allocate memory for PNG row pointers\n");
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
@@ -233,15 +233,15 @@ namespace graphics::loader {
 		return new Image(format, temp_width, temp_height, image_data);
 	}
 	
-	graphics::Texture* Loader::generateTexture(Image* image, GLenum wrap, GLenum filter) {
+	graphics::Texture* Loader::generateTexture(Image* image, GLint wrap, GLint filter) {
 		GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, image->format, image->width, image->height, 0, image->format, GL_UNSIGNED_BYTE, image->data);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
 		return new graphics::Texture(texture);
 	}
 }

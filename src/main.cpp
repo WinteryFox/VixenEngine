@@ -15,7 +15,7 @@ int main() {
 	
 	// TODO: Move somewhere better
 	glBindTexture(GL_TEXTURE_2D, 0);
-	Image* missing = graphics::loader::Loader::loadImage(resourcePath + "textures/missing.png");
+	Image* missing = graphics::loader::Loader::loadImage("textures/missing.png");
 	glTexImage2D(GL_TEXTURE_2D, 0, missing->format, missing->width, missing->height, 0, missing->format, GL_UNSIGNED_BYTE, missing->data);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -28,7 +28,7 @@ int main() {
 	
 	auto* camera = new input::Camera();
 	
-	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong(resourcePath + "shaders/phong.vert", resourcePath + "shaders/phong.frag");
+	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("phong.vert", "phong.frag");
 	
 	auto* render = new graphics::Render();
 	render->use(phong);

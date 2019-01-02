@@ -10,12 +10,12 @@
 #include "Light.h"
 #include "Material.h"
 
+extern std::string resourcePath;
+
 namespace graphics::shaders {
 	using namespace glm;
 	class Shader {
-	private:
-		GLuint programID;
-		
+	protected:
 		GLint projectionMatrixLocation;
 		GLint viewMatrixLocation;
 		GLint modelMatrixLocation;
@@ -38,10 +38,10 @@ namespace graphics::shaders {
 		GLint materialShininessLocation;
 		
 	public:
+		GLuint id;
+		
 		Shader(std::string vertex, std::string fragment);
 		~Shader();
-		
-		GLuint getProgramID();
 		
 		void start();
 		void stop();

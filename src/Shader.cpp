@@ -1,22 +1,22 @@
+#include <utility>
+
+#include <utility>
+
 #include "Shader.h"
 
 namespace graphics::shaders{
 	Shader::Shader(std::string vertex, std::string fragment) {
-		programID = loadAndCompile(vertex, fragment);
+		id = loadAndCompile(std::move(vertex), std::move(fragment));
 		getUniformLocations();
 	}
 	
 	Shader::~Shader() {
 		stop();
-		glDeleteProgram(programID);
-	}
-	
-	GLuint Shader::getProgramID() {
-		return programID;
+		glDeleteProgram(id);
 	}
 	
 	void Shader::start() {
-		glUseProgram(programID);
+		glUseProgram(id);
 	}
 	
 	void Shader::stop() {
@@ -64,33 +64,36 @@ namespace graphics::shaders{
 	}
 	
 	void Shader::getUniformLocations() {
-		modelMatrixLocation = glGetUniformLocation(programID, "model");
-		viewMatrixLocation = glGetUniformLocation(programID, "view");
-		projectionMatrixLocation = glGetUniformLocation(programID, "projection");
-		viewPositionLocation = glGetUniformLocation(programID, "viewPos");
+		modelMatrixLocation = glGetUniformLocation(id, "model");
+		viewMatrixLocation = glGetUniformLocation(id, "view");
+		projectionMatrixLocation = glGetUniformLocation(id, "projection");
+		viewPositionLocation = glGetUniformLocation(id, "viewPos");
 		
-		directionalLightColorLocation = glGetUniformLocation(programID, "dirLight.color");
-		directionalLightDirectionLocation = glGetUniformLocation(programID, "dirLight.direction");
+		directionalLightColorLocation = glGetUniformLocation(id, "dirLight.color");
+		directionalLightDirectionLocation = glGetUniformLocation(id, "dirLight.direction");
 		
-		lightCountLocation = glGetUniformLocation(programID, "lightCount");
+		lightCountLocation = glGetUniformLocation(id, "lightCount");
 		for (unsigned int i = 0; i < 16; i++) {
-			lightColorLocation[i] = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].color").c_str());
-			lightPositionLocation[i] = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].position").c_str());
-			lightQuadraticLocation[i] = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].quadratic").c_str());
-			lightLinearLocation[i] = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].linear").c_str());
-			lightConstantLocation[i] = glGetUniformLocation(programID, std::string("lights[").append(std::to_string(i)).append("].constant").c_str());
+			lightColorLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].color").c_str());
+			lightPositionLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].position").c_str());
+			lightQuadraticLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].quadratic").c_str());
+			lightLinearLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].linear").c_str());
+			lightConstantLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].constant").c_str());
 		}
 		
-		materialAmbientLocation = glGetUniformLocation(programID, "material.ambient");
-		materialDiffuseLocation = glGetUniformLocation(programID, "material.diffuse");
-		materialSpecularLocation = glGetUniformLocation(programID, "material.specular");
-		materialShininessLocation = glGetUniformLocation(programID, "material.shininess");
+		materialAmbientLocation = glGetUniformLocation(id, "material.ambient");
+		materialDiffuseLocation = glGetUniformLocation(id, "material.diffuse");
+		materialSpecularLocation = glGetUniformLocation(id, "material.specular");
+		materialShininessLocation = glGetUniformLocation(id, "material.shininess");
 	}
 	
 	// TODO: Move to a global loader
 	GLuint Shader::loadAndCompile(std::string vertex, std::string fragment) {
 		GLuint vertexID = glCreateShader(GL_VERTEX_SHADER);
 		GLuint fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
+		
+		vertex = resourcePath + "shaders/" + vertex;
+		fragment = resourcePath + "shaders/" + fragment;
 		
 		std::string vertexShaderCode;
 		std::ifstream vertexShaderStream(vertex, std::ios::in);
