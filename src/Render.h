@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_MESHRENDER_H
-#define VIXENENGINE_MESHRENDER_H
+#pragma once
 
 #include <vector>
 #include "Mesh.h"
@@ -28,4 +27,3 @@ namespace graphics {
 	};
 }
 
-#endif

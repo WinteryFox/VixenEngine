@@ -1,11 +1,12 @@
-#ifndef VIXENENGINE_WINDOW_H
-#define VIXENENGINE_WINDOW_H
+#pragma once
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
 #include <string>
-#include <png.h>
+#include <iostream>
+#include <windows.h>
+#include "Image.h"
+#include "Loader.h"
 
 namespace graphics {
 	class Window {
@@ -34,11 +35,9 @@ namespace graphics {
 		GLFWwindow* getWindow();
 		float getDeltaTime();
 		
-		void setIcon(const char *file_name);
+		void setIcon(std::string icon);
 		
 	private:
 		bool init();
 	};
 }
-
-#endif

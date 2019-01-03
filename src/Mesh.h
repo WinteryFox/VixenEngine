@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_MESH_H
-#define VIXENENGINE_MESH_H
+#pragma once
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -54,4 +53,3 @@ namespace graphics {
 	};
 }
 
-#endif

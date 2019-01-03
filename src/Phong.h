@@ -1,7 +1,4 @@
-#include <utility>
-
-#ifndef VIXWORLD_MAT_HPP
-#define VIXWORLD_MAT_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 #include "Shader.h"
@@ -13,4 +10,3 @@ namespace graphics::shaders::phong {
 	};
 }
 
-#endif

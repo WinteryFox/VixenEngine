@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_SHADER_H
-#define VIXENENGINE_SHADER_H
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -60,4 +59,3 @@ namespace graphics::shaders {
 	};
 }
 
-#endif

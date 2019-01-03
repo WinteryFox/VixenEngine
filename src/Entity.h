@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_ENTITY_H
-#define VIXENENGINE_ENTITY_H
+#pragma once
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -30,4 +29,3 @@ namespace objects::entity {
 	};
 }
 
-#endif

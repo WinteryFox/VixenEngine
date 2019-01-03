@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_TERRAINRENDER_H
-#define VIXENENGINE_TERRAINRENDER_H
+#pragma once
 
 #include "Render.h"
 
@@ -9,4 +8,3 @@ class TerrainRender : public Render {
 	};
 }
 
-#endif

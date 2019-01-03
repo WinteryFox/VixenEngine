@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_MODEL_H
-#define VIXENENGINE_MODEL_H
+#pragma once
 
 #include "Mesh.h"
 #include "Camera.h"
@@ -20,5 +19,3 @@ namespace graphics::model {
 		vector<Mesh*> getMeshes();
 	};
 }
-
-#endif

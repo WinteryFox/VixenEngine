@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_MATERIAL_H
-#define VIXENENGINE_MATERIAL_H
+#pragma once
 
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
@@ -19,4 +18,3 @@ namespace graphics {
 	};
 }
 
-#endif

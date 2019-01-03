@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_PLAYER_H
-#define VIXENENGINE_PLAYER_H
+#pragma once
 
 #include "Camera.h"
 #include "Model.h"
@@ -16,4 +15,3 @@ namespace controls::Player {
 	};
 }
 
-#endif

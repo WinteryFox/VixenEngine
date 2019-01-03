@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_DIRECTIONALLIGHT_H
-#define VIXENENGINE_DIRECTIONALLIGHT_H
+#pragma once
 
 #include "glm/glm.hpp"
 
@@ -52,4 +51,3 @@ namespace graphics {
 	};
 }
 
-#endif

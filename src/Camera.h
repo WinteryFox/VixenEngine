@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_CAMERA_H
-#define VIXENENGINE_CAMERA_H
+#pragma once
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -32,8 +31,6 @@ namespace input {
 		
 		vec3 getPosition();
 		
-		void update(graphics::Window *window);
+		void update(graphics::Window* window);
 	};
 }
-
-#endif

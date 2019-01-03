@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_GENERATOR_H
-#define VIXENENGINE_GENERATOR_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <vector>
@@ -20,4 +19,3 @@ namespace terrain {
 	};
 }
 
-#endif

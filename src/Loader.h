@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_LOADER_H
-#define VIXENENGINE_LOADER_H
+#pragma once
 
 #include <stdlib.h>
 #include <stdexcept>
@@ -9,8 +8,6 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include <png.h>
-#include <GL/glew.h>
 #include "Mesh.h"
 #include "Model.h"
 #include "Image.h"
@@ -23,9 +20,7 @@ namespace graphics::loader {
 	class Loader {
 	public:
 		static graphics::model::Model* loadModel(std::string file);
-		static Image* loadImage(std::string file);
+		static graphics::Image* loadImage(std::string file);
 		static graphics::Texture* generateTexture(Image* image, GLint wrap = GL_REPEAT, GLint filter = GL_NEAREST);
 	};
 }
-
-#endif

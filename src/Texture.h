@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_TEXTURE_H
-#define VIXENENGINE_TEXTURE_H
+#pragma once
 
 #include <GL/glew.h>
 
@@ -15,4 +14,3 @@ namespace graphics {
 	};
 }
 
-#endif

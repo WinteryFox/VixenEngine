@@ -82,7 +82,7 @@ namespace graphics::loader {
 		}
 	}
 	
-	Image* Loader::loadImage(std::string file) {
+	graphics::Image* Loader::loadImage(std::string file) {
 		png_byte header[8];
 		
 		std::string path = resourcePath + file;
@@ -230,7 +230,7 @@ namespace graphics::loader {
 		free(row_pointers);
 		fclose(fp);
 		
-		return new Image(format, temp_width, temp_height, image_data);
+		return new graphics::Image(format, temp_width, temp_height, image_data);
 	}
 	
 	graphics::Texture* Loader::generateTexture(Image* image, GLint wrap, GLint filter) {

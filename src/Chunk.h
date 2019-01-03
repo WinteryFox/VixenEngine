@@ -1,5 +1,4 @@
-#ifndef VIXENENGINE_TERRAIN_H
-#define VIXENENGINE_TERRAIN_H
+#pragma once
 
 #include "Mesh.h"
 
@@ -17,4 +16,3 @@ namespace terrain {
 	};
 }
 
-#endif
