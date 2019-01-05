@@ -6,7 +6,7 @@ namespace shaders {
 	}
 	
 	void GuiShader::getUniformLocations() {
-		positionLocation = glGetUniformLocation(id, "translation");
+		positionLocation = glGetUniformLocation(id, "projection");
 		colorLocation = glGetUniformLocation(id, "color");
 	}
 	
@@ -14,7 +14,7 @@ namespace shaders {
 		glUniform3fv(colorLocation, 1, &color[0]);
 	}
 	
-	void GuiShader::loadPosition(glm::vec2 position) {
-		glUniform2fv(positionLocation, 1, &position[0]);
+	void GuiShader::loadProjection(glm::mat4 projection) {
+		glUniformMatrix4fv(positionLocation, 1, GL_FALSE, &projection[0][0]);
 	}
 }

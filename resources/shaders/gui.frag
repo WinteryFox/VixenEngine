@@ -8,5 +8,6 @@ uniform vec3 color;
 uniform sampler2D font;
 
 void main() {
-	outColor = vec4(color, texture(font, uv).a);
+	vec4 sampled = vec4(1.0, 1.0, 1.0, texture(font, uv).r);
+	outColor = vec4(color, 1.0) * sampled;
 }

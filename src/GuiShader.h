@@ -13,7 +13,7 @@ namespace shaders {
 		
 		void getUniformLocations() override;
 		
-		void loadPosition(glm::vec2 position);
+		void loadProjection(glm::mat4 projection);
 		void loadColor(glm::vec3 color);
 	};
 }

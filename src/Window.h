@@ -4,7 +4,6 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include <iostream>
-#include <windows.h>
 #include "Image.h"
 
 void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity,
@@ -21,8 +20,8 @@ namespace graphics {
 	public:
 		GLFWwindow *window;
 		std::string name;
-		int width;
-		int height;
+		static int WIDTH;
+		static int HEIGHT;
 		float deltaTime;
 		
 		Window(const std::string &name, int width, int height);

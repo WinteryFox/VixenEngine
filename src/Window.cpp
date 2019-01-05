@@ -3,8 +3,13 @@
 #include "Window.h"
 #include "Loader.h"
 
+int graphics::Window::WIDTH = 0;
+int graphics::Window::HEIGHT = 0;
+
 namespace graphics {
-	Window::Window(const std::string &name, int width, int height) : name(name), width(width), height(height) {
+	Window::Window(const std::string &name, int width, int height) : name(name) {
+		WIDTH = width;
+		HEIGHT = height;
 		if (!init())
 			glfwTerminate();
 	}
@@ -28,7 +33,7 @@ namespace graphics {
 		glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 		
-		window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
+		window = glfwCreateWindow(WIDTH, HEIGHT, name.c_str(), nullptr, nullptr);
 		if (!window) {
 			std::cout << "Failed to create window" << std::endl;
 			return false;
@@ -50,7 +55,7 @@ namespace graphics {
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(glDebugOutput, nullptr);
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+		glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_ERROR, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 		
 		setIcon("textures/icon.png");
 		

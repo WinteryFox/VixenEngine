@@ -37,13 +37,10 @@ namespace font {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			
-			Character character = {
-					new graphics::Texture(texture),
-					glm::vec2(font->glyph->bitmap.width, font->glyph->bitmap.rows),
-					glm::vec2(font->glyph->bitmap_left, font->glyph->bitmap_top),
-					font->glyph->advance.x
-			};
-			characters.insert(std::pair<char, Character>(c, character));
+			characters.insert(std::pair<char, Character*>(c, new Character(new graphics::Texture(texture),
+			                                                               glm::vec2(font->glyph->bitmap.width, font->glyph->bitmap.rows),
+			                                                               glm::vec2(font->glyph->bitmap_left, font->glyph->bitmap_top),
+			                                                               font->glyph->advance.x)));
 		}
 		glBindTexture(GL_TEXTURE_2D, 0);
 		

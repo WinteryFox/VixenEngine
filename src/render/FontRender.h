@@ -2,26 +2,25 @@
 
 #include <map>
 #include <vector>
-#include "../font/FontType.h"
-#include "../font/TextMeshData.h"
-#include "../font/GuiText.h"
+#include "../font/Font.h"
+#include "../font/Text.h"
 #include "../GuiShader.h"
 
 namespace graphics {
 	class FontRender {
 	private:
 		shaders::GuiShader* shader;
-		std::map<font::FontType*, std::vector<font::GuiText*>> texts;
+		std::vector<font::Text*> texts;
 	
 	public:
 		FontRender() {
 			this->shader = new shaders::GuiShader();
 		}
 		void render();
-		void add(font::GuiText* text);
+		void add(font::Text* text);
 		
 	private:
-		void prepare(const font::FontType* font);
-		void prepareInstance(const font::GuiText* text);
+		void prepare();
+		void prepareInstance(const font::Text* text);
 	};
 }

@@ -20,6 +20,7 @@ namespace graphics {
 				}
 			}
 		}
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
