@@ -77,32 +77,18 @@ namespace font {
 	}
 	
 	void TextMeshCreator::addVertices(std::vector<glm::vec3> &vertices, double x, double y, double maxX, double maxY) {
-		vertices.emplace_back((float) x);
-		vertices.emplace_back((float) y);
-		vertices.emplace_back((float) x);
-		vertices.emplace_back((float) maxY);
-		vertices.emplace_back((float) maxX);
-		vertices.emplace_back((float) maxY);
-		vertices.emplace_back((float) maxX);
-		vertices.emplace_back((float) maxY);
-		vertices.emplace_back((float) maxX);
-		vertices.emplace_back((float) y);
-		vertices.emplace_back((float) x);
-		vertices.emplace_back((float) y);
+		vertices.emplace_back((float) x, (float) y, (float) x);
+		vertices.emplace_back((float) maxY, (float) maxX, (float) maxY);
+		vertices.emplace_back((float) maxX, (float) maxY, (float) maxX);
+		vertices.emplace_back((float) y, (float) x, (float) y);
 	}
 	
 	void TextMeshCreator::addUV(std::vector<glm::vec2> &uvs, double x, double y, double maxX, double maxY) {
-		uvs.emplace_back((float) x);
-		uvs.emplace_back((float) y);
-		uvs.emplace_back((float) x);
-		uvs.emplace_back((float) maxY);
-		uvs.emplace_back((float) maxX);
-		uvs.emplace_back((float) maxY);
-		uvs.emplace_back((float) maxX);
-		uvs.emplace_back((float) maxY);
-		uvs.emplace_back((float) maxX);
-		uvs.emplace_back((float) y);
-		uvs.emplace_back((float) x);
-		uvs.emplace_back((float) y);
+		uvs.emplace_back((float) x, (float) y);
+		uvs.emplace_back((float) x, (float) maxY);
+		uvs.emplace_back((float) maxX, (float) maxY);
+		uvs.emplace_back((float) maxX, (float) maxY);
+		uvs.emplace_back((float) maxX, (float) y);
+		uvs.emplace_back((float) x, (float) y);
 	}
 }

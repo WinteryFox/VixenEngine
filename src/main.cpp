@@ -49,7 +49,7 @@ int main() {
 	
 	auto* fontRender = new graphics::FontRender();
 	font::FontType* font = new font::FontType("arial.fnt");
-	font::GuiText* text = new font::GuiText(std::string("Hello there!"), 500.0f, font, glm::vec2(0.0f), 1000000.0f, false);
+	font::GuiText* text = new font::GuiText(std::string("Hello there!"), 10.0f, font, glm::vec2(0.5f), 1000000.0f, false);
 	text->color = glm::vec3(1.0f);
 	fontRender->add(text);
 	
