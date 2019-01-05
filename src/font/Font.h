@@ -17,11 +17,11 @@ namespace font {
 	};
 	class Font {
 	private:
-		std::map<char, Character> characters;
-		
 		void loadFont(const std::string &file);
 		
 	public:
+		std::map<char, Character> characters;
+		
 		explicit Font(const std::string &file);
 		
 	};

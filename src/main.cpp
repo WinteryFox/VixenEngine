@@ -51,7 +51,8 @@ int main() {
 	
 	auto* fontRender = new graphics::FontRender();
 	font::Font* font = new font::Font("arial.fnt");
-	font::Text* text = new font::Text("Greetings!", glm::vec2(0.0f), font);
+	font::Text* text = new font::Text("Greetings!", glm::vec2(0.0f), 6, font);
+	text->color = glm::vec3(1.0f);
 	fontRender->add(text);
 	
 	while (!window->shouldClose()) {
