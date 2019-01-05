@@ -9,6 +9,8 @@
 #include "Generator.h"
 #include "font/GuiText.h"
 #include "render/FontRender.h"
+#include "font/Font.h"
+#include "font/Text.h"
 
 std::string resourcePath = "../resources/";
 
@@ -48,9 +50,8 @@ int main() {
 	render->add(new objects::entity::Entity(new graphics::Model(meshes), glm::vec3(0), glm::vec3(0), 1.0f));*/
 	
 	auto* fontRender = new graphics::FontRender();
-	font::FontType* font = new font::FontType("arial.fnt");
-	font::GuiText* text = new font::GuiText(std::string("Hello there!"), 10.0f, font, glm::vec2(0.5f), 1000000.0f, false);
-	text->color = glm::vec3(1.0f);
+	font::Font* font = new font::Font("arial.fnt");
+	font::Text* text = new font::Text("Greetings!", glm::vec2(0.0f), font);
 	fontRender->add(text);
 	
 	while (!window->shouldClose()) {

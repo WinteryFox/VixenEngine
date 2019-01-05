@@ -1,8 +1,10 @@
+#include <utility>
+
 #include "Window.h"
 #include "Loader.h"
 
 namespace graphics {
-	Window::Window(std::string name, int width, int height) : name(name), width(width), height(height) {
+	Window::Window(const std::string &name, int width, int height) : name(name), width(width), height(height) {
 		if (!init())
 			glfwTerminate();
 	}

@@ -25,7 +25,7 @@ namespace graphics {
 		int height;
 		float deltaTime;
 		
-		Window(std::string name, int width, int height);
+		Window(const std::string &name, int width, int height);
 		~Window();
 		
 		bool shouldClose() const;
