@@ -1,23 +1,25 @@
 #pragma once
 
 #include <vector>
-#include "Mesh.h"
-#include "Shader.h"
-#include "Entity.h"
-#include "Camera.h"
-#include "Light.h"
+#include "../Mesh.h"
+#include "../Entity.h"
+#include "../Camera.h"
+#include "../Light.h"
+#include "../Phong.h"
 
 namespace graphics {
 	using namespace objects::entity;
 	class Render {
 	private:
-		graphics::shaders::Shader *shader;
+		shaders::Phong *shader;
 		std::vector<Entity*> entities;
 		std::vector<graphics::Light*> lights;
 	
 	public:
+		Render() {
+			shader = new shaders::Phong();
+		}
 		void render(input::Camera *camera);
-		void use(graphics::shaders::Shader *shader);
 		void add(Entity *entity);
 		void addLight(graphics::Light *light);
 	

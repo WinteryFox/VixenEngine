@@ -11,31 +11,9 @@
 
 extern std::string resourcePath;
 
-namespace graphics::shaders {
+namespace shaders {
 	using namespace glm;
 	class Shader {
-	protected:
-		GLint projectionMatrixLocation;
-		GLint viewMatrixLocation;
-		GLint modelMatrixLocation;
-		
-		GLint viewPositionLocation;
-		
-		GLint directionalLightColorLocation;
-		GLint directionalLightDirectionLocation;
-		
-		GLint lightCountLocation;
-		GLint lightColorLocation[16];
-		GLint lightPositionLocation[16];
-		GLint lightQuadraticLocation[16];
-		GLint lightLinearLocation[16];
-		GLint lightConstantLocation[16];
-		
-		GLint materialAmbientLocation;
-		GLint materialDiffuseLocation;
-		GLint materialSpecularLocation;
-		GLint materialShininessLocation;
-		
 	public:
 		GLuint id;
 		
@@ -45,16 +23,9 @@ namespace graphics::shaders {
 		void start();
 		void stop();
 		
-		void loadProjectionMatrix(mat4 matrix);
-		void loadViewMatrix(mat4 matrix);
-		void loadModelMatrix(mat4 matrix);
-		void loadViewPosition(vec3 position);
-		void loadLights(std::vector<graphics::Light*> lights);
-		void loadMaterial(Material *material);
+	protected:
+		virtual void getUniformLocations() = 0;
 		
-		void getUniformLocations();
-		
-	private:
 		GLuint loadAndCompile(std::string vertex, std::string fragment);
 	};
 }

@@ -21,6 +21,6 @@ namespace graphics::loader {
 	public:
 		static graphics::model::Model* loadModel(std::string file);
 		static graphics::Image* loadImage(std::string file);
-		static graphics::Texture* generateTexture(Image* image, GLint wrap = GL_REPEAT, GLint filter = GL_NEAREST);
+		static graphics::Texture* generateTexture(Image* image, GLint filter = GL_NEAREST);
 	};
 }

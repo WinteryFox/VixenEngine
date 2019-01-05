@@ -1,12 +1,14 @@
 #include <GL/glew.h>
 #include "Entity.h"
 #include "Window.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "Phong.h"
 #include "Loader.h"
 #include "Light.h"
 #include "Chunk.h"
 #include "Generator.h"
+#include "font/GuiText.h"
+#include "render/FontRender.h"
 
 std::string resourcePath = "../resources/";
 
@@ -28,10 +30,7 @@ int main() {
 	
 	auto* camera = new input::Camera();
 	
-	graphics::shaders::Shader *phong = new graphics::shaders::phong::Phong("phong.vert", "phong.frag");
-	
-	auto* render = new graphics::Render();
-	render->use(phong);
+	/*auto* render = new graphics::Render();
 	
 	auto* light = new graphics::Light(graphics::Light::Type::POINT);
 	light->setAttenuation(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(1.0, 1.0, 1.0), 0.002f, 0.07, 1.0f);
@@ -46,20 +45,23 @@ int main() {
 	
 	std::vector<graphics::Mesh*> meshes;
 	meshes.push_back(chunk->mesh);
-	render->add(new objects::entity::Entity(new graphics::Model(meshes), glm::vec3(0), glm::vec3(0), 1.0f));
+	render->add(new objects::entity::Entity(new graphics::Model(meshes), glm::vec3(0), glm::vec3(0), 1.0f));*/
+	
+	auto* fontRender = new graphics::FontRender();
+	font::FontType* font = new font::FontType("arial.fnt");
+	font::GuiText* text = new font::GuiText(std::string("Hello there!"), 500.0f, font, glm::vec2(0.0f), 1000000.0f, false);
+	text->color = glm::vec3(1.0f);
+	fontRender->add(text);
 	
 	while (!window->shouldClose()) {
 		window->update();
 		camera->update(window);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
-		render->render(camera);
+		//render->render(camera);
+		fontRender->render();
 		
 		window->swap();
-		
-		GLenum error = glGetError();
-		if (error != GL_NO_ERROR)
-			std::cout << error << ": " << gluErrorString(error) << std::endl;
 	}
 	return 0;
 }

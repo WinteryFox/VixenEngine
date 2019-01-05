@@ -54,10 +54,6 @@ namespace graphics {
 		glBindTexture(GL_TEXTURE_2D, mesh->getMaterial()->texture->id);
 	}
 	
-	void Render::use(graphics::shaders::Shader *shader) {
-		this->shader = shader;
-	}
-	
 	void Render::add(Entity* entity) {
 		entities.push_back(entity);
 	}
