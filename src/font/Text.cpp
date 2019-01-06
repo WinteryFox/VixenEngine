@@ -35,7 +35,7 @@ namespace font {
 		vertices.clear();
 		uvs.clear();
 		
-		float x = position.x;
+		/*float x = position.x;
 		float y = position.y;
 		for (auto ch : text) {
 			Character* character = font->characters[ch];
@@ -70,7 +70,7 @@ namespace font {
 		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_DYNAMIC_DRAW);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+		glBindVertexArray(0);*/
 	}
 	
 	std::vector<Character*> Text::getCharacters() {

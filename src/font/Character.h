@@ -6,11 +6,13 @@
 namespace font {
 	class Character {
 	public:
-		graphics::Texture* texture;
-		glm::vec2 size;
+		glm::vec2 advance;
+		glm::vec2 bitmapSize;
+		glm::vec2 bitmapDir;
 		glm::vec2 offset;
-		long advance;
 		
-		Character(graphics::Texture *texture, const glm::vec2 &size, const glm::vec2 &offset, long advance);
+		Character(const glm::vec2 &advance, const glm::vec2 &bitmapSize, const glm::vec2 &bitmapDir,
+		          const glm::vec2 &offset) : advance(advance), bitmapSize(bitmapSize), bitmapDir(bitmapDir),
+		                                     offset(offset) {}
 	};
 }

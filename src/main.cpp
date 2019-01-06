@@ -50,7 +50,7 @@ int main() {
 	
 	auto* fontRender = new graphics::FontRender();
 	font::Font* font = new font::Font("arial.ttf");
-	font::Text* fps = new font::Text("FPS: 0", glm::vec2(10, graphics::Window::HEIGHT), 0.1f, font);
+	font::Text* fps = new font::Text("FPS: 0", glm::vec2(500, 500), 1.0f, font);
 	fps->color = glm::vec3(0.9f, 0.768f, 1.0f);
 	fontRender->add(fps);
 	

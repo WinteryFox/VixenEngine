@@ -11,7 +11,7 @@ namespace graphics {
 			prepareInstance(text);
 			std::vector<font::Character*> characters = text->getCharacters();
 			for (int i = 0; i < characters.size(); i++) {
-				glBindTexture(GL_TEXTURE_2D, characters[i]->texture->id);
+				glBindTexture(GL_TEXTURE_2D, text->font->texture->id);
 				glDrawArrays(GL_TRIANGLES, i * 6, 6);
 			}
 		}
