@@ -5,6 +5,8 @@
 
 int graphics::Window::WIDTH = 0;
 int graphics::Window::HEIGHT = 0;
+float graphics::Window::DELTA = 0.0f;
+GLFWwindow* graphics::Window::window = nullptr;
 
 namespace graphics {
 	Window::Window(const std::string &name, int width, int height) : name(name) {
@@ -67,15 +69,8 @@ namespace graphics {
 		glfwPollEvents();
 		
 		auto current = static_cast<float>(glfwGetTime());
-		deltaTime = current - lastTime;
-		FPSTime = current - lastFPS;
+		DELTA = current - lastTime;
 		lastTime = current;
-		fps++;
-		if (FPSTime >= 1.0) {
-			std::cout << fps << " fps" << std::endl;
-			fps = 0;
-			lastFPS = current;
-		}
 	}
 	
 	void Window::swap() {

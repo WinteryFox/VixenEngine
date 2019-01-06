@@ -12,17 +12,15 @@ void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severi
 namespace graphics {
 	class Window {
 	private:
-		int fps = 0;
-		float FPSTime = 0.0f;
 		float lastFPS = 0.0f;
 		float lastTime = 0.0f;
 		
 	public:
-		GLFWwindow *window;
+		static GLFWwindow *window;
 		std::string name;
 		static int WIDTH;
 		static int HEIGHT;
-		float deltaTime;
+		static float DELTA;
 		
 		Window(const std::string &name, int width, int height);
 		~Window();

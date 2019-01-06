@@ -16,7 +16,7 @@ std::string resourcePath = "../resources/";
 int main() {
 	auto *window = new graphics::Window("Vixen Engine", 1280, 720);
 	
-	/*// TODO: Move somewhere better
+	// TODO: Move somewhere better
 	glBindTexture(GL_TEXTURE_2D, 0);
 	graphics::Image* missing = graphics::loader::Loader::loadImage("textures/missing.png");
 	glTexImage2D(GL_TEXTURE_2D, 0, missing->format, missing->width, missing->height, 0, missing->format, GL_UNSIGNED_BYTE, missing->data);
@@ -46,23 +46,35 @@ int main() {
 	
 	std::vector<graphics::Mesh*> meshes;
 	meshes.push_back(chunk->mesh);
-	render->add(new objects::entity::Entity(new graphics::Model(meshes), glm::vec3(0), glm::vec3(0), 1.0f));*/
+	render->add(new objects::entity::Entity(new graphics::Model(meshes), glm::vec3(0), glm::vec3(0), 1.0f));
 	
 	auto* fontRender = new graphics::FontRender();
 	font::Font* font = new font::Font("arial.ttf");
-	font::Text* text = new font::Text("Greetings!", glm::vec2(25.0f), 1, font);
-	text->color = glm::vec3(1.0f);
-	fontRender->add(text);
+	font::Text* fps = new font::Text("FPS: 0", glm::vec2(10, graphics::Window::HEIGHT), 0.1f, font);
+	fps->color = glm::vec3(0.9f, 0.768f, 1.0f);
+	fontRender->add(fps);
+	
+	double lastFPS = 0;
+	int iFPS = 0;
 	
 	while (!window->shouldClose()) {
 		window->update();
-		//camera->update(window);
+		camera->update();
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
-		//render->render(camera);
+		render->render(camera);
 		fontRender->render();
 		
 		window->swap();
+		
+		iFPS++;
+		double currentTime = glfwGetTime();
+		double FPSTime = currentTime - lastFPS;
+		if (FPSTime >= 1.0) {
+			fps->setText("FPS: " + std::to_string(iFPS));
+			iFPS = 0;
+			lastFPS = currentTime;
+		}
 	}
 	return 0;
 }

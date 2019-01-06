@@ -31,6 +31,6 @@ namespace input {
 		
 		vec3 getPosition();
 		
-		void update(graphics::Window* window);
+		void update();
 	};
 }

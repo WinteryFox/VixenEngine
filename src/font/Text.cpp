@@ -1,7 +1,7 @@
 #include "Text.h"
 
 namespace font {
-	Text::Text(const std::string &text, const glm::vec2 &position, int size, Font *font) : text(text), position(position),
+	Text::Text(const std::string &text, const glm::vec2 &position, float size, Font *font) : text(text), position(position),
 	                                                                             size(size), font(font) {
 		glGenVertexArrays(1, &vao);
 		glGenBuffers(1, &verticesVBO);
@@ -21,6 +21,7 @@ namespace font {
 		glDisableVertexAttribArray(1);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
 		
 		updateBuffer();
 	}
@@ -31,6 +32,9 @@ namespace font {
 	}
 	
 	void Text::updateBuffer() {
+		vertices.clear();
+		uvs.clear();
+		
 		float x = position.x;
 		float y = position.y;
 		for (auto ch : text) {
@@ -60,10 +64,10 @@ namespace font {
 		
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec2), &vertices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec2), &vertices[0], GL_DYNAMIC_DRAW);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, uvsVBO);
-		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_DYNAMIC_DRAW);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
