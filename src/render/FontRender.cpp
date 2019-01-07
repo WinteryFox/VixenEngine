@@ -7,12 +7,11 @@ namespace graphics {
 		shader->start();
 		glActiveTexture(GL_TEXTURE0);
 		prepare();
-		for (auto text : texts) {
-			prepareInstance(text);
-			std::vector<font::Character*> characters = text->getCharacters();
-			for (int i = 0; i < characters.size(); i++) {
-				glBindTexture(GL_TEXTURE_2D, text->font->texture->id);
-				glDrawArrays(GL_TRIANGLES, i * 6, 6);
+		for (const auto &pair : texts) {
+			glBindTexture(GL_TEXTURE_2D, pair.first->texture->id);
+			for (font::Text* text : pair.second) {
+				prepareInstance(text);
+				glDrawArrays(GL_TRIANGLES, 0, text->vertices.size());
 			}
 		}
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -46,6 +45,8 @@ namespace graphics {
 	}
 	
 	void FontRender::add(font::Text* text) {
-		texts.push_back(text);
+		if (texts.find(text->font)->first == nullptr)
+			texts.insert(std::pair<font::Font*, std::vector<font::Text*>>(text->font, std::vector<font::Text*>()));
+		texts[text->font].push_back(text);
 	}
 }

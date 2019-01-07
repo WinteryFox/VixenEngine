@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
+#include <iostream>
+#include "../Window.h"
 #include "Font.h"
 
 namespace font {

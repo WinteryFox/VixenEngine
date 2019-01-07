@@ -18,6 +18,7 @@ namespace font {
 		std::map<char, Character*> characters;
 		unsigned int atlasWidth = 0;
 		unsigned int atlasHeight = 0;
+		unsigned int maxHeight;
 		graphics::Texture* texture;
 		
 		explicit Font(const std::string &file);

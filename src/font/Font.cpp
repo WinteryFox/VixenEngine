@@ -40,6 +40,7 @@ namespace font {
 			
 			rowWidth += glyph->bitmap.width + 1;
 			rowHeight = std::max(rowHeight, glyph->bitmap.rows);
+			maxHeight = std::max(maxHeight, rowHeight);
 		}
 		
 		atlasWidth = std::max(atlasWidth, rowWidth);
@@ -81,13 +82,12 @@ namespace font {
 					glm::vec2(glyph->advance.x >> 6, glyph->advance.y >> 6),
 					glm::vec2(glyph->bitmap.width, glyph->bitmap.rows),
 					glm::vec2(glyph->bitmap_left, glyph->bitmap_top),
-					glm::vec2(xOffset / (float) atlasWidth, yOffset / (float) atlasHeight))));
+					glm::vec2(xOffset, yOffset))));
 			
 			rowHeight = std::max(rowHeight, glyph->bitmap.rows);
 			xOffset += glyph->bitmap.width + 1;
 		}
 		this->texture = new graphics::Texture(texture);
-		std::cout << "Generated a font atlas of " << atlasWidth << "x" << atlasHeight << "(" << ((atlasWidth * atlasHeight) / 1024) << " kb)";
 		
 		glBindTexture(GL_TEXTURE_2D, 0);
 		

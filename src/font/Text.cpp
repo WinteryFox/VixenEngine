@@ -1,8 +1,9 @@
 #include "Text.h"
 
 namespace font {
-	Text::Text(const std::string &text, const glm::vec2 &position, float size, Font *font) : text(text), position(position),
-	                                                                             size(size), font(font) {
+	Text::Text(const std::string &text, const glm::vec2 &position, float size, Font *font) : text(text),
+	                                                                                         position(position),
+	                                                                                         size(size), font(font) {
 		glGenVertexArrays(1, &vao);
 		glGenBuffers(1, &verticesVBO);
 		glGenBuffers(1, &uvsVBO);
@@ -35,34 +36,59 @@ namespace font {
 		vertices.clear();
 		uvs.clear();
 		
-		/*float x = position.x;
-		float y = position.y;
-		for (auto ch : text) {
-			Character* character = font->characters[ch];
-			float width = character->size.x * size;
-			float height = character->size.y * size;
+		float cursorX = position.x * graphics::Window::WIDTH;
+		float cursorY = graphics::Window::HEIGHT - (unsigned int) (position.y * graphics::Window::HEIGHT) - font->maxHeight;
+		
+		for (auto chars : text) {
+			Character *character = font->characters[chars];
+			float x = cursorX + character->bitmapDir.x * size;
+			float y = -cursorY - character->bitmapDir.y * size;
+			float width = character->bitmapSize.x * size;
+			float height = character->bitmapSize.y * size;
 			
-			float xpos = x + character->offset.x * size;
-			float ypos = y - (character->size.y - character->offset.y) * size;
+			cursorX += character->advance.x * size;
+			cursorY += character->advance.y * size;
 			
-			vertices.emplace_back(xpos, ypos + height);
-			vertices.emplace_back(xpos, ypos);
-			vertices.emplace_back(xpos + width, ypos);
-			vertices.emplace_back(xpos, ypos + height);
-			vertices.emplace_back(xpos + width, ypos);
-			vertices.emplace_back(xpos + width, ypos + height);
+			if (!width || !height)
+				continue;
 			
-			uvs.emplace_back(0.0f, 0.0f);
-			uvs.emplace_back(0.0f, 1.0f);
-			uvs.emplace_back(1.0f, 1.0f);
-			uvs.emplace_back(0.0f, 0.0f);
-			uvs.emplace_back(1.0f, 1.0f);
-			uvs.emplace_back(1.0f, 0.0f);
+			glm::vec2 bottomLeft(x, -y);
+			glm::vec2 bottomRight(x + width, -y);
+			glm::vec2 topLeft(x, -y - height);
+			glm::vec2 topRight(x + width, -y - height);
 			
-			x += (character->advance >> 6) * size;
+			vertices.emplace_back(topRight);
+			vertices.emplace_back(bottomRight);
+			vertices.emplace_back(bottomLeft);
+			
+			vertices.emplace_back(bottomLeft);
+			vertices.emplace_back(topLeft);
+			vertices.emplace_back(topRight);
+			
+			glm::vec2 t = character->texture;
+			glm::vec2 s = character->bitmapSize;
+			glm::vec2 a = glm::vec2(font->atlasWidth, font->atlasHeight);
+			
+			bottomLeft = glm::vec2(t.x / a.x,
+									t.y / a.y);
+			bottomRight = glm::vec2((t.x + s.x) / a.x,
+									t.y / a.y);
+			topLeft = glm::vec2(t.x / a.x,
+			                    (t.y + s.y) / a.y);
+			topRight = glm::vec2((t.x + s.x) / a.x,
+			                     (t.y + s.y) / a.y);
+			
+			uvs.emplace_back(topRight);
+			uvs.emplace_back(bottomRight);
+			uvs.emplace_back(bottomLeft);
+			
+			uvs.emplace_back(bottomLeft);
+			uvs.emplace_back(topLeft);
+			uvs.emplace_back(topRight);
 		}
 		
 		glBindVertexArray(vao);
+		
 		glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec2), &vertices[0], GL_DYNAMIC_DRAW);
 		
@@ -70,11 +96,11 @@ namespace font {
 		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_DYNAMIC_DRAW);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);*/
+		glBindVertexArray(0);
 	}
 	
-	std::vector<Character*> Text::getCharacters() {
-		std::vector<Character*> characters;
+	std::vector<Character *> Text::getCharacters() {
+		std::vector<Character *> characters;
 		for (auto c : text) {
 			characters.push_back(font->characters[c]);
 		}
