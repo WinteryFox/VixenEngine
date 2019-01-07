@@ -1,7 +1,3 @@
-#include <utility>
-
-#include <utility>
-
 #include "Shader.h"
 
 namespace shaders {
@@ -20,6 +16,40 @@ namespace shaders {
 	
 	void Shader::stop() {
 		glUseProgram(0);
+	}
+	
+	void Shader::loadMatrix4f(GLuint location, const glm::mat4 &matrix) {
+		glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+	}
+	
+	void Shader::loadVector2f(GLuint location, const glm::vec2 &vector) {
+		glUniform2fv(location, 1, &vector[0]);
+	}
+	
+	void Shader::loadVector3f(GLuint location, const glm::vec3 &vector) {
+		glUniform3fv(location, 1, &vector[0]);
+	}
+	
+	void Shader::loadMaterial(const shaders::Material &materialLocations, const graphics::Material &material) {
+		glUniform3fv(materialLocations.ambient, 1, &material.ambient[0]);
+		glUniform3fv(materialLocations.diffuse, 1, &material.diffuse[0]);
+		glUniform3fv(materialLocations.specular, 1, &material.specular[0]);
+		glUniform1f(materialLocations.shininess, material.shininess);
+	}
+	
+	void Shader::loadLight(const shaders::Light &lightLocations, const graphics::Light &light) {
+		if (light.getType() == graphics::Light::DIRECTIONAL) {
+			glUniform1i(lightLocations.type, 0);
+			glUniform3fv(directionalLightDirectionLocation, 1, &light->getDirection()[0]);
+			glUniform3fv(directionalLightColorLocation, 1, &light->getColor()[0]);
+		} else {
+			glUniform1i(lightLocations.type, 1);
+			glUniform3fv(lightColorLocation[i], 1, &light->getColor()[0]);
+			glUniform3fv(lightPositionLocation[i], 1, &light->getPosition()[0]);
+			glUniform1f(lightQuadraticLocation[i], light->getQuadratic());
+			glUniform1f(lightLinearLocation[i], light->getLinear());
+			glUniform1f(lightConstantLocation[i], light->getConstant());
+		}
 	}
 	
 	// TODO: Move to a global loader

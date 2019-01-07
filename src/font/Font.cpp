@@ -2,7 +2,7 @@
 #include "Font.h"
 
 namespace font {
-	Font::Font(const std::string &file) {
+	Font::Font(const std::string &file, unsigned int fontSize) : fontSize(fontSize) {
 		loadFont(file);
 	}
 	
@@ -18,7 +18,7 @@ namespace font {
 			delete this;
 		}
 		
-		FT_Set_Pixel_Sizes(font, 0, 48);
+		FT_Set_Pixel_Sizes(font, 0, fontSize);
 		
 		unsigned int rowWidth = 0;
 		unsigned int rowHeight = 0;

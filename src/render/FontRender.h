@@ -4,7 +4,7 @@
 #include <vector>
 #include "../font/Font.h"
 #include "../font/Text.h"
-#include "../GuiShader.h"
+#include "../shaders/GuiShader.h"
 
 namespace graphics {
 	class FontRender {

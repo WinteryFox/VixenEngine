@@ -19,9 +19,10 @@ namespace font {
 		unsigned int atlasWidth = 0;
 		unsigned int atlasHeight = 0;
 		unsigned int maxHeight;
+		unsigned int fontSize;
 		graphics::Texture* texture;
 		
-		explicit Font(const std::string &file);
+		explicit Font(const std::string &file, unsigned int fontSize);
 		
 	};
 }

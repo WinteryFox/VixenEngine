@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Render.h"
+#include "EntityRender.h"
 
 namespace graphics {
-class TerrainRender : public Render {
+class TerrainRender : public EntityRender {
 	
 	};
 }

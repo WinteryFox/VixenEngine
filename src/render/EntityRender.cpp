@@ -1,7 +1,7 @@
-#include "Render.h"
+#include "EntityRender.h"
 
 namespace graphics {
-	void Render::render(input::Camera *camera) {
+	void EntityRender::render() {
 		shader->start();
 		
 		shader->loadProjectionMatrix(camera->getProjection());
@@ -28,11 +28,11 @@ namespace graphics {
 		shader->stop();
 	}
 	
-	void Render::prepareInstance(Entity *entity) {
+	void EntityRender::prepareInstance(Entity *entity) {
 		shader->loadModelMatrix(entity->getModelMatrix());
 	}
 	
-	void Render::prepareMesh(const Mesh *mesh) {
+	void EntityRender::prepareMesh(const Mesh *mesh) {
 		glBindVertexArray(mesh->getVao());
 		
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->getVertexVBO());
@@ -55,11 +55,14 @@ namespace graphics {
 		glBindTexture(GL_TEXTURE_2D, mesh->getMaterial()->texture->id);
 	}
 	
-	void Render::add(Entity* entity) {
+	void EntityRender::add(Entity* entity) {
 		entities.push_back(entity);
+		for (Mesh* model : entity->model->getMeshes()) {
+			vertices += model->getVertices().size();
+		}
 	}
 	
-	void Render::addLight(graphics::Light *light) {
+	void EntityRender::addLight(graphics::Light *light) {
 		lights.push_back(light);
 	}
 }

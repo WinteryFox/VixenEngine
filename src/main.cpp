@@ -1,8 +1,8 @@
 #include <GL/glew.h>
 #include "Entity.h"
 #include "Window.h"
-#include "render/Render.h"
-#include "Phong.h"
+#include "render/EntityRender.h"
+#include "shaders/Phong.h"
 #include "Loader.h"
 #include "Light.h"
 #include "Chunk.h"
@@ -12,6 +12,8 @@
 #include "font/Text.h"
 
 std::string resourcePath = "../resources/";
+font::Font* arial = new font::Font("arial.ttf", 12);
+input::Camera* camera = new input::Camera();
 
 int main() {
 	auto *window = new graphics::Window("Vixen Engine", 1280, 720);
@@ -31,7 +33,7 @@ int main() {
 	
 	auto* camera = new input::Camera();
 	
-	auto* render = new graphics::Render();
+	auto* render = new graphics::EntityRender();
 	
 	auto* light = new graphics::Light(graphics::Light::Type::POINT);
 	light->setAttenuation(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(1.0, 1.0, 1.0), 0.002f, 0.07, 1.0f);
@@ -49,10 +51,12 @@ int main() {
 	render->add(new objects::entity::Entity(new graphics::Model(meshes), glm::vec3(0), glm::vec3(0), 1.0f));
 	
 	auto* fontRender = new graphics::FontRender();
-	font::Font* font = new font::Font("arial.ttf");
-	font::Text* fps = new font::Text("FPS: 0", glm::vec2(0.0f), 1.0f, font);
+	font::Text* fps = new font::Text("FPS: 0", glm::vec2(0.0f), 1.0f, arial);
+	font::Text* vertices = new font::Text("Verts: 0", glm::vec2(0.0f, 8 / graphics::Window::WIDTH), 1.0f, arial);
 	fps->color = glm::vec3(0.9f, 0.768f, 1.0f);
+	vertices->color = glm::vec3(0.9f, 0.768f, 1.0f);
 	fontRender->add(fps);
+	fontRender->add(vertices);
 	
 	double lastFPS = 0;
 	int iFPS = 0;
@@ -62,8 +66,7 @@ int main() {
 		camera->update();
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
-		render->render(camera);
-		fontRender->render();
+		masterRender->render();
 		
 		window->swap();
 		

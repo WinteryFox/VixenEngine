@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 #include "Shader.h"
-#include "Material.h"
+#include "../Material.h"
 
 namespace shaders {
 	class Phong : public Shader {
@@ -33,10 +33,6 @@ namespace shaders {
 		
 		void getUniformLocations() override;
 		
-		void loadProjectionMatrix(mat4 matrix);
-		void loadViewMatrix(mat4 matrix);
-		void loadModelMatrix(mat4 matrix);
-		void loadViewPosition(vec3 position);
 		void loadLights(std::vector<graphics::Light*> lights);
 		void loadMaterial(graphics::Material *material);
 	};
