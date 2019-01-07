@@ -37,7 +37,7 @@ namespace font {
 		uvs.clear();
 		
 		float cursorX = position.x * graphics::Window::WIDTH;
-		float cursorY = graphics::Window::HEIGHT - (unsigned int) (position.y * graphics::Window::HEIGHT) - font->maxHeight;
+		float cursorY = graphics::Window::HEIGHT - std::round(position.y * graphics::Window::HEIGHT) - font->maxHeight;
 		
 		for (auto chars : text) {
 			Character *character = font->characters[chars];
