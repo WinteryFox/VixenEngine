@@ -10,28 +10,15 @@
 #include "render/FontRender.h"
 #include "font/Font.h"
 #include "font/Text.h"
+#include "render/MasterRender.h"
 
 std::string resourcePath = "../resources/";
 font::Font* arial = new font::Font("arial.ttf", 12);
-input::Camera* camera = new input::Camera();
 
 int main() {
 	auto *window = new graphics::Window("Vixen Engine", 1280, 720);
 	
-	// TODO: Move somewhere better
-	glBindTexture(GL_TEXTURE_2D, 0);
-	graphics::Image* missing = graphics::loader::Loader::loadImage("textures/missing.png");
-	glTexImage2D(GL_TEXTURE_2D, 0, missing->format, missing->width, missing->height, 0, missing->format, GL_UNSIGNED_BYTE, missing->data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	
-	glGetError();
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	
-	auto* camera = new input::Camera();
+	/*auto* camera = new input::Camera();
 	
 	auto* render = new graphics::EntityRender();
 	
@@ -56,28 +43,28 @@ int main() {
 	fps->color = glm::vec3(0.9f, 0.768f, 1.0f);
 	vertices->color = glm::vec3(0.9f, 0.768f, 1.0f);
 	fontRender->add(fps);
-	fontRender->add(vertices);
+	fontRender->add(vertices);*/
 	
-	double lastFPS = 0;
-	int iFPS = 0;
+	//double lastFPS = 0;
+	//int iFPS = 0;
+	
+	graphics::MasterRender render = graphics::MasterRender();
 	
 	while (!window->shouldClose()) {
 		window->update();
-		camera->update();
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
-		masterRender->render();
+		render.render();
 		
 		window->swap();
 		
-		iFPS++;
+		/*iFPS++;
 		double currentTime = glfwGetTime();
 		double FPSTime = currentTime - lastFPS;
 		if (FPSTime >= 1.0) {
 			fps->setText("FPS: " + std::to_string(iFPS));
 			iFPS = 0;
 			lastFPS = currentTime;
-		}
+		}*/
 	}
 	return 0;
 }

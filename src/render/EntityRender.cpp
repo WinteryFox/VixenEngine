@@ -2,14 +2,17 @@
 
 namespace graphics {
 	void EntityRender::render() {
-		shader->start();
+		shader.start();
 		
-		shader->loadProjectionMatrix(camera->getProjection());
-		shader->loadViewMatrix(camera->getView());
+		shader.loadProjectionMatrix(camera.projection);
+		shader.loadViewMatrix(camera.view);
 		
-		shader->loadViewPosition(camera->getPosition());
+		shader.loadViewPosition(camera.position);
 		
-		shader->loadLights(lights);
+		shader.loadLights(lights);
+		
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
 		
 		for (auto &entity : entities) {
 			if (entity->model->isVisible()) {
@@ -20,16 +23,20 @@ namespace graphics {
 				}
 			}
 		}
+		
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+		
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 		glBindVertexArray(0);
-		shader->stop();
+		shader.stop();
 	}
 	
 	void EntityRender::prepareInstance(Entity *entity) {
-		shader->loadModelMatrix(entity->getModelMatrix());
+		shader.loadModelMatrix(entity->getModelMatrix());
 	}
 	
 	void EntityRender::prepareMesh(const Mesh *mesh) {
@@ -49,7 +56,7 @@ namespace graphics {
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		
-		shader->loadMaterial(mesh->getMaterial());
+		shader.loadMaterial(mesh->getMaterial());
 		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, mesh->getMaterial()->texture->id);
