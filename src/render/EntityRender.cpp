@@ -1,15 +1,15 @@
 #include "EntityRender.h"
 
 namespace graphics {
-	void EntityRender::render() {
-		shader.start();
+	void EntityRender::render(std::vector<Entity*> &entities, std::vector<Light*> &lights) {
+		shader->start();
 		
-		shader.loadProjectionMatrix(camera.projection);
-		shader.loadViewMatrix(camera.view);
+		shader->loadProjectionMatrix(camera->getProjection());
+		shader->loadViewMatrix(camera->getView());
 		
-		shader.loadViewPosition(camera.position);
+		shader->loadViewPosition(camera->getPosition());
 		
-		shader.loadLights(lights);
+		shader->loadLights(lights);
 		
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
@@ -32,11 +32,11 @@ namespace graphics {
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 		glBindVertexArray(0);
-		shader.stop();
+		shader->stop();
 	}
 	
 	void EntityRender::prepareInstance(Entity *entity) {
-		shader.loadModelMatrix(entity->getModelMatrix());
+		shader->loadModelMatrix(entity->getModelMatrix());
 	}
 	
 	void EntityRender::prepareMesh(const Mesh *mesh) {
@@ -56,20 +56,9 @@ namespace graphics {
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		
-		shader.loadMaterial(mesh->getMaterial());
+		shader->loadMaterial(mesh->getMaterial());
 		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, mesh->getMaterial()->texture->id);
-	}
-	
-	void EntityRender::add(Entity* entity) {
-		entities.push_back(entity);
-		for (Mesh* model : entity->model->getMeshes()) {
-			vertices += model->getVertices().size();
-		}
-	}
-	
-	void EntityRender::addLight(graphics::Light *light) {
-		lights.push_back(light);
 	}
 }

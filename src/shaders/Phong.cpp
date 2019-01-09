@@ -29,23 +29,23 @@ namespace shaders {
 		materialShininessLocation = glGetUniformLocation(id, "material.shininess");
 	}
 	
-	void Phong::loadProjectionMatrix(glm::mat4 matrix) {
+	void Phong::loadProjectionMatrix(const glm::mat4 &matrix) {
 		glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
 	}
 	
-	void Phong::loadViewMatrix(glm::mat4 matrix) {
+	void Phong::loadViewMatrix(const glm::mat4 &matrix) {
 		glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
 	}
 	
-	void Phong::loadModelMatrix(glm::mat4 matrix) {
+	void Phong::loadModelMatrix(const glm::mat4 &matrix) {
 		glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
 	}
 	
-	void Phong::loadViewPosition(glm::vec3 position) {
+	void Phong::loadViewPosition(const glm::vec3 &position) {
 		glUniform3fv(viewPositionLocation, 1, &position[0]);
 	}
 	
-	void Phong::loadLights(std::vector<graphics::Light*> lights) {
+	void Phong::loadLights(const std::vector<graphics::Light*> &lights) {
 		glUniform1i(lightCountLocation, lights.size());
 		for (int i = 0; i < lights.size(); ++i) {
 			graphics::Light *light = lights[i];
@@ -62,7 +62,7 @@ namespace shaders {
 		}
 	}
 	
-	void Phong::loadMaterial(graphics::Material *material) {
+	void Phong::loadMaterial(const graphics::Material *material) {
 		glUniform3fv(materialAmbientLocation, 1, &material->ambient[0]);
 		glUniform3fv(materialDiffuseLocation, 1, &material->diffuse[0]);
 		glUniform3fv(materialSpecularLocation, 1, &material->specular[0]);

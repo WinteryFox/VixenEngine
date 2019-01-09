@@ -4,19 +4,26 @@
 #include "FontRender.h"
 #include "TerrainRender.h"
 
-input::Camera camera;
-
 namespace graphics {
 	class MasterRender {
 	private:
-		EntityRender entityRender;
+		EntityRender* entityRender;
 		
-	public:
 		unsigned int vertices = 0;
 		unsigned int triangles = 0;
 		
+		std::vector<Entity*> entities;
+		std::vector<graphics::Light*> lights;
+		std::vector<font::Text*> texts;
+		
+	public:
 		MasterRender();
 		
 		void render();
+		
+		void addEntity(const std::string &file, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
+		void addText(font::Text* text);
+		void addDirectionalLight(vec3 direction, vec3 color);
+		void addPointLight(vec3 position, vec3 color, float quadratic, float linear, float constant);
 	};
 }

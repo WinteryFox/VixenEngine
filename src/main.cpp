@@ -1,25 +1,14 @@
 #include <GL/glew.h>
-#include "Entity.h"
 #include "Window.h"
-#include "render/EntityRender.h"
-#include "shaders/Phong.h"
-#include "Loader.h"
-#include "Light.h"
-#include "Chunk.h"
-#include "Generator.h"
-#include "render/FontRender.h"
-#include "font/Font.h"
-#include "font/Text.h"
 #include "render/MasterRender.h"
+#include "Loader.h"
 
 std::string resourcePath = "../resources/";
-font::Font* arial = new font::Font("arial.ttf", 12);
+input::Camera* camera = new input::Camera();
 
 int main() {
 	auto *window = new graphics::Window("Vixen Engine", 1280, 720);
-	
-	/*auto* camera = new input::Camera();
-	
+	/*
 	auto* render = new graphics::EntityRender();
 	
 	auto* light = new graphics::Light(graphics::Light::Type::POINT);
@@ -48,12 +37,15 @@ int main() {
 	//double lastFPS = 0;
 	//int iFPS = 0;
 	
-	graphics::MasterRender render = graphics::MasterRender();
+	auto* render = new graphics::MasterRender();
+	
+	render->add();
+	render->add(new objects::entity::Entity(graphics::loader::Loader::loadModel("models/kizuna/kizuna.dae")));
 	
 	while (!window->shouldClose()) {
 		window->update();
 		
-		render.render();
+		render->render();
 		
 		window->swap();
 		

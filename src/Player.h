@@ -6,7 +6,6 @@
 namespace controls::Player {
 	class Player {
 	private:
-		const input::Camera camera;
 		const graphics::model::Model mesh;
 		const float cameraOffset;
 		

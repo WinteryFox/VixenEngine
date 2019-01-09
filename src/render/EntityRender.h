@@ -6,25 +6,21 @@
 #include "../Camera.h"
 #include "../Light.h"
 #include "../shaders/Phong.h"
-#include "Render.h"
+#include "../font/Text.h"
 
-extern input::Camera camera;
+extern input::Camera* camera;
 
 namespace graphics {
 	using namespace objects::entity;
 	class EntityRender {
 	private:
-		std::vector<Entity*> entities;
-		std::vector<graphics::Light*> lights;
-		shaders::Phong shader;
+		shaders::Phong* shader;
 	
 	public:
 		EntityRender() {
-			shader = shaders::Phong();
+			shader = new shaders::Phong();
 		}
-		void render();
-		void add(Entity *entity);
-		void addLight(graphics::Light *light);
+		void render(std::vector<Entity*> &entities, std::vector<Light*> &lights);
 	
 	private:
 		void prepareMesh(const Mesh *mesh);

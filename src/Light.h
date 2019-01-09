@@ -45,9 +45,9 @@ namespace graphics {
 		
 		float getConstant() const;
 		
-		void setAttenuation(vec3 position, vec3 color, float quadratic, float linear, float constant);
+		void setAttenuation(const vec3 &position, const vec3 &color, float quadratic, float linear, float constant);
 		
-		void setDirectional(vec3 &direction, vec3 &color);
+		void setDirectional(const vec3 &direction, const vec3 &color);
 	};
 }
 

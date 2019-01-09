@@ -28,6 +28,7 @@ in vec3 world;
 out vec4 color;
 
 uniform sampler2D texDiffuse;
+
 uniform vec3 viewPos;
 
 uniform Material material;

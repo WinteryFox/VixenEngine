@@ -41,13 +41,13 @@ namespace graphics {
 		return constant;
 	}
 	
-	void Light::setDirectional(vec3 &direction, vec3 &color) {
+	void Light::setDirectional(const vec3 &direction, const vec3 &color) {
 		this->type = Type::DIRECTIONAL;
 		this->direction = direction;
 		this->color = color;
 	}
 	
-	void Light::setAttenuation(vec3 position, vec3 color, float quadratic, float linear, const float constant) {
+	void Light::setAttenuation(const vec3 &position, const vec3 &color, float quadratic, float linear, float constant) {
 		this->type = Type::POINT;
 		this->position = position;
 		this->color = color;
