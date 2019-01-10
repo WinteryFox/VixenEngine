@@ -1,4 +1,5 @@
 #include "MasterRender.h"
+#include "../Loader.h"
 
 namespace graphics {
 	MasterRender::MasterRender() {
@@ -13,17 +14,6 @@ namespace graphics {
 		entityRender->render(entities, lights);
 	}
 	
-	void MasterRender::add(Entity *entity) {
-		entities.push_back(entity);
-		for (Mesh* mesh : entity->model->getMeshes()) {
-			vertices += mesh->getVertices().size();
-		}
-	}
-	
-	void MasterRender::add(font::Text *text) {
-		texts.push_back(text);
-	}
-	
 	void MasterRender::addDirectionalLight(vec3 direction, vec3 color) {
 		auto* light = new Light(graphics::Light::DIRECTIONAL);
 		light->setDirectional(direction, color);
@@ -35,5 +25,13 @@ namespace graphics {
 		auto* light = new Light(graphics::Light::POINT);
 		light->setAttenuation(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(1.0, 1.0, 1.0), 0.002f, 0.07, 1.0f);
 		lights.push_back(light);
+	}
+	
+	void MasterRender::addEntity(const std::string &file, vec3 position, vec3 rotation, float scale) {
+		objects::entity::Entity* entity = new objects::entity::Entity(graphics::loader::Loader::loadModel(file), position, rotation, scale);
+		for (Mesh* mesh : entity->model->getMeshes()) {
+			vertices += mesh->getVertices().size();
+		}
+		entities.push_back(entity);
 	}
 }

@@ -50,9 +50,11 @@ namespace shaders {
 		for (int i = 0; i < lights.size(); ++i) {
 			graphics::Light *light = lights[i];
 			if (light->getType() == graphics::Light::DIRECTIONAL) {
+				glUniform1i(lightTypeLocation[i], 0);
 				glUniform3fv(directionalLightDirectionLocation, 1, &light->getDirection()[0]);
 				glUniform3fv(directionalLightColorLocation, 1, &light->getColor()[0]);
 			} else {
+				glUniform1i(lightTypeLocation[i], 1);
 				glUniform3fv(lightColorLocation[i], 1, &light->getColor()[0]);
 				glUniform3fv(lightPositionLocation[i], 1, &light->getPosition()[0]);
 				glUniform1f(lightQuadraticLocation[i], light->getQuadratic());

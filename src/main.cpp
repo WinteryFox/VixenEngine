@@ -39,8 +39,8 @@ int main() {
 	
 	auto* render = new graphics::MasterRender();
 	
-	render->add();
-	render->add(new objects::entity::Entity(graphics::loader::Loader::loadModel("models/kizuna/kizuna.dae")));
+	render->addEntity("models/kizuna/kizuna.dae");
+	render->addDirectionalLight();
 	
 	while (!window->shouldClose()) {
 		window->update();

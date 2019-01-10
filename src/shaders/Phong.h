@@ -17,6 +17,7 @@ namespace shaders {
 		GLint directionalLightDirectionLocation;
 		
 		GLint lightCountLocation;
+		GLint lightTypeLocation[16];
 		GLint lightColorLocation[16];
 		GLint lightPositionLocation[16];
 		GLint lightQuadraticLocation[16];
