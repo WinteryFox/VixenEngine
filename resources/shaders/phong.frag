@@ -1,11 +1,10 @@
 #version 400 core
 
-struct DirectionalLight {
-	vec3 direction;
-	vec3 color;
-};
+struct Light {
+	int type;
 
-struct PointLight {
+	vec3 directional;
+
 	vec3 position;
 	vec3 color;
 
@@ -34,11 +33,10 @@ uniform vec3 viewPos;
 uniform Material material;
 
 uniform int lightCount;
-uniform DirectionalLight dirLight;
-uniform PointLight lights[16];
+uniform Light lights[16];
 
-vec4 calcDirLight(DirectionalLight light, vec3 viewDir, vec3 normal) {
-	vec3 lightDir = normalize(-light.direction);
+vec4 calcDirLight(Light light, vec3 viewDir, vec3 normal) {
+	vec3 lightDir = normalize(-light.directional);
 	float diff = max(dot(normal, lightDir), 0.0);
 
 	vec3 reflectDir = reflect(-lightDir, normal);
@@ -51,7 +49,7 @@ vec4 calcDirLight(DirectionalLight light, vec3 viewDir, vec3 normal) {
 	return (ambient + diffuse + specular);
 }
 
-vec4 calcPointLight(PointLight light, vec3 viewDir, vec3 normal) {
+vec4 calcPointLight(Light light, vec3 viewDir, vec3 normal) {
 	vec3 lightDir = normalize(light.position);
 	float diff = max(dot(normal, lightDir), 0.0);
 
@@ -70,10 +68,15 @@ vec4 calcPointLight(PointLight light, vec3 viewDir, vec3 normal) {
 
 void main() {
 	vec3 viewDir = normalize(viewPos - world);
+	vec4 result = vec4(0.0);
 
-	vec4 result = calcDirLight(dirLight, viewDir, normal);
-	for (int i = 0; i < lightCount; i++)
-		result += calcPointLight(lights[i], viewDir, normal);
+	for (int i = 0; i < lightCount; i++) {
+		if (lights[i].type == 0) {
+			result += calcDirLight(lights[i], viewDir, normal);
+		} else {
+			result += calcPointLight(lights[i], viewDir, normal);
+		}
+	}
 
 	color = result * texture(texDiffuse, uv);
 }

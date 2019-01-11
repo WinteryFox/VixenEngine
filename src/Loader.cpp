@@ -24,7 +24,7 @@ namespace graphics::loader {
 				std::vector<unsigned int> indices;
 				std::vector<vec2> uvs;
 				std::vector<vec3> normals;
-				graphics::Material *material = nullptr;
+				graphics::Material material = Material(new Texture(0), vec3(0.0f), vec3(0.0f), vec3(0.0f), 0.0f);
 				
 				if (!mesh->HasTextureCoords(0))
 					throw std::runtime_error(
@@ -56,9 +56,10 @@ namespace graphics::loader {
 					aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
 					aiMat->Get(AI_MATKEY_SHININESS, shininess);
 					
-					material = new Material(generateTexture(loadImage(temp), GL_NEAREST), vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
-					                        vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
-					                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
+					material = Material(generateTexture(loadImage(temp), GL_NEAREST),
+					                    vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
+					                    vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
+					                    vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
 				}
 				
 				for (unsigned int i = 0; i < mesh->mNumVertices; i++) {

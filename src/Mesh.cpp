@@ -1,15 +1,12 @@
 #include "Mesh.h"
 
 namespace graphics {
-	Mesh::Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, Material *material) : vertices(vertices), indices(indices) ,uvs(uvs), normals(normals), material(material) {
-		generateBuffers();
-	}
-	
-	Mesh::~Mesh() {
-		deleteBuffers();
-	}
-	
-	void Mesh::generateBuffers() {
+	Mesh::Mesh(const vector<vec3> &vertices, const vector<unsigned int> &indices, const vector<vec2> &uvs,
+	           const vector<vec3> &normals, const Material &material) : vertexCount(vertices.size()),
+	                                                                    indicesCount(indices.size()),
+	                                                                    uvCount(uvs.size()),
+	                                                                    normalCount(normals.size()),
+	                                                                    material(material) {
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 		
@@ -32,42 +29,10 @@ namespace graphics {
 		glBindVertexArray(0);
 	}
 	
-	void Mesh::deleteBuffers() {
+	Mesh::~Mesh() {
 		glDeleteBuffers(1, &indicesVBO);
 		glDeleteBuffers(1, &vertexVBO);
 		glDeleteBuffers(1, &normalsVBO);
 		glDeleteVertexArrays(1, &vao);
-	}
-	
-	GLuint Mesh::getVao() const {
-		return vao;
-	}
-	
-	GLuint Mesh::getVertexVBO() const {
-		return vertexVBO;
-	}
-	
-	GLuint Mesh::getIndicesVBO() const {
-		return indicesVBO;
-	}
-	
-	GLuint Mesh::getUvsVBO() const {
-		return uvsVBO;
-	}
-	
-	GLuint Mesh::getNormalsVBO() const {
-		return normalsVBO;
-	}
-	
-	vector<unsigned int> Mesh::getIndices() const {
-		return indices;
-	}
-	
-	vector<vec3> Mesh::getVertices() const {
-		return vertices;
-	}
-	
-	Material* Mesh::getMaterial() const {
-		return material;
 	}
 }

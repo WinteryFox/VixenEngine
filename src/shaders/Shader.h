@@ -13,21 +13,24 @@ extern std::string resourcePath;
 
 namespace shaders {
 	struct Material {
-		GLuint texture;
-		GLuint ambient;
-		GLuint diffuse;
-		GLuint specular;
-		GLuint shininess;
+		GLint texture;
+		GLint ambient;
+		GLint diffuse;
+		GLint specular;
+		GLint shininess;
 	};
 	
 	struct Light {
-		GLuint type;
-		GLuint color;
-		GLuint directional;
-		GLuint position;
-		GLuint quadratic;
-		GLuint linear;
-		GLuint constant;
+		GLint type;
+		
+		GLint directional;
+		
+		GLint position;
+		GLint color;
+		
+		GLint quadratic;
+		GLint linear;
+		GLint constant;
 	};
 	
 	class Shader {

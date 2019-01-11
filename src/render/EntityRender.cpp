@@ -1,7 +1,7 @@
 #include "EntityRender.h"
 
 namespace graphics {
-	void EntityRender::render(std::vector<Entity*> &entities, std::vector<Light*> &lights) {
+	void EntityRender::render(std::vector<Entity> &entities, std::vector<Light> &lights) {
 		shader->start();
 		
 		shader->loadProjectionMatrix(camera->getProjection());
@@ -15,12 +15,10 @@ namespace graphics {
 		glEnable(GL_CULL_FACE);
 		
 		for (auto &entity : entities) {
-			if (entity->model->isVisible()) {
-				prepareInstance(entity);
-				for (auto *mesh : entity->model->getMeshes()) {
-					prepareMesh(mesh);
-					glDrawElements(GL_TRIANGLES, mesh->getIndices().size(), GL_UNSIGNED_INT, nullptr);
-				}
+			prepareInstance(entity);
+			for (auto *mesh : entity.model->getMeshes()) {
+				prepareMesh(mesh);
+				glDrawElements(GL_TRIANGLES, mesh->indicesCount, GL_UNSIGNED_INT, nullptr);
 			}
 		}
 		
@@ -35,30 +33,30 @@ namespace graphics {
 		shader->stop();
 	}
 	
-	void EntityRender::prepareInstance(Entity *entity) {
-		shader->loadModelMatrix(entity->getModelMatrix());
+	void EntityRender::prepareInstance(Entity entity) {
+		shader->loadModelMatrix(entity.getModelMatrix());
 	}
 	
 	void EntityRender::prepareMesh(const Mesh *mesh) {
-		glBindVertexArray(mesh->getVao());
+		glBindVertexArray(mesh->vao);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->getVertexVBO());
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexVBO);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->getIndicesVBO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indicesVBO);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->getUvsVBO());
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvsVBO);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->getNormalsVBO());
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->normalsVBO);
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		
-		shader->loadMaterial(mesh->getMaterial());
+		shader->loadMaterial(mesh->material);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mesh->getMaterial()->texture->id);
+		glBindTexture(GL_TEXTURE_2D, mesh->material.texture->id);
 	}
 }

@@ -9,47 +9,23 @@ namespace graphics {
 	using namespace std;
 	using namespace glm;
 	class Mesh {
-	private:
-		vector<vec3> vertices;
-		vector<unsigned int> indices;
-		vector<vec2> uvs;
-		vector<vec3> normals;
+	public:
+		const unsigned int vertexCount;
+		const unsigned int indicesCount;
+		const unsigned int uvCount;
+		const unsigned int normalCount;
 		
-		Material *material;
+		const Material material;
 		
 		GLuint vao;
 		GLuint vertexVBO;
 		GLuint indicesVBO;
 		GLuint uvsVBO;
 		GLuint normalsVBO;
-	
-	public:
-		explicit Mesh(vector<vec3> &vertices, vector<unsigned int> &indices, vector<vec2> &uvs, vector<vec3> &normals, Material *material);
+		
+		explicit Mesh(const vector<vec3> &vertices, const vector<unsigned int> &indices, const vector<vec2> &uvs,
+		              const vector<vec3> &normals, const Material &material);
 		~Mesh();
-		
-		vector<unsigned int> getIndices() const;
-		
-		vector<vec3> getVertices() const;
-		
-		Material* getMaterial() const;
-		
-		GLuint getVao() const;
-		
-		GLuint getVertexVBO() const;
-		
-		GLuint getIndicesVBO() const;
-		
-		GLuint getUvsVBO() const;
-		
-		GLuint getNormalsVBO() const;
-		
-		bool isVisible() const;
-		
-		void setVisible(bool visible);
-	
-	private:
-		void generateBuffers();
-		void deleteBuffers();
 	};
 }
 

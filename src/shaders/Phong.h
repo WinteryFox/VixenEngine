@@ -17,17 +17,9 @@ namespace shaders {
 		GLint directionalLightDirectionLocation;
 		
 		GLint lightCountLocation;
-		GLint lightTypeLocation[16];
-		GLint lightColorLocation[16];
-		GLint lightPositionLocation[16];
-		GLint lightQuadraticLocation[16];
-		GLint lightLinearLocation[16];
-		GLint lightConstantLocation[16];
+		std::vector<shaders::Light> lightLocations;
 		
-		GLint materialAmbientLocation;
-		GLint materialDiffuseLocation;
-		GLint materialSpecularLocation;
-		GLint materialShininessLocation;
+		shaders::Material materialLocation;
 		
 	public:
 		Phong();
@@ -38,8 +30,10 @@ namespace shaders {
 		void loadViewMatrix(const glm::mat4 &matrix);
 		void loadModelMatrix(const glm::mat4 &matrix);
 		void loadViewPosition(const glm::vec3 &position);
-		void loadLights(const std::vector<graphics::Light*> &lights);
-		void loadMaterial(const graphics::Material *material);
+		
+		void loadLights(const std::vector<graphics::Light> &lights);
+		
+		void loadMaterial(const graphics::Material &material);
 	};
 }
 

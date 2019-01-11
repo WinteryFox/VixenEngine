@@ -11,9 +11,9 @@ namespace graphics {
 		
 		unsigned int vertices = 0;
 		
-		std::vector<Entity*> entities;
-		std::vector<graphics::Light*> lights;
-		std::vector<font::Text*> texts;
+		std::vector<Entity> entities;
+		std::vector<graphics::Light> lights;
+		std::vector<font::Text> texts;
 		
 	public:
 		MasterRender();

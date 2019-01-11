@@ -16,17 +16,31 @@ namespace shaders {
 		
 		lightCountLocation = glGetUniformLocation(id, "lightCount");
 		for (unsigned int i = 0; i < 16; i++) {
-			lightColorLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].color").c_str());
-			lightPositionLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].position").c_str());
-			lightQuadraticLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].quadratic").c_str());
-			lightLinearLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].linear").c_str());
-			lightConstantLocation[i] = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append("].constant").c_str());
+			lightLocations[i] = shaders::Light{
+					.type = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
+							"].type").c_str()),
+					
+					.directional = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
+							"].directional").c_str()),
+					
+					.position = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
+							"].position").c_str()),
+					.color = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
+							"].color").c_str()),
+					
+					.quadratic = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
+							"].quadratic").c_str()),
+					.linear = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
+							"].linear").c_str()),
+					.constant = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
+							"].constant").c_str()),
+			};
 		}
 		
-		materialAmbientLocation = glGetUniformLocation(id, "material.ambient");
-		materialDiffuseLocation = glGetUniformLocation(id, "material.diffuse");
-		materialSpecularLocation = glGetUniformLocation(id, "material.specular");
-		materialShininessLocation = glGetUniformLocation(id, "material.shininess");
+		materialLocation.ambient = glGetUniformLocation(id, "material.ambient");
+		materialLocation.diffuse = glGetUniformLocation(id, "material.diffuse");
+		materialLocation.specular = glGetUniformLocation(id, "material.specular");
+		materialLocation.shininess = glGetUniformLocation(id, "material.shininess");
 	}
 	
 	void Phong::loadProjectionMatrix(const glm::mat4 &matrix) {
@@ -45,29 +59,14 @@ namespace shaders {
 		glUniform3fv(viewPositionLocation, 1, &position[0]);
 	}
 	
-	void Phong::loadLights(const std::vector<graphics::Light*> &lights) {
+	void Phong::loadLights(const std::vector<graphics::Light> &lights) {
 		glUniform1i(lightCountLocation, lights.size());
-		for (int i = 0; i < lights.size(); ++i) {
-			graphics::Light *light = lights[i];
-			if (light->getType() == graphics::Light::DIRECTIONAL) {
-				glUniform1i(lightTypeLocation[i], 0);
-				glUniform3fv(directionalLightDirectionLocation, 1, &light->getDirection()[0]);
-				glUniform3fv(directionalLightColorLocation, 1, &light->getColor()[0]);
-			} else {
-				glUniform1i(lightTypeLocation[i], 1);
-				glUniform3fv(lightColorLocation[i], 1, &light->getColor()[0]);
-				glUniform3fv(lightPositionLocation[i], 1, &light->getPosition()[0]);
-				glUniform1f(lightQuadraticLocation[i], light->getQuadratic());
-				glUniform1f(lightLinearLocation[i], light->getLinear());
-				glUniform1f(lightConstantLocation[i], light->getConstant());
-			}
+		for (unsigned int i = 0; i < lights.size(); i++) {
+			loadLight(lightLocations[i], lights[i]);
 		}
 	}
 	
-	void Phong::loadMaterial(const graphics::Material *material) {
-		glUniform3fv(materialAmbientLocation, 1, &material->ambient[0]);
-		glUniform3fv(materialDiffuseLocation, 1, &material->diffuse[0]);
-		glUniform3fv(materialSpecularLocation, 1, &material->specular[0]);
-		glUniform1f(materialShininessLocation, material->shininess);
+	void Phong::loadMaterial(const graphics::Material &material) {
+		Shader::loadMaterial(materialLocation, material);
 	}
 }
