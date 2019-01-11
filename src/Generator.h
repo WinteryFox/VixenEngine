@@ -10,12 +10,8 @@ namespace terrain {
 	using namespace glm;
 	using namespace std;
 	class Generator {
-	private:
-		const int seed;
-		
 	public:
-		explicit Generator(int seed = 0) : seed(seed) {};
-		graphics::Mesh* flatChunk(int size = 16, int maxVertices = 64);
+		static graphics::Mesh* flatChunk(int size = 16, int maxVertices = 64);
 	};
 }
 

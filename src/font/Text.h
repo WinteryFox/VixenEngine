@@ -22,7 +22,7 @@ namespace font {
 		std::string text;
 		
 	public:
-		Text(const std::string &text, const glm::vec2 &position, float size, Font *font);
+		Text(Font *font, const std::string &text, const glm::vec2 &position = glm::vec3(0.0f), float size = 1.0f);
 		void setText(const std::string &text);
 		std::vector<Character*> getCharacters();
 		

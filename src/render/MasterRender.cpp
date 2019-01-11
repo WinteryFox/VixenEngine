@@ -34,4 +34,10 @@ namespace graphics {
 		}
 		entities.push_back(entity);
 	}
+	
+	void MasterRender::addTerrain(int gridX, int gridZ) {
+		Mesh* mesh = terrain::Generator::flatChunk();
+		vertices += mesh->vertexCount;
+		terrains.push_back(mesh);
+	}
 }

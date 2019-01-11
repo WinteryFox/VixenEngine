@@ -1,7 +1,7 @@
 #include "Text.h"
 
 namespace font {
-	Text::Text(const std::string &text, const glm::vec2 &position, float size, Font *font) : text(text),
+	Text::Text(Font *font, const std::string &text, const glm::vec2 &position, float size) : text(text),
 	                                                                                         position(position),
 	                                                                                         size(size), font(font) {
 		glGenVertexArrays(1, &vao);

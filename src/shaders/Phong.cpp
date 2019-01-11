@@ -16,7 +16,7 @@ namespace shaders {
 		
 		lightCountLocation = glGetUniformLocation(id, "lightCount");
 		for (unsigned int i = 0; i < 16; i++) {
-			lightLocations[i] = shaders::Light{
+			lightLocations.push_back(shaders::Light({
 					.type = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
 							"].type").c_str()),
 					
@@ -34,7 +34,7 @@ namespace shaders {
 							"].linear").c_str()),
 					.constant = glGetUniformLocation(id, std::string("lights[").append(std::to_string(i)).append(
 							"].constant").c_str()),
-			};
+			}));
 		}
 		
 		materialLocation.ambient = glGetUniformLocation(id, "material.ambient");

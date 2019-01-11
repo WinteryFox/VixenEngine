@@ -4,10 +4,11 @@
 #include "Loader.h"
 
 std::string resourcePath = "../resources/";
+graphics::Window* window = new graphics::Window("Vixen Engine", 1280, 720);
 input::Camera* camera = new input::Camera();
+graphics::MasterRender* render = new graphics::MasterRender();
 
 int main() {
-	auto *window = new graphics::Window("Vixen Engine", 1280, 720);
 	/*
 	auto* render = new graphics::EntityRender();
 	
@@ -37,10 +38,8 @@ int main() {
 	//double lastFPS = 0;
 	//int iFPS = 0;
 	
-	auto* render = new graphics::MasterRender();
-	
 	render->addEntity("models/kizuna/kizuna.dae");
-	render->addDirectionalLight();
+	render->addDirectionalLight(glm::vec3(-0.5f));
 	
 	while (!window->shouldClose()) {
 		window->update();
@@ -58,5 +57,9 @@ int main() {
 			lastFPS = currentTime;
 		}*/
 	}
+	
+	delete render;
+	delete camera;
+	
 	return 0;
 }
