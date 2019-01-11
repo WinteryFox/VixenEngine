@@ -11,9 +11,6 @@ namespace shaders {
 		projectionMatrixLocation = glGetUniformLocation(id, "projection");
 		viewPositionLocation = glGetUniformLocation(id, "viewPos");
 		
-		directionalLightColorLocation = glGetUniformLocation(id, "dirLight.color");
-		directionalLightDirectionLocation = glGetUniformLocation(id, "dirLight.direction");
-		
 		lightCountLocation = glGetUniformLocation(id, "lightCount");
 		for (unsigned int i = 0; i < 16; i++) {
 			lightLocations.push_back(shaders::Light({
@@ -44,23 +41,23 @@ namespace shaders {
 	}
 	
 	void Phong::loadProjectionMatrix(const glm::mat4 &matrix) {
-		glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
+		loadMatrix4f(projectionMatrixLocation, matrix);
 	}
 	
 	void Phong::loadViewMatrix(const glm::mat4 &matrix) {
-		glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
+		loadMatrix4f(viewMatrixLocation, matrix);
 	}
 	
 	void Phong::loadModelMatrix(const glm::mat4 &matrix) {
-		glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
+		loadMatrix4f(modelMatrixLocation, matrix);
 	}
 	
 	void Phong::loadViewPosition(const glm::vec3 &position) {
-		glUniform3fv(viewPositionLocation, 1, &position[0]);
+		loadVector3f(viewPositionLocation, position);
 	}
 	
 	void Phong::loadLights(const std::vector<graphics::Light> &lights) {
-		glUniform1i(lightCountLocation, lights.size());
+		loadInteger(lightCountLocation, lights.size());
 		for (unsigned int i = 0; i < lights.size(); i++) {
 			loadLight(lightLocations[i], lights[i]);
 		}

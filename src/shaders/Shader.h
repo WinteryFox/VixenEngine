@@ -46,6 +46,7 @@ namespace shaders {
 		void loadMatrix4f(GLuint location, const glm::mat4 &matrix);
 		void loadVector2f(GLuint location, const glm::vec2 &vector);
 		void loadVector3f(GLuint location, const glm::vec3 &vector);
+		void loadInteger(GLint location, int integer);
 		void loadMaterial(const shaders::Material &materialLocations, const graphics::Material &material);
 		void loadLight(const shaders::Light &lightLocations, const graphics::Light &light);
 		

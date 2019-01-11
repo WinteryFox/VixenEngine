@@ -13,9 +13,6 @@ namespace shaders {
 		
 		GLint viewPositionLocation;
 		
-		GLint directionalLightColorLocation;
-		GLint directionalLightDirectionLocation;
-		
 		GLint lightCountLocation;
 		std::vector<shaders::Light> lightLocations;
 		

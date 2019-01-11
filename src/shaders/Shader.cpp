@@ -30,6 +30,10 @@ namespace shaders {
 		glUniform3fv(location, 1, &vector[0]);
 	}
 	
+	void Shader::loadInteger(GLint location, int integer) {
+		glUniform1i(location, integer);
+	}
+	
 	void Shader::loadMaterial(const shaders::Material &materialLocations, const graphics::Material &material) {
 		glUniform3fv(materialLocations.ambient, 1, &material.ambient[0]);
 		glUniform3fv(materialLocations.diffuse, 1, &material.diffuse[0]);

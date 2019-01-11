@@ -60,6 +60,7 @@ int main() {
 	
 	delete render;
 	delete camera;
+	delete window;
 	
 	return 0;
 }
