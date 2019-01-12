@@ -10,14 +10,13 @@ namespace graphics {
 	class FontRender {
 	private:
 		shaders::GuiShader* shader;
-		std::map<font::Font*, std::vector<font::Text*>> texts;
 	
 	public:
 		FontRender() {
 			this->shader = new shaders::GuiShader();
 		}
-		void render();
-		void add(font::Text* text);
+		
+		void render(std::map<font::Font *, std::vector<font::Text *>> texts);
 		
 	private:
 		void prepare();

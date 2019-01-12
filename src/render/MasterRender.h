@@ -10,12 +10,20 @@ namespace graphics {
 	class MasterRender {
 	private:
 		EntityRender* entityRender;
+		FontRender *fontRender;
 		
 		unsigned int vertices = 0;
 		
+		unsigned int fps = 0;
+		double lastTime;
+		
+		font::Font *arial;
+		font::Text *fpsText;
+		font::Text *vertexText;
+		
 		std::vector<Entity> entities;
 		std::vector<graphics::Light> lights;
-		std::vector<font::Text> texts;
+		std::map<font::Font *, std::vector<font::Text *>> texts;
 		std::vector<graphics::Mesh*> terrains;
 		
 	public:

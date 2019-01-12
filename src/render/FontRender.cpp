@@ -1,27 +1,28 @@
 #include <set>
 #include "FontRender.h"
-#include "../Window.h"
 
 namespace graphics {
-	void FontRender::render() {
-		shader->start();
-		glActiveTexture(GL_TEXTURE0);
-		prepare();
-		for (const auto &pair : texts) {
-			glBindTexture(GL_TEXTURE_2D, pair.first->texture->id);
-			for (font::Text* text : pair.second) {
-				prepareInstance(text);
-				glDrawArrays(GL_TRIANGLES, 0, text->vertices.size());
+	void FontRender::render(std::map<font::Font *, std::vector<font::Text *>> texts) {
+		if (!texts.empty()) {
+			shader->start();
+			glActiveTexture(GL_TEXTURE0);
+			prepare();
+			for (const auto &pair : texts) {
+				glBindTexture(GL_TEXTURE_2D, pair.first->texture->id);
+				for (font::Text *text : pair.second) {
+					prepareInstance(text);
+					glDrawArrays(GL_TRIANGLES, 0, text->vertices.size());
+				}
 			}
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
+			glBindVertexArray(0);
+			shader->stop();
+			
+			glDisable(GL_BLEND);
+			glEnable(GL_DEPTH_TEST);
 		}
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glBindVertexArray(0);
-		shader->stop();
-		
-		glDisable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
 	}
 	
 	void FontRender::prepare() {
@@ -42,11 +43,5 @@ namespace graphics {
 		
 		shader->loadColor(text->color);
 		shader->loadProjection(glm::ortho(0.0f, (float) graphics::Window::WIDTH, 0.0f, (float) graphics::Window::HEIGHT));
-	}
-	
-	void FontRender::add(font::Text* text) {
-		if (texts.find(text->font)->first == nullptr)
-			texts.insert(std::pair<font::Font*, std::vector<font::Text*>>(text->font, std::vector<font::Text*>()));
-		texts[text->font].push_back(text);
 	}
 }

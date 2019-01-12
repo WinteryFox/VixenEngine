@@ -18,15 +18,15 @@ namespace shaders {
 		glUseProgram(0);
 	}
 	
-	void Shader::loadMatrix4f(GLuint location, const glm::mat4 &matrix) {
+	void Shader::loadMatrix4f(GLint location, const glm::mat4 &matrix) {
 		glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
 	}
 	
-	void Shader::loadVector2f(GLuint location, const glm::vec2 &vector) {
+	void Shader::loadVector2f(GLint location, const glm::vec2 &vector) {
 		glUniform2fv(location, 1, &vector[0]);
 	}
 	
-	void Shader::loadVector3f(GLuint location, const glm::vec3 &vector) {
+	void Shader::loadVector3f(GLint location, const glm::vec3 &vector) {
 		glUniform3fv(location, 1, &vector[0]);
 	}
 	

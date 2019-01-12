@@ -13,7 +13,7 @@ namespace font {
 	public:
 		glm::vec2 position;
 		float size;
-		glm::vec3 color = glm::vec3(0.0f);
+		glm::vec3 color;
 		Font* font;
 		std::vector<glm::vec2> vertices, uvs;
 		GLuint vao, verticesVBO, uvsVBO;
@@ -22,9 +22,12 @@ namespace font {
 		std::string text;
 		
 	public:
-		Text(Font *font, const std::string &text, const glm::vec2 &position = glm::vec3(0.0f), float size = 1.0f);
+		Text(Font *font, const std::string &text, const glm::vec2 &position = glm::vec3(0.0f),
+		     const glm::vec3 &color = glm::vec3(1.0f), float size = 1.0f);
 		void setText(const std::string &text);
 		std::vector<Character*> getCharacters();
+		
+		glm::vec2 getBoundingBox();
 		
 	private:
 		void updateBuffer();

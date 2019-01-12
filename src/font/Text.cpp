@@ -1,9 +1,10 @@
 #include "Text.h"
 
 namespace font {
-	Text::Text(Font *font, const std::string &text, const glm::vec2 &position, float size) : text(text),
-	                                                                                         position(position),
-	                                                                                         size(size), font(font) {
+	Text::Text(Font *font, const std::string &text, const glm::vec2 &position, const glm::vec3 &color, float size)
+			: text(text),
+			  position(position),
+			  size(size), color(color), font(font) {
 		glGenVertexArrays(1, &vao);
 		glGenBuffers(1, &verticesVBO);
 		glGenBuffers(1, &uvsVBO);
@@ -105,5 +106,9 @@ namespace font {
 			characters.push_back(font->characters[c]);
 		}
 		return characters;
+	}
+	
+	glm::vec2 Text::getBoundingBox() {
+		return glm::vec2(vertices[vertices.size()].x, font->maxHeight);
 	}
 }

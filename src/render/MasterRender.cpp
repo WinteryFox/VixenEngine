@@ -3,6 +3,12 @@
 namespace graphics {
 	MasterRender::MasterRender() {
 		entityRender = new EntityRender();
+		fontRender = new FontRender();
+		arial = new font::Font("arial.ttf", 12);
+		fpsText = new font::Text(arial, "FPS: 0");
+		vertexText = new font::Text(arial, "Vertices: 0", glm::vec2(0.0f, fpsText->getBoundingBox().y));
+		texts[arial].push_back(fpsText);
+		texts[arial].push_back(vertexText);
 	}
 	
 	void MasterRender::render() {
@@ -11,6 +17,15 @@ namespace graphics {
 		camera->update();
 		
 		entityRender->render(entities, lights);
+		fontRender->render(texts);
+		
+		fps++;
+		double currentTime = glfwGetTime();
+		if (currentTime - lastTime >= 1.0) {
+			fpsText->setText("FPS: " + std::to_string(fps));
+			fps = 0;
+			lastTime = currentTime;
+		}
 	}
 	
 	void MasterRender::addDirectionalLight(vec3 direction, vec3 color) {
