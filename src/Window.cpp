@@ -34,6 +34,7 @@ namespace graphics {
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 		
 		window = glfwCreateWindow(WIDTH, HEIGHT, name.c_str(), nullptr, nullptr);
 		if (!window) {
@@ -60,6 +61,11 @@ namespace graphics {
 		glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_ERROR, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 		
 		setIcon("textures/icon.png");
+		
+		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		glfwSetWindowPos(window, mode->width / 2 - WIDTH / 2, mode->height / 2 - HEIGHT / 2);
+		
+		glfwShowWindow(window);
 		
 		return true;
 	}
