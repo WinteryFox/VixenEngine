@@ -12,7 +12,6 @@ void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severi
 namespace graphics {
 	class Window {
 	private:
-		float lastFPS = 0.0f;
 		float lastTime = 0.0f;
 		
 	public:
@@ -30,7 +29,7 @@ namespace graphics {
 		void update();
 		void swap();
 		
-		void setIcon(std::string icon);
+		void setIcon(const std::string &icon);
 		
 	private:
 		bool init();

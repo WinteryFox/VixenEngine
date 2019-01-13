@@ -87,7 +87,7 @@ namespace graphics {
 		return glfwWindowShouldClose(window) == 1;
 	}
 	
-	void Window::setIcon(std::string icon) {
+	void Window::setIcon(const std::string &icon) {
 		graphics::Image* temp = graphics::loader::Loader::loadImage(icon);
 		
 		GLFWimage images[1];
