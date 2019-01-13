@@ -25,7 +25,7 @@ namespace font {
 		
 		FT_GlyphSlot glyph = font->glyph;
 		
-		for (GLubyte i = 0; i < 128; i++) {
+		for (GLubyte i = 32; i < 128; i++) {
 			if (FT_Load_Char(font, i, FT_LOAD_RENDER)) {
 				std::cout << "Failed to load glyph: " << i << std::endl;
 				continue;
@@ -63,7 +63,7 @@ namespace font {
 		int yOffset = 0;
 		rowHeight = 0;
 		
-		for (GLubyte i = 0; i < 128; i++) {
+		for (GLubyte i = 32; i < 128; i++) {
 			if (FT_Load_Char(font, i, FT_LOAD_RENDER)) {
 				std::cout << "Failed to load character: " << i << std::endl;
 				continue;

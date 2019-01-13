@@ -16,6 +16,7 @@ namespace font {
 		glm::vec3 color;
 		Font* font;
 		std::vector<glm::vec2> vertices, uvs;
+		glm::vec2 boundingBox;
 		GLuint vao, verticesVBO, uvsVBO;
 		
 	private:

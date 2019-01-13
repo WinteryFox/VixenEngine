@@ -6,7 +6,7 @@ namespace graphics {
 		fontRender = new FontRender();
 		arial = new font::Font("arial.ttf", 12);
 		fpsText = new font::Text(arial, "FPS: 0");
-		vertexText = new font::Text(arial, "Vertices: 0", glm::vec2(0.0f, fpsText->getBoundingBox().y));
+		vertexText = new font::Text(arial, "Vertices: 0", glm::vec2(0.0f, fpsText->getBoundingBox().y / graphics::Window::HEIGHT));
 		texts[arial].push_back(fpsText);
 		texts[arial].push_back(vertexText);
 	}
@@ -47,12 +47,14 @@ namespace graphics {
 		for (Mesh *mesh : entity.model->getMeshes()) {
 			vertices += mesh->vertexCount;
 		}
+		vertexText->setText("Vertices: " + std::to_string(vertices));
 		entities.push_back(entity);
 	}
 	
 	void MasterRender::addTerrain(int gridX, int gridZ) {
 		Mesh* mesh = terrain::Generator::flatChunk();
 		vertices += mesh->vertexCount;
+		vertexText->setText("Vertices: " + std::to_string(vertices));
 		terrains.push_back(mesh);
 	}
 }

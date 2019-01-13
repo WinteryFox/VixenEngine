@@ -61,6 +61,7 @@ int main() {
 	delete render;
 	delete camera;
 	delete window;
+	delete &resourcePath;
 	
 	return 0;
 }

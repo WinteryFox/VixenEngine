@@ -38,7 +38,9 @@ namespace font {
 		uvs.clear();
 		
 		float cursorX = position.x * graphics::Window::WIDTH;
-		float cursorY = graphics::Window::HEIGHT - std::round(position.y * graphics::Window::HEIGHT) - font->maxHeight;
+		float cursorY = graphics::Window::HEIGHT - (position.y * graphics::Window::HEIGHT) - font->maxHeight;
+		float maxX = 0;
+		float maxY = 0;
 		
 		for (auto chars : text) {
 			Character *character = font->characters[chars];
@@ -49,6 +51,9 @@ namespace font {
 			
 			cursorX += character->advance.x * size;
 			cursorY += character->advance.y * size;
+			
+			maxX += width;
+			maxY = std::max(height, maxY);
 			
 			if (!width || !height)
 				continue;
@@ -87,6 +92,7 @@ namespace font {
 			uvs.emplace_back(topLeft);
 			uvs.emplace_back(topRight);
 		}
+		boundingBox = glm::vec2(maxX, maxY);
 		
 		glBindVertexArray(vao);
 		
@@ -109,6 +115,6 @@ namespace font {
 	}
 	
 	glm::vec2 Text::getBoundingBox() {
-		return glm::vec2(vertices[vertices.size()].x, font->maxHeight);
+		return boundingBox;
 	}
 }

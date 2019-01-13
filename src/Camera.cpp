@@ -49,6 +49,8 @@ namespace input {
 			position += vec3(0, 1, 0) * graphics::Window::DELTA * speed;
 		if (glfwGetKey(graphics::Window::window, GLFW_KEY_LEFT_SHIFT))
 			position -= vec3(0, 1, 0) * graphics::Window::DELTA * speed;
+		if (glfwGetKey(graphics::Window::window, GLFW_KEY_ESCAPE))
+			glfwSetWindowShouldClose(graphics::Window::window, GLFW_TRUE);
 		
 		projection = perspective(radians(FoV), (float) graphics::Window::WIDTH / (float) graphics::Window::HEIGHT, 0.1f, 1000.0f);
 		view = lookAt(position, position + direction, up);

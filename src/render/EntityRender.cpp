@@ -26,10 +26,9 @@ namespace graphics {
 			glDisable(GL_DEPTH_TEST);
 			glDisable(GL_CULL_FACE);
 			
+			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, 0);
-			glDisableVertexAttribArray(0);
-			glDisableVertexAttribArray(1);
-			glDisableVertexAttribArray(2);
+			
 			glBindVertexArray(0);
 			shader->stop();
 		}
@@ -41,20 +40,6 @@ namespace graphics {
 	
 	void EntityRender::prepareMesh(const Mesh *mesh) {
 		glBindVertexArray(mesh->vao);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexVBO);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indicesVBO);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvsVBO);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->normalsVBO);
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		
 		shader->loadMaterial(mesh->material);
 		
