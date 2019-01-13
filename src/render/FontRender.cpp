@@ -42,6 +42,6 @@ namespace graphics {
 		glEnableVertexAttribArray(1);
 		
 		shader->loadColor(text->color);
-		shader->loadProjection(glm::ortho(0.0f, (float) graphics::Window::WIDTH, 0.0f, (float) graphics::Window::HEIGHT));
+		shader->loadProjection(glm::ortho(0.0f, (float) window->width, 0.0f, (float) window->height));
 	}
 }

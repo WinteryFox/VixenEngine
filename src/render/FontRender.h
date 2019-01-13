@@ -6,6 +6,8 @@
 #include "../font/Text.h"
 #include "../shaders/GuiShader.h"
 
+extern graphics::Window* window;
+
 namespace graphics {
 	class FontRender {
 	private:

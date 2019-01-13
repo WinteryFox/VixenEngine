@@ -6,20 +6,18 @@
 #include <iostream>
 #include "Image.h"
 
-void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity,
-                            GLsizei length, const GLchar *message, const void *userParam);
-
 namespace graphics {
 	class Window {
 	private:
 		float lastTime = 0.0f;
 		
 	public:
-		static GLFWwindow *window;
+		GLFWwindow *window;
 		std::string name;
-		static int WIDTH;
-		static int HEIGHT;
-		static float DELTA;
+		int width;
+		int height;
+		float delta;
+		bool focused;
 		
 		Window(const std::string &name, int width, int height);
 		~Window();
@@ -35,3 +33,12 @@ namespace graphics {
 		bool init();
 	};
 }
+
+extern graphics::Window* window;
+
+void closeCallback(GLFWwindow* w);
+void focusCallback(GLFWwindow* w, int focused);
+void bufferCallback(GLFWwindow* w, int width, int height);
+
+void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity,
+                            GLsizei length, const GLchar *message, const void *userParam);

@@ -8,6 +8,8 @@
 #include "../Window.h"
 #include "Font.h"
 
+extern graphics::Window* window;
+
 namespace font {
 	class Text {
 	public:

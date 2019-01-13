@@ -37,8 +37,8 @@ namespace font {
 		vertices.clear();
 		uvs.clear();
 		
-		float cursorX = position.x * graphics::Window::WIDTH;
-		float cursorY = graphics::Window::HEIGHT - (position.y * graphics::Window::HEIGHT) - font->maxHeight;
+		float cursorX = position.x * window->width;
+		float cursorY = window->height - (position.y * window->height) - font->maxHeight;
 		float maxX = 0;
 		float maxY = 0;
 		

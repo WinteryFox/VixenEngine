@@ -6,6 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Window.h"
 
+extern graphics::Window* window;
+
 namespace input {
 	using namespace glm;
 	class Camera {

@@ -3,21 +3,17 @@
 #include "Window.h"
 #include "Loader.h"
 
-int graphics::Window::WIDTH = 0;
-int graphics::Window::HEIGHT = 0;
-float graphics::Window::DELTA = 0.0f;
-GLFWwindow* graphics::Window::window = nullptr;
-
 namespace graphics {
 	Window::Window(const std::string &name, int width, int height) : name(name) {
-		WIDTH = width;
-		HEIGHT = height;
+		this->width = width;
+		this->height = height;
 		if (!init())
 			glfwTerminate();
 	}
 	
 	Window::~Window() {
 		glfwSetWindowShouldClose(window, GL_TRUE);
+		glfwDestroyWindow(window);
 		glfwTerminate();
 	}
 	
@@ -36,11 +32,13 @@ namespace graphics {
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 		
-		window = glfwCreateWindow(WIDTH, HEIGHT, name.c_str(), nullptr, nullptr);
+		window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
 		if (!window) {
 			std::cout << "Failed to create window" << std::endl;
 			return false;
 		}
+		
+		setIcon("textures/icon.png");
 		
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		
@@ -60,12 +58,11 @@ namespace graphics {
 		glDebugMessageCallback(glDebugOutput, nullptr);
 		glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_ERROR, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 		
-		setIcon("textures/icon.png");
-		
 		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		glfwSetWindowPos(window, mode->width / 2 - WIDTH / 2, mode->height / 2 - HEIGHT / 2);
+		glfwSetWindowPos(window, mode->width / 2 - width / 2, mode->height / 2 - height / 2);
 		
 		glfwShowWindow(window);
+		glfwFocusWindow(window);
 		
 		return true;
 	}
@@ -75,7 +72,7 @@ namespace graphics {
 		glfwPollEvents();
 		
 		auto current = static_cast<float>(glfwGetTime());
-		DELTA = current - lastTime;
+		delta = current - lastTime;
 		lastTime = current;
 	}
 	
@@ -84,7 +81,7 @@ namespace graphics {
 	}
 	
 	bool Window::shouldClose() const {
-		return glfwWindowShouldClose(window) == 1;
+		return glfwWindowShouldClose(window) == GLFW_TRUE;
 	}
 	
 	void Window::setIcon(const std::string &icon) {
@@ -97,6 +94,20 @@ namespace graphics {
 		
 		glfwSetWindowIcon(window, 1, images);
 	}
+}
+
+void closeCallback(GLFWwindow* w) {
+	glfwSetWindowShouldClose(w, GL_TRUE);
+}
+
+void bufferCallback(GLFWwindow* w, int width, int height) {
+	window->width = width;
+	window->height = height;
+	glViewport(0, 0, width, height);
+}
+
+void focusCallback(GLFWwindow* w, int focused) {
+	window->focused = focused == GLFW_TRUE;
 }
 
 void APIENTRY glDebugOutput(GLenum source,
