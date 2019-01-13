@@ -7,8 +7,15 @@ namespace graphics {
 		arial = new font::Font("arial.ttf", 12);
 		fpsText = new font::Text(arial, "FPS: 0");
 		vertexText = new font::Text(arial, "Vertices: 0", glm::vec2(0.0f, fpsText->getBoundingBox().y / graphics::Window::HEIGHT));
+		gpuText = new font::Text(arial, reinterpret_cast<const char *>(glGetString(GL_VENDOR)) + std::string(" ") +
+		                                reinterpret_cast<const char *>(glGetString(GL_RENDERER)) + std::string(" ") +
+		                                reinterpret_cast<const char *>(glGetString(GL_VERSION)), vec2(0.0f,
+		                                                                                              vertexText->position.y +
+		                                                                                              vertexText->getBoundingBox().y /
+		                                                                                              graphics::Window::HEIGHT));
 		texts[arial].push_back(fpsText);
 		texts[arial].push_back(vertexText);
+		texts[arial].push_back(gpuText);
 	}
 	
 	void MasterRender::render() {

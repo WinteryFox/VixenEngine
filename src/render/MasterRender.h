@@ -20,6 +20,7 @@ namespace graphics {
 		font::Font *arial;
 		font::Text *fpsText;
 		font::Text *vertexText;
+		font::Text *gpuText;
 		
 		std::vector<Entity> entities;
 		std::vector<graphics::Light> lights;

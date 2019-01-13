@@ -1,7 +1,6 @@
-#include <GL/glew.h>
+
 #include "Window.h"
 #include "render/MasterRender.h"
-#include "Loader.h"
 
 std::string resourcePath = "../resources/";
 graphics::Window* window = new graphics::Window("Vixen Engine", 1280, 720);
@@ -61,7 +60,6 @@ int main() {
 	delete render;
 	delete camera;
 	delete window;
-	delete &resourcePath;
 	
 	return 0;
 }
