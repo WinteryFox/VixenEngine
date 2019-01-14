@@ -36,7 +36,6 @@ namespace graphics {
 
 extern graphics::Window* window;
 
-void closeCallback(GLFWwindow* w);
 void focusCallback(GLFWwindow* w, int focused);
 void bufferCallback(GLFWwindow* w, int width, int height);
 

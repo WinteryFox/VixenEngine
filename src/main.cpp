@@ -10,6 +10,7 @@ graphics::MasterRender* render = new graphics::MasterRender();
 int main() {
 	render->addEntity("models/kizuna/kizuna.dae");
 	render->addDirectionalLight(glm::vec3(-0.5f));
+	render->addPointLight(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	
 	while (!window->shouldClose()) {
 		window->update();

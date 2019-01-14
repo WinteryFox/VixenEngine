@@ -62,7 +62,9 @@ namespace graphics {
 		glfwSetWindowPos(window, mode->width / 2 - width / 2, mode->height / 2 - height / 2);
 		
 		glfwShowWindow(window);
-		glfwFocusWindow(window);
+		
+		glfwSetWindowFocusCallback(window, focusCallback);
+		glfwSetFramebufferSizeCallback(window, bufferCallback);
 		
 		return true;
 	}
@@ -94,10 +96,6 @@ namespace graphics {
 		
 		glfwSetWindowIcon(window, 1, images);
 	}
-}
-
-void closeCallback(GLFWwindow* w) {
-	glfwSetWindowShouldClose(w, GL_TRUE);
 }
 
 void bufferCallback(GLFWwindow* w, int width, int height) {
