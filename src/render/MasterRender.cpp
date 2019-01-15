@@ -31,12 +31,10 @@ namespace graphics {
 		accumulator += frameTime;
 		
 		while (accumulator >= tickrate) {
-			camera->update();
+			// TODO: Do physics stuff
 			accumulator -= tickrate;
 			deltaTime += tickrate;
-			std::cout << deltaTime << std::endl;
 		}
-		std::cout << "end" << std::endl;
 		
 		entityRender->render(entities, lights);
 		fontRender->render(texts);
