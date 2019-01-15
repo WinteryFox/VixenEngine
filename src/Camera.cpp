@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include "Camera.h"
 
 namespace input {
@@ -15,6 +15,9 @@ namespace input {
 	}
 	
 	void Camera::update() {
+		if (!window->focused)
+			return;
+		
 		float delta = window->delta;
 		GLFWwindow* w = window->window;
 		
@@ -40,20 +43,24 @@ namespace input {
 		vec3 right(sin(horizontal - 3.14f / 2.0f), 0, cos(horizontal - 3.14f / 2.0f));
 		vec3 up = cross(right, direction);
 		
+		auto advance = glm::vec3(0.0f);
+		
 		if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS)
-			position += direction * delta * speed;
+			advance += direction * speed;
 		if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS)
-			position -= direction * delta * speed;
+			advance -= direction * speed;
 		if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS)
-			position += right * delta * speed;
+			advance += right * speed;
 		if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
-			position -= right * delta * speed;
+			advance -= right * speed;
 		if (glfwGetKey(w, GLFW_KEY_SPACE))
-			position += vec3(0, 1, 0) * delta * speed;
+			advance += vec3(0, 1, 0) * speed;
 		if (glfwGetKey(w, GLFW_KEY_LEFT_SHIFT))
-			position -= vec3(0, 1, 0) * delta * speed;
+			advance -= vec3(0, 1, 0) * speed;
 		if (glfwGetKey(w, GLFW_KEY_ESCAPE))
 			glfwSetWindowShouldClose(w, GLFW_TRUE);
+		
+		position += advance;
 		
 		projection = perspective(radians(FoV), (float) window->width / (float) window->height, 0.1f, 1000.0f);
 		view = lookAt(position, position + direction, up);

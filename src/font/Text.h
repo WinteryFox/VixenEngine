@@ -32,6 +32,10 @@ namespace font {
 		
 		glm::vec2 getBoundingBox();
 		
+		glm::vec2 getBoundingBoxScale();
+		
+		glm::vec2 getPosition();
+		
 	private:
 		void updateBuffer();
 	};

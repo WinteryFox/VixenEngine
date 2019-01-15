@@ -74,7 +74,17 @@ namespace graphics {
 		glfwPollEvents();
 		
 		auto current = static_cast<float>(glfwGetTime());
-		delta = current - lastTime;
+		double frameTime = current - lastTime;
+		if (frameTime > 0.25)
+			frameTime = 0.25;
+		
+		accumulator += frameTime;
+		
+		//while (accumulator >= delta) {
+		
+		//}
+		
+		delta = (current - lastTime) / 1000;
 		lastTime = current;
 	}
 	
@@ -106,6 +116,7 @@ void bufferCallback(GLFWwindow* w, int width, int height) {
 
 void focusCallback(GLFWwindow* w, int focused) {
 	window->focused = focused == GLFW_TRUE;
+	glfwSetInputMode(w, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 void APIENTRY glDebugOutput(GLenum source,

@@ -117,4 +117,8 @@ namespace font {
 	glm::vec2 Text::getBoundingBox() {
 		return boundingBox;
 	}
+	
+	glm::vec2 Text::getBoundingBoxScale() {
+		return glm::vec2(boundingBox.x / window->width, boundingBox.y / window->height);
+	}
 }
