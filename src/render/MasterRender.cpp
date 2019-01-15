@@ -33,6 +33,8 @@ namespace graphics {
 			fps = 0;
 			lastTime = currentTime;
 		}
+		
+		window->swap();
 	}
 	
 	void MasterRender::addDirectionalLight(vec3 direction, vec3 color) {

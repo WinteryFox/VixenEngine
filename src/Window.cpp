@@ -116,7 +116,10 @@ void bufferCallback(GLFWwindow* w, int width, int height) {
 
 void focusCallback(GLFWwindow* w, int focused) {
 	window->focused = focused == GLFW_TRUE;
-	glfwSetInputMode(w, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	if (focused == GLFW_FALSE)
+		glfwSetInputMode(w, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	else
+		glfwSetInputMode(w, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void APIENTRY glDebugOutput(GLenum source,

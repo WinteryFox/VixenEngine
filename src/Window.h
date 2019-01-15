@@ -21,7 +21,7 @@ namespace graphics {
 		
 		float delta = 0.01f;
 		
-		bool focused;
+		bool focused = true;
 		
 		Window(const std::string &name, int width, int height);
 		~Window();
