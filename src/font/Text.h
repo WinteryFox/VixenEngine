@@ -28,13 +28,6 @@ namespace font {
 		Text(Font *font, const std::string &text, const glm::vec2 &position = glm::vec3(0.0f),
 		     const glm::vec3 &color = glm::vec3(1.0f), float size = 1.0f);
 		void setText(const std::string &text);
-		std::vector<Character*> getCharacters();
-		
-		glm::vec2 getBoundingBox();
-		
-		glm::vec2 getBoundingBoxScale();
-		
-		glm::vec2 getPosition();
 		
 	private:
 		void updateBuffer();

@@ -5,14 +5,16 @@
 namespace shaders {
 	class GuiShader : public Shader {
 	private:
-		GLint positionLocation;
+		GLint projectionLocation;
 		GLint colorLocation;
+		GLint positionLocation;
 		
 	public:
 		GuiShader();
 		
 		void getUniformLocations() override;
 		
+		void loadPosition(float positionX, float positionY);
 		void loadProjection(glm::mat4 projection);
 		void loadColor(glm::vec3 color);
 	};

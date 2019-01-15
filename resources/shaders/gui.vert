@@ -5,9 +5,11 @@ layout(location = 1) in vec2 uvs;
 
 out vec2 uv;
 
+uniform vec2 pos;
+uniform vec2 size;
 uniform mat4 projection;
 
 void main() {
-	gl_Position = projection * vec4(position, 0.0, 1.0);
+	gl_Position = projection * vec4(position + pos, 0.0, 1.0);
 	uv = uvs;
 }

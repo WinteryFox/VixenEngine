@@ -8,18 +8,12 @@
 
 namespace graphics {
 	class Window {
-	private:
-		float lastTime = 0.0f;
-		float accumulator;
-		
 	public:
 		GLFWwindow *window;
 		std::string name;
 		
 		int width;
 		int height;
-		
-		float delta = 0.01f;
 		
 		bool focused = true;
 		

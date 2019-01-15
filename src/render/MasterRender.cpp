@@ -1,17 +1,19 @@
 #include "MasterRender.h"
 
+double deltaTime = 0.0;
+
 namespace graphics {
 	MasterRender::MasterRender() {
 		entityRender = new EntityRender();
 		fontRender = new FontRender();
 		arial = new font::Font("arial.ttf", 12);
 		fpsText = new font::Text(arial, "FPS: 0");
-		vertexText = new font::Text(arial, "Vertices: 0", glm::vec2(0.0f, fpsText->getBoundingBoxScale().y));
+		vertexText = new font::Text(arial, "Vertices: 0", glm::vec2(0.0f, fpsText->boundingBox.y));
 		gpuText = new font::Text(arial, reinterpret_cast<const char *>(glGetString(GL_VENDOR)) + std::string(" ") +
 		                                reinterpret_cast<const char *>(glGetString(GL_RENDERER)) + std::string(" ") +
 		                                reinterpret_cast<const char *>(glGetString(GL_VERSION)), vec2(0.0f,
 		                                                                                              vertexText->position.y +
-		                                                                                              vertexText->getBoundingBoxScale().y));
+		                                                                                              vertexText->boundingBox.y));
 		texts[arial].push_back(fpsText);
 		texts[arial].push_back(vertexText);
 		texts[arial].push_back(gpuText);
@@ -21,7 +23,20 @@ namespace graphics {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
 		window->update();
-		camera->update();
+		
+		double newTime = glfwGetTime();
+		double frameTime = newTime - currentTime;
+		currentTime = newTime;
+		
+		accumulator += frameTime;
+		
+		while (accumulator >= tickrate) {
+			camera->update();
+			accumulator -= tickrate;
+			deltaTime += tickrate;
+			std::cout << deltaTime << std::endl;
+		}
+		std::cout << "end" << std::endl;
 		
 		entityRender->render(entities, lights);
 		fontRender->render(texts);
@@ -46,7 +61,7 @@ namespace graphics {
 	void MasterRender::addPointLight(vec3 position, vec3 color, float quadratic, float linear,
 	                                 float constant) {
 		auto light = Light(graphics::Light::POINT);
-		light.setAttenuation(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(1.0, 1.0, 1.0), 0.002f, 0.07, 1.0f);
+		light.setAttenuation(position, color, quadratic, linear, constant);
 		lights.push_back(light);
 	}
 	

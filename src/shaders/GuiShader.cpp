@@ -6,15 +6,20 @@ namespace shaders {
 	}
 	
 	void GuiShader::getUniformLocations() {
-		positionLocation = glGetUniformLocation(id, "projection");
+		projectionLocation = glGetUniformLocation(id, "projection");
 		colorLocation = glGetUniformLocation(id, "color");
+		positionLocation = glGetUniformLocation(id, "pos");
 	}
 	
 	void GuiShader::loadColor(glm::vec3 color) {
-		glUniform3fv(colorLocation, 1, &color[0]);
+		loadVector3f(colorLocation, color);
 	}
 	
 	void GuiShader::loadProjection(glm::mat4 projection) {
-		glUniformMatrix4fv(positionLocation, 1, GL_FALSE, &projection[0][0]);
+		loadMatrix4f(projectionLocation, projection);
+	}
+	
+	void GuiShader::loadPosition(float positionX, float positionY) {
+		loadVector2f(positionLocation, glm::vec2(positionX, positionY));
 	}
 }

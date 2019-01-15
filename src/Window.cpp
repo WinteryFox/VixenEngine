@@ -72,20 +72,6 @@ namespace graphics {
 	void Window::update() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwPollEvents();
-		
-		auto current = static_cast<float>(glfwGetTime());
-		double frameTime = current - lastTime;
-		if (frameTime > 0.25)
-			frameTime = 0.25;
-		
-		accumulator += frameTime;
-		
-		//while (accumulator >= delta) {
-		
-		//}
-		
-		delta = (current - lastTime) / 1000;
-		lastTime = current;
 	}
 	
 	void Window::swap() {

@@ -7,6 +7,7 @@
 #include "Window.h"
 
 extern graphics::Window* window;
+extern double deltaTime;
 
 namespace input {
 	using namespace glm;

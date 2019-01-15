@@ -41,6 +41,7 @@ namespace graphics {
 		glBindBuffer(GL_ARRAY_BUFFER, text->uvsVBO);
 		glEnableVertexAttribArray(1);
 		
+		shader->loadPosition(text->position.x, window->height - text->position.y - text->boundingBox.y);
 		shader->loadColor(text->color);
 		shader->loadProjection(glm::ortho(0.0f, (float) window->width, 0.0f, (float) window->height));
 	}

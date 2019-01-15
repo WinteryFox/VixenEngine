@@ -1,4 +1,3 @@
-
 #include "Camera.h"
 
 namespace input {
@@ -18,7 +17,6 @@ namespace input {
 		if (!window->focused)
 			return;
 		
-		float delta = window->delta;
 		GLFWwindow* w = window->window;
 		
 		double currentX = 0, currentY = 0;
@@ -34,8 +32,8 @@ namespace input {
 		lastX = currentX;
 		lastY = currentY;
 		
-		horizontal -= sensitivity * delta * xOffset;
-		vertical -= sensitivity * delta * yOffset;
+		horizontal -= sensitivity * deltaTime * xOffset;
+		vertical -= sensitivity * deltaTime * yOffset;
 
 		vertical = glm::clamp(vertical, -1.5f, 1.5f);
 		
@@ -60,6 +58,9 @@ namespace input {
 		if (glfwGetKey(w, GLFW_KEY_ESCAPE))
 			glfwSetWindowShouldClose(w, GLFW_TRUE);
 		
+		advance.x *= deltaTime;
+		advance.y *= deltaTime;
+		advance.z *= deltaTime;
 		position += advance;
 		
 		projection = perspective(radians(FoV), (float) window->width / (float) window->height, 0.1f, 1000.0f);

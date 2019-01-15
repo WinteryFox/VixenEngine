@@ -19,9 +19,6 @@ namespace font {
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 		
@@ -37,8 +34,8 @@ namespace font {
 		vertices.clear();
 		uvs.clear();
 		
-		float cursorX = position.x * window->width;
-		float cursorY = window->height - (position.y * window->height) - font->maxHeight;
+		float cursorX = 0;
+		float cursorY = 0;
 		float maxX = 0;
 		float maxY = 0;
 		
@@ -104,21 +101,5 @@ namespace font {
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
-	}
-	
-	std::vector<Character *> Text::getCharacters() {
-		std::vector<Character *> characters;
-		for (auto c : text) {
-			characters.push_back(font->characters[c]);
-		}
-		return characters;
-	}
-	
-	glm::vec2 Text::getBoundingBox() {
-		return boundingBox;
-	}
-	
-	glm::vec2 Text::getBoundingBoxScale() {
-		return glm::vec2(boundingBox.x / window->width, boundingBox.y / window->height);
 	}
 }

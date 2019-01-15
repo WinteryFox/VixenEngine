@@ -17,6 +17,11 @@ namespace graphics {
 		unsigned int fps = 0;
 		double lastTime;
 		
+		const double tickrate = 1.0 / 128.0;
+		double currentTime = 0.0;
+		double accumulator = 0.0;
+		double t = 0.0;
+		
 		font::Font *arial;
 		font::Text *fpsText;
 		font::Text *vertexText;
