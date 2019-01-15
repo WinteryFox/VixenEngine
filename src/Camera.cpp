@@ -13,7 +13,7 @@ namespace input {
 		return position;
 	}
 	
-	void Camera::update() {
+	void Camera::update(double dt, double tickrate) {
 		if (!window->focused)
 			return;
 		
@@ -32,8 +32,8 @@ namespace input {
 		lastX = currentX;
 		lastY = currentY;
 		
-		horizontal -= sensitivity * deltaTime * xOffset;
-		vertical -= sensitivity * deltaTime * yOffset;
+		horizontal -= sensitivity * xOffset * dt;
+		vertical -= sensitivity * yOffset * dt;
 
 		vertical = glm::clamp(vertical, -1.5f, 1.5f);
 		
@@ -58,9 +58,9 @@ namespace input {
 		if (glfwGetKey(w, GLFW_KEY_ESCAPE))
 			glfwSetWindowShouldClose(w, GLFW_TRUE);
 		
-		advance.x *= deltaTime;
-		advance.y *= deltaTime;
-		advance.z *= deltaTime;
+		advance.x *= tickrate;
+		advance.y *= tickrate;
+		advance.z *= tickrate;
 		position += advance;
 		
 		projection = perspective(radians(FoV), (float) window->width / (float) window->height, 0.1f, 1000.0f);

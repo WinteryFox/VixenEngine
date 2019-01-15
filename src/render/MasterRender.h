@@ -18,9 +18,8 @@ namespace graphics {
 		double lastTime;
 		
 		const double tickrate = 1.0 / 128.0;
-		double currentTime = glfwGetTime();
+		double lastFrame = glfwGetTime();
 		double accumulator = 0.0;
-		double t = 0.0;
 		
 		font::Font *arial;
 		font::Text *fpsText;

@@ -1,7 +1,5 @@
 #include "MasterRender.h"
 
-double deltaTime = 0.0;
-
 namespace graphics {
 	MasterRender::MasterRender() {
 		entityRender = new EntityRender();
@@ -24,16 +22,16 @@ namespace graphics {
 		
 		window->update();
 		
-		double newTime = glfwGetTime();
-		double frameTime = newTime - currentTime;
-		currentTime = newTime;
+		double newFrame = glfwGetTime();
+		double frameTime = newFrame - lastFrame;
+		lastFrame = newFrame;
 		
 		accumulator += frameTime;
 		
 		while (accumulator >= tickrate) {
-			// TODO: Do physics stuff
+			camera->update(frameTime, tickrate);
 			accumulator -= tickrate;
-			deltaTime += tickrate;
+			// TODO: Fix this.
 		}
 		
 		entityRender->render(entities, lights);

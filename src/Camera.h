@@ -7,7 +7,6 @@
 #include "Window.h"
 
 extern graphics::Window* window;
-extern double deltaTime;
 
 namespace input {
 	using namespace glm;
@@ -27,9 +26,9 @@ namespace input {
 		mat4 view = mat4(0.0);
 		
 	public:
-		explicit Camera(vec3 position = vec3(0.0), float FoV = 76.0f, float speed = 0.6f, float sensitivity = 2.1f)
+		explicit Camera(vec3 position = vec3(0.0), float FoV = 76.0f, float speed = 2.5f, float sensitivity = 2.1f)
 				: position(position), FoV(FoV), speed(speed), sensitivity(sensitivity) {
-			update();
+			
 		}
 		
 		mat4 getProjection();
@@ -37,6 +36,6 @@ namespace input {
 		
 		vec3 getPosition();
 		
-		void update();
+		void update(double dt, double tickrate);
 	};
 }
