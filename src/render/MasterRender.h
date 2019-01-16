@@ -40,6 +40,8 @@ namespace graphics {
 		//void addText(const std::string text, const std::string font, );
 		void addTerrain(int gridX, int gridZ);
 		void addDirectionalLight(vec3 direction = vec3(0.0f, -0.5f, 0.0f), vec3 color = vec3(1.0f));
-		void addPointLight(vec3 position, vec3 color = vec3(0.0f), float quadratic = 0.02f, float linear = 0.7f, float constant = 1.0f);
+		
+		void addPointLight(vec3 position, vec3 color = vec3(0.0f), float quadratic = 0.002f, float linear = 0.07f,
+		                   float constant = 1.0f);
 	};
 }
