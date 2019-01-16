@@ -14,7 +14,7 @@ namespace graphics::loader {
 		                                               aiProcess_PreTransformVertices);
 		if (!scene) {
 			std::cerr << "Failed to open file " << file << std::endl;
-			return loadModel("models/missing.dae");
+			return loadModel(resourcePath + "models/missing.dae");
 		}
 		
 		for (unsigned int j = 0; j < scene->mNumMeshes; j++) {
@@ -28,7 +28,7 @@ namespace graphics::loader {
 			
 			if (!mesh->HasTextureCoords(0)) {
 				std::cerr << "Mesh is missing texture coordinates, loaded fallback model" << std::endl;
-				return loadModel("models/missing.dae");
+				return loadModel(resourcePath + "models/missing.dae");
 			}
 			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -63,7 +63,7 @@ namespace graphics::loader {
 				                    vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
 			} else {
 				std::cerr << "Failed to find diffuse texture for model " << file << std::endl;
-				material = Material(generateTexture(loadImage("models/missing.png")), vec3(0.1f), vec3(1.0f),
+				material = Material(generateTexture(loadImage(resourcePath + "models/missing.png")), vec3(0.1f), vec3(1.0f),
 				                    vec3(0.0f), 0.0f);
 			}
 			
@@ -90,7 +90,7 @@ namespace graphics::loader {
 		if (!stream.is_open()) {
 			std::cerr << "Failed to open image file " << file << ". Are you sure you're in the right directory?"
 			          << std::endl;
-			return loadImage("textures/missing.png");
+			return loadImage(resourcePath + "models/missing.png");
 		}
 		
 		unsigned int SIGSIZE = 8;
@@ -100,25 +100,25 @@ namespace graphics::loader {
 		
 		if (!stream.good()) {
 			std::cerr << "Failed to read from file " << file << ". Maybe a permissions error?" << std::endl;
-			return loadImage("textures/missing.png");
+			return loadImage(resourcePath + "models/missing.png");
 		}
 		
 		if (png_sig_cmp(header, 0, SIGSIZE) != 0) {
 			std::cerr << "Invalid signature in file " << file << ". Is it a PNG?" << std::endl;
-			return loadImage("textures/missing.png");
+			return loadImage(resourcePath + "models/missing.png");
 		}
 		
 		png_structp readPointer = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
 		if (!readPointer) {
 			std::cerr << "Failed to initialize png read struct from " << path << "." << std::endl;
-			return loadImage("textures/missing.png");
+			return loadImage(resourcePath + "models/missing.png");
 		}
 		
 		png_infop infoPointer = png_create_info_struct(readPointer);
 		if (!infoPointer) {
 			std::cerr << "Failed to initialize png info struct from " << path << "." << std::endl;
 			png_destroy_read_struct(&readPointer, nullptr, nullptr);
-			return loadImage("textures/missing.png");
+			return loadImage(resourcePath + "models/missing.png");
 		}
 		
 		png_bytep *rowPointers = nullptr;
@@ -132,7 +132,7 @@ namespace graphics::loader {
 				delete[] data;
 			
 			std::cerr << "Something borked while reading file " << path << std::endl;
-			return loadImage("textures/missing.png");
+			return loadImage(resourcePath + "models/missing.png");
 		}
 		
 		png_set_read_fn(readPointer, (png_voidp) &stream, readData);
