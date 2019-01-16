@@ -83,12 +83,12 @@ namespace graphics {
 	}
 	
 	void Window::setIcon(const std::string &icon) {
-		graphics::Image* temp = graphics::loader::Loader::loadImage(icon);
+		graphics::Image* temp = graphics::loader::Loader::loadImage(icon, true);
 		
 		GLFWimage images[1];
 		images[0].width = temp->width;
 		images[0].height = temp->height;
-		images[0].pixels = temp->data;
+		images[0].pixels = reinterpret_cast<unsigned char*>(temp->data);
 		
 		glfwSetWindowIcon(window, 1, images);
 	}

@@ -9,13 +9,13 @@ namespace graphics {
 		GLenum format;
 		unsigned int width;
 		unsigned int height;
-		png_byte *data;
+		char *data;
 		
-		Image(GLenum format, unsigned int width, unsigned int height, png_byte *data) : format(format), width(width),
+		Image(GLenum format, unsigned int width, unsigned int height, char *data) : format(format), width(width),
 		                                                                                height(height), data(data) {};
 		
 		~Image() {
-			delete data;
+			delete[] data;
 		}
 	};
 }
