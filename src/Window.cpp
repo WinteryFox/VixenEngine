@@ -19,7 +19,7 @@ namespace graphics {
 	
 	bool Window::init() {
 		if (!glfwInit()) {
-			std::cout << "Failed to initialise GLFW" << std::endl;
+			std::cerr << "Failed to initialise GLFW" << std::endl;
 			return false;
 		}
 		
@@ -34,7 +34,7 @@ namespace graphics {
 		
 		window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
 		if (!window) {
-			std::cout << "Failed to create window" << std::endl;
+			std::cerr << "Failed to create window" << std::endl;
 			return false;
 		}
 		
@@ -47,7 +47,7 @@ namespace graphics {
 		
 		glewExperimental = GL_TRUE;
 		if (glewInit() != GLEW_OK) {
-			std::cout << "Failed to initialise GLEW" << std::endl;
+			std::cerr << "Failed to initialise GLEW" << std::endl;
 			return false;
 		}
 		

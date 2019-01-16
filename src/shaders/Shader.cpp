@@ -71,7 +71,7 @@ namespace shaders {
 			while (getline(vertexShaderStream, line)) vertexShaderCode += "\n" + line;
 			vertexShaderStream.close();
 		} else {
-			std::cout << "Impossible to open " << vertex.c_str() << ". Are you in the right directory?\n" << std::endl;
+			std::cerr << "Impossible to open " << vertex.c_str() << ". Are you in the right directory?\n" << std::endl;
 			getchar();
 		}
 		
@@ -93,9 +93,9 @@ namespace shaders {
 		glGetShaderiv(vertexID, GL_COMPILE_STATUS, &result);
 		glGetShaderiv(vertexID, GL_INFO_LOG_LENGTH, &infoLogLength);
 		if (infoLogLength > 0) {
-			std::vector<char> VertexShaderErrorMessage(infoLogLength + 1);
+			std::string VertexShaderErrorMessage;
 			glGetShaderInfoLog(vertexID, infoLogLength, nullptr, &VertexShaderErrorMessage[0]);
-			printf("%s\n", &VertexShaderErrorMessage[0]);
+			std::cerr << VertexShaderErrorMessage << std::endl;
 		}
 		
 		char const *FragmentSourcePointer = fragmentShaderCode.c_str();
@@ -105,9 +105,9 @@ namespace shaders {
 		glGetShaderiv(fragmentID, GL_COMPILE_STATUS, &result);
 		glGetShaderiv(fragmentID, GL_INFO_LOG_LENGTH, &infoLogLength);
 		if (infoLogLength > 0) {
-			std::vector<char> FragmentShaderErrorMessage(infoLogLength + 1);
+			std::string FragmentShaderErrorMessage;
 			glGetShaderInfoLog(fragmentID, infoLogLength, nullptr, &FragmentShaderErrorMessage[0]);
-			fprintf(stderr, "%s\n", &FragmentShaderErrorMessage[0]);
+			std::cerr << FragmentShaderErrorMessage << std::endl;
 		}
 		
 		GLuint programID = glCreateProgram();
@@ -120,7 +120,7 @@ namespace shaders {
 		if (infoLogLength > 0) {
 			std::vector<char> ProgramErrorMessage(infoLogLength + 1);
 			glGetProgramInfoLog(programID, infoLogLength, nullptr, &ProgramErrorMessage[0]);
-			std::cout << &ProgramErrorMessage[0] << std::endl;
+			std::cerr << &ProgramErrorMessage[0] << std::endl;
 		}
 		
 		glDetachShader(programID, vertexID);

@@ -9,7 +9,7 @@
 namespace graphics {
 	class MasterRender {
 	private:
-		EntityRender* entityRender;
+		EntityRender *entityRender;
 		FontRender *fontRender;
 		
 		unsigned int vertices = 0;
@@ -33,6 +33,7 @@ namespace graphics {
 		
 	public:
 		MasterRender();
+		~MasterRender();
 		
 		void render();
 		

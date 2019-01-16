@@ -9,12 +9,12 @@ namespace font {
 	void Font::loadFont(const std::string &file) {
 		FT_Library ft;
 		if (FT_Init_FreeType(&ft)) {
-			std::cout << "Could not init FreeType" << std::endl;
+			std::cerr << "Could not init FreeType" << std::endl;
 			delete this;
 		}
 		FT_Face font;
 		if (FT_New_Face(ft, (resourcePath + "fonts/" + file).c_str(), 0, &font)) {
-			std::cout << "Could not load font" << std::endl;
+			std::cerr << "Could not load font" << std::endl;
 			delete this;
 		}
 		
@@ -27,7 +27,7 @@ namespace font {
 		
 		for (GLubyte i = 32; i < 128; i++) {
 			if (FT_Load_Char(font, i, FT_LOAD_RENDER)) {
-				std::cout << "Failed to load glyph: " << i << std::endl;
+				std::cerr << "Failed to load glyph: " << i << std::endl;
 				continue;
 			}
 			
@@ -65,7 +65,7 @@ namespace font {
 		
 		for (GLubyte i = 32; i < 128; i++) {
 			if (FT_Load_Char(font, i, FT_LOAD_RENDER)) {
-				std::cout << "Failed to load character: " << i << std::endl;
+				std::cerr << "Failed to load character: " << i << std::endl;
 				continue;
 			}
 			

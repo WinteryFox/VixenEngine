@@ -15,7 +15,7 @@ namespace graphics {
 		const unsigned int uvCount;
 		const unsigned int normalCount;
 		
-		const Material material;
+		Material material;
 		
 		GLuint vao;
 		GLuint vertexVBO;
