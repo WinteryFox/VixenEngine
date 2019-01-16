@@ -42,17 +42,17 @@ namespace shaders {
 	}
 	
 	void Shader::loadLight(const shaders::Light &lightLocations, const graphics::Light &light) {
-		if (light.getType() == graphics::Light::DIRECTIONAL) {
+		if (light.type == graphics::Light::DIRECTIONAL) {
 			glUniform1i(lightLocations.type, 0);
-			glUniform3fv(lightLocations.directional, 1, &light.getDirection()[0]);
-			glUniform3fv(lightLocations.color, 1, &light.getColor()[0]);
+			glUniform3fv(lightLocations.directional, 1, &light.direction[0]);
+			glUniform3dv(lightLocations.color, 1, &light.color[0]);
 		} else {
 			glUniform1i(lightLocations.type, 1);
-			glUniform3fv(lightLocations.color, 1, &light.getColor()[0]);
-			glUniform3fv(lightLocations.position, 1, &light.getPosition()[0]);
-			glUniform1f(lightLocations.quadratic, light.getQuadratic());
-			glUniform1f(lightLocations.linear, light.getLinear());
-			glUniform1f(lightLocations.constant, light.getConstant());
+			glUniform3dv(lightLocations.color, 1, &light.color[0]);
+			glUniform3fv(lightLocations.position, 1, &light.position[0]);
+			glUniform1f(lightLocations.quadratic, light.quadratic);
+			glUniform1f(lightLocations.linear, light.linear);
+			glUniform1f(lightLocations.constant, light.constant);
 		}
 	}
 	

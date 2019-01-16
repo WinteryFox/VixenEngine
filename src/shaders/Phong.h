@@ -28,7 +28,7 @@ namespace shaders {
 		void loadModelMatrix(const glm::mat4 &matrix);
 		void loadViewPosition(const glm::vec3 &position);
 		
-		void loadLights(const std::vector<graphics::Light> &lights);
+		void loadLights(const std::vector<graphics::Light *> &lights);
 		
 		void loadMaterial(const graphics::Material &material);
 	};

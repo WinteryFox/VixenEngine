@@ -8,8 +8,8 @@ graphics::MasterRender* render = new graphics::MasterRender();
 
 int main() {
 	render->addEntity("models/tree/tree.dae");
-	render->addDirectionalLight(glm::vec3(-0.5f));
-	render->addPointLight(glm::vec3(-1.0f, 2.0f, 0.0f), glm::vec3(0.0f, 1.0f, 1.0f));
+	render->addDirectionalTemperatureLight(glm::vec3(-0.5f), 20000);
+	//render->addPointLight(glm::vec3(-1.0f, 2.0f, 0.0f), glm::vec3(0.0f, 1.0f, 1.0f));
 	
 	while (!window->shouldClose()) {
 		render->render();

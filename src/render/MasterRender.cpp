@@ -4,7 +4,7 @@ namespace graphics {
 	MasterRender::MasterRender() {
 		entityRender = new EntityRender();
 		fontRender = new FontRender();
-		arial = new font::Font("arial.ttf", 12);
+		arial = new font::Font("arial.ttf", 18);
 		fpsText = new font::Text(arial, "FPS: 0");
 		vertexText = new font::Text(arial, "Vertices: 0", glm::vec2(0.0f, fpsText->boundingBox.y));
 		gpuText = new font::Text(arial, reinterpret_cast<const char *>(glGetString(GL_VENDOR)) + std::string(" ") +
@@ -48,23 +48,10 @@ namespace graphics {
 		window->swap();
 	}
 	
-	void MasterRender::addDirectionalLight(vec3 direction, vec3 color) {
-		auto light = Light(graphics::Light::DIRECTIONAL);
-		light.setDirectional(direction, color);
-		lights.push_back(light);
-	}
-	
-	void MasterRender::addPointLight(vec3 position, vec3 color, float quadratic, float linear,
-	                                 float constant) {
-		auto light = Light(graphics::Light::POINT);
-		light.setAttenuation(position, color, quadratic, linear, constant);
-		lights.push_back(light);
-	}
-	
-	void MasterRender::addEntity(const std::string &file, vec3 position, vec3 rotation, float scale) {
-		objects::entity::Entity entity = objects::entity::Entity(graphics::loader::Loader::loadModel(file), position,
+	Entity *MasterRender::addEntity(const std::string &file, vec3 position, vec3 rotation, float scale) {
+		auto entity = new objects::entity::Entity(graphics::loader::Loader::loadModel(file), position,
 		                                                         rotation, scale);
-		for (Mesh *mesh : entity.model->getMeshes()) {
+		for (Mesh *mesh : entity->model->getMeshes()) {
 			vertices += mesh->vertexCount;
 		}
 		vertexText->setText("Vertices: " + std::to_string(vertices));
@@ -76,5 +63,39 @@ namespace graphics {
 		vertices += mesh->vertexCount;
 		vertexText->setText("Vertices: " + std::to_string(vertices));
 		terrains.push_back(mesh);
+	}
+	
+	graphics::Light *MasterRender::addDirectionalLight(const vec3 &direction, const dvec3 &color) {
+		auto light = new graphics::Light(graphics::Light::Type::DIRECTIONAL);
+		light->setDirectional(direction, color);
+		lights.emplace_back(light);
+	}
+	
+	graphics::Light *MasterRender::addDirectionalTemperatureLight(const vec3 &direction, unsigned int temperature) {
+		auto light = new graphics::Light(graphics::Light::Type::DIRECTIONAL);
+		light->direction = direction;
+		light->setTemperature(temperature);
+		lights.emplace_back(light);
+	}
+	
+	graphics::Light *
+	MasterRender::addPointLight(const vec3 &position, const dvec3 &color, float quadratic, float linear,
+	                            float constant) {
+		auto light = new graphics::Light(graphics::Light::Type::POINT);
+		light->setAttenuation(position, color, quadratic, linear, constant);
+		lights.emplace_back(light);
+	}
+	
+	graphics::Light *
+	MasterRender::addPointTemperatureLight(const vec3 &position, unsigned int temperature, float quadratic,
+	                                       float linear,
+	                                       float constant) {
+		auto light = new graphics::Light(graphics::Light::Type::POINT);
+		light->position = position;
+		light->setTemperature(temperature);
+		light->quadratic = quadratic;
+		light->linear = linear;
+		light->constant = constant;
+		lights.emplace_back(light);
 	}
 }

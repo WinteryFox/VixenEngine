@@ -12,42 +12,23 @@ namespace graphics {
 		};
 		
 		explicit Light(Type type) : type(type) { }
-	
-	private:
+		
 		Type type;
 		vec3 direction{};
 		
 		vec3 position{};
-		vec3 color{};
+		dvec3 color{};
+		unsigned int temperature;
 		
 		float quadratic{};
 		float linear{};
 		float constant{};
 		
 	public:
-		Type getType() const;
-		
-		void setType(Type type);
-		
-		const vec3 &getDirection() const;
-		
-		void setDirection(const vec3 &direction);
-		
-		const vec3 &getPosition() const;
-		
-		void setPosition(const vec3 &position);
-		
-		const vec3 &getColor() const;
-		
-		float getQuadratic() const;
-		
-		float getLinear() const;
-		
-		float getConstant() const;
-		
 		void setAttenuation(const vec3 &position, const vec3 &color, float quadratic, float linear, float constant);
-		
 		void setDirectional(const vec3 &direction, const vec3 &color);
+		
+		void setTemperature(unsigned int kelvin);
 	};
 }
 

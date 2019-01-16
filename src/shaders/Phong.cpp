@@ -56,10 +56,10 @@ namespace shaders {
 		loadVector3f(viewPositionLocation, position);
 	}
 	
-	void Phong::loadLights(const std::vector<graphics::Light> &lights) {
+	void Phong::loadLights(const std::vector<graphics::Light *> &lights) {
 		loadInteger(lightCountLocation, lights.size());
 		for (unsigned int i = 0; i < lights.size(); i++) {
-			loadLight(lightLocations[i], lights[i]);
+			loadLight(lightLocations[i], *lights[i]);
 		}
 	}
 	

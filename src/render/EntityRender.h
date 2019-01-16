@@ -21,12 +21,12 @@ namespace graphics {
 			shader = new shaders::Phong();
 		}
 		
-		void render(std::vector<Entity> &entities, std::vector<Light> &lights);
+		void render(std::vector<Entity *> &entities, std::vector<Light *> &lights);
 	
 	private:
 		void prepareMesh(const Mesh *mesh);
 		
-		void prepareInstance(Entity entity);
+		void prepareInstance(Entity *entity);
 	};
 }
 
