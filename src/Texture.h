@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <GL/glew.h>
 
 namespace graphics {
@@ -8,6 +9,7 @@ namespace graphics {
 		GLuint id;
 		
 		explicit Texture(GLuint id) : id(id) { }
+		
 		~Texture() {
 			glDeleteTextures(1, &id);
 		}

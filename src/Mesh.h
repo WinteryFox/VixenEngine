@@ -15,16 +15,12 @@ namespace graphics {
 		const unsigned int uvCount;
 		const unsigned int normalCount;
 		
-		Material material;
+		Material* material;
 		
-		GLuint vao;
-		GLuint vertexVBO;
-		GLuint indicesVBO;
-		GLuint uvsVBO;
-		GLuint normalsVBO;
+		GLuint vao, vertexVBO, uvsVBO, indicesVBO, normalsVBO;
 		
 		explicit Mesh(const vector<vec3> &vertices, const vector<unsigned int> &indices, const vector<vec2> &uvs,
-		              const vector<vec3> &normals, const Material &material);
+		              const vector<vec3> &normals, Material *material);
 		~Mesh();
 	};
 }

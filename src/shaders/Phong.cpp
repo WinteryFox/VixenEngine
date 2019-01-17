@@ -63,7 +63,7 @@ namespace shaders {
 		}
 	}
 	
-	void Phong::loadMaterial(const graphics::Material &material) {
+	void Phong::loadMaterial(graphics::Material *material) {
 		Shader::loadMaterial(materialLocation, material);
 	}
 }

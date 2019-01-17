@@ -13,11 +13,9 @@ namespace font {
 		glBindVertexArray(vao);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, uvsVBO);
-		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -39,9 +37,9 @@ namespace font {
 	}
 	
 	void Text::updateBuffer() {
-		vertices.clear();
-		uvs.clear();
-		indices.clear();
+		std::vector<glm::vec2> vertices;
+		std::vector<glm::vec2> uvs;
+		std::vector<unsigned int> indices;
 		
 		float cursorX = 0;
 		float cursorY = 0;
@@ -105,6 +103,10 @@ namespace font {
 			uvs.emplace_back(bottomRight);
 		}
 		boundingBox = glm::vec2(maxX, maxY);
+		
+		verticesCount = vertices.size();
+		uvsCount = uvs.size();
+		indicesCount = indices.size();
 		
 		glBindVertexArray(vao);
 		

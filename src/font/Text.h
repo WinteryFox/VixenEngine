@@ -17,9 +17,8 @@ namespace font {
 		float size;
 		glm::vec3 color;
 		Font* font;
-		std::vector<glm::vec2> vertices, uvs;
-		std::vector<unsigned int> indices;
 		glm::vec2 boundingBox;
+		unsigned int verticesCount, uvsCount, indicesCount;
 		GLuint vao, verticesVBO, uvsVBO, indicesVBO;
 		
 	private:

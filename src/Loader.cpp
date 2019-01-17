@@ -24,7 +24,7 @@ namespace graphics::loader {
 			std::vector<unsigned int> indices;
 			std::vector<vec2> uvs;
 			std::vector<vec3> normals;
-			graphics::Material material = Material(new Texture(0), vec3(0.0f), vec3(0.0f), vec3(0.0f), 0.0f);
+			graphics::Material *material;
 			
 			if (!mesh->HasTextureCoords(0)) {
 				std::cerr << "Mesh is missing texture coordinates, loaded fallback model" << std::endl;
@@ -57,14 +57,15 @@ namespace graphics::loader {
 				aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
 				aiMat->Get(AI_MATKEY_SHININESS, shininess);
 				
-				material = Material(generateTexture(loadImage(temp), GL_NEAREST),
-				                    vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
-				                    vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
-				                    vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
+				material = new Material(generateTexture(loadImage(temp), GL_NEAREST),
+				                        vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
+				                        vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
+				                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
 			} else {
 				std::cerr << "Failed to find diffuse texture for model " << file << std::endl;
-				material = Material(generateTexture(loadImage(resourcePath + "models/missing.png")), vec3(0.1f), vec3(1.0f),
-				                    vec3(0.0f), 0.0f);
+				material = new Material(generateTexture(loadImage(resourcePath + "models/missing.png")), vec3(0.1f),
+				                        vec3(1.0f),
+				                        vec3(0.0f), 0.0f);
 			}
 			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {

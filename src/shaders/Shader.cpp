@@ -34,11 +34,11 @@ namespace shaders {
 		glUniform1i(location, integer);
 	}
 	
-	void Shader::loadMaterial(const shaders::Material &materialLocations, const graphics::Material &material) {
-		glUniform3fv(materialLocations.ambient, 1, &material.ambient[0]);
-		glUniform3fv(materialLocations.diffuse, 1, &material.diffuse[0]);
-		glUniform3fv(materialLocations.specular, 1, &material.specular[0]);
-		glUniform1f(materialLocations.shininess, material.shininess);
+	void Shader::loadMaterial(const shaders::Material &materialLocations, graphics::Material *material) {
+		glUniform3fv(materialLocations.ambient, 1, &material->ambient[0]);
+		glUniform3fv(materialLocations.diffuse, 1, &material->diffuse[0]);
+		glUniform3fv(materialLocations.specular, 1, &material->specular[0]);
+		glUniform1f(materialLocations.shininess, material->shininess);
 	}
 	
 	void Shader::loadLight(const shaders::Light &lightLocations, const graphics::Light &light) {

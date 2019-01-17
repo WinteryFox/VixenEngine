@@ -49,7 +49,7 @@ namespace shaders {
 		
 		void loadVector3f(GLint location, const glm::vec3 &vector);
 		void loadInteger(GLint location, int integer);
-		void loadMaterial(const shaders::Material &materialLocations, const graphics::Material &material);
+		void loadMaterial(const shaders::Material &materialLocations, graphics::Material *material);
 		void loadLight(const shaders::Light &lightLocations, const graphics::Light &light);
 		
 	protected:

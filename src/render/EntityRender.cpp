@@ -29,6 +29,9 @@ namespace graphics {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
+			glDisableVertexAttribArray(2);
 			glBindVertexArray(0);
 			shader->stop();
 		}
@@ -40,10 +43,13 @@ namespace graphics {
 	
 	void EntityRender::prepareMesh(const Mesh *mesh) {
 		glBindVertexArray(mesh->vao);
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 		
 		shader->loadMaterial(mesh->material);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mesh->material.texture->id);
+		glBindTexture(GL_TEXTURE_2D, mesh->material->texture->id);
 	}
 }

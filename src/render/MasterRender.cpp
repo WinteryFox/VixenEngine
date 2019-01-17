@@ -57,14 +57,16 @@ namespace graphics {
 	}
 	
 	Entity *MasterRender::addEntity(const std::string &file, vec3 position, vec3 rotation, float scale) {
-		graphics::Model* model = graphics::loader::Loader::loadModel(file);
+		graphics::Model *model = graphics::loader::Loader::loadModel(file);
+		auto *entity = new objects::entity::Entity(model, position, rotation, scale);
 		
 		for (Mesh *mesh : model->getMeshes()) {
 			vertices += mesh->vertexCount;
 		}
 		
 		vertexText->setText("Vertices: " + std::to_string(vertices));
-		entities.push_back(new objects::entity::Entity(model, position, rotation, scale));
+		entities.push_back(entity);
+		return entity;
 	}
 	
 	void MasterRender::addTerrain(int gridX, int gridZ) {
@@ -78,6 +80,7 @@ namespace graphics {
 		auto light = new graphics::Light(graphics::Light::Type::DIRECTIONAL);
 		light->setDirectional(direction, color);
 		lights.emplace_back(light);
+		return light;
 	}
 	
 	graphics::Light *MasterRender::addDirectionalTemperatureLight(const vec3 &direction, unsigned int temperature) {
@@ -85,6 +88,7 @@ namespace graphics {
 		light->direction = direction;
 		light->setTemperature(temperature);
 		lights.emplace_back(light);
+		return light;
 	}
 	
 	graphics::Light *
@@ -93,6 +97,7 @@ namespace graphics {
 		auto light = new graphics::Light(graphics::Light::Type::POINT);
 		light->setAttenuation(position, color, quadratic, linear, constant);
 		lights.emplace_back(light);
+		return light;
 	}
 	
 	graphics::Light *
@@ -106,5 +111,6 @@ namespace graphics {
 		light->linear = linear;
 		light->constant = constant;
 		lights.emplace_back(light);
+		return light;
 	}
 }

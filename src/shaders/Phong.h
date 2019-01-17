@@ -30,7 +30,7 @@ namespace shaders {
 		
 		void loadLights(const std::vector<graphics::Light *> &lights);
 		
-		void loadMaterial(const graphics::Material &material);
+		void loadMaterial(graphics::Material *material);
 	};
 }
 

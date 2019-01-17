@@ -35,7 +35,7 @@ namespace terrain {
 			}
 		}
 		
-		return new graphics::Mesh(vertices, indices, uvs, normals, graphics::Material(
+		return new graphics::Mesh(vertices, indices, uvs, normals, new graphics::Material(
 				graphics::loader::Loader::generateTexture(graphics::loader::Loader::loadImage("textures/grass.png")),
 				vec3(0.05f, 0.05f, 0.05f), vec3(1, 1, 1), vec3(0, 0, 0), 50));
 	}
