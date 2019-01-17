@@ -8,6 +8,7 @@ namespace font {
 		glGenVertexArrays(1, &vao);
 		glGenBuffers(1, &verticesVBO);
 		glGenBuffers(1, &uvsVBO);
+		glGenBuffers(1, &indicesVBO);
 		
 		glBindVertexArray(vao);
 		
@@ -25,6 +26,13 @@ namespace font {
 		updateBuffer();
 	}
 	
+	Text::~Text() {
+		glDeleteBuffers(1, &indicesVBO);
+		glDeleteBuffers(1, &uvsVBO);
+		glDeleteBuffers(1, &verticesVBO);
+		glDeleteVertexArrays(1, &vao);
+	}
+	
 	void Text::setText(const std::string &text) {
 		this->text = text;
 		updateBuffer();
@@ -33,14 +41,17 @@ namespace font {
 	void Text::updateBuffer() {
 		vertices.clear();
 		uvs.clear();
+		indices.clear();
 		
 		float cursorX = 0;
 		float cursorY = 0;
 		float maxX = 0;
 		float maxY = 0;
 		
-		for (auto chars : text) {
-			Character *character = font->characters[chars];
+		unsigned int offset = 0;
+		
+		for (unsigned int i = 0; i < text.size(); i++) {
+			Character *character = font->characters[text[i]];
 			float x = cursorX + character->bitmapDir.x * size;
 			float y = -cursorY - character->bitmapDir.y * size;
 			float width = character->bitmapSize.x * size;
@@ -60,13 +71,32 @@ namespace font {
 			glm::vec2 topLeft(x, -y - height);
 			glm::vec2 topRight(x + width, -y - height);
 			
-			vertices.emplace_back(topRight);
+			/*vertices.emplace_back(topRight);
 			vertices.emplace_back(bottomRight);
 			vertices.emplace_back(bottomLeft);
 			
 			vertices.emplace_back(bottomLeft);
 			vertices.emplace_back(topLeft);
+			vertices.emplace_back(topRight);*/
+			
+			offset = vertices.size();
+			
+			vertices.emplace_back(bottomLeft);
+			vertices.emplace_back(topLeft);
 			vertices.emplace_back(topRight);
+			vertices.emplace_back(bottomRight);
+			
+			indices.emplace_back(offset);
+			indices.emplace_back(offset + 1);
+			indices.emplace_back(offset + 2);
+			
+			indices.emplace_back(offset);
+			indices.emplace_back(offset + 2);
+			indices.emplace_back(offset + 3);
+			
+			/*vertices.emplace_back(bottomLeft);
+			vertices.emplace_back(topLeft);
+			vertices.emplace_back(topRight);*/
 			
 			glm::vec2 t = character->texture;
 			glm::vec2 s = character->bitmapSize;
@@ -81,13 +111,13 @@ namespace font {
 			topRight = glm::vec2((t.x + s.x) / a.x,
 			                     (t.y + s.y) / a.y);
 			
-			uvs.emplace_back(topRight);
-			uvs.emplace_back(bottomRight);
-			uvs.emplace_back(bottomLeft);
-			
 			uvs.emplace_back(bottomLeft);
 			uvs.emplace_back(topLeft);
 			uvs.emplace_back(topRight);
+			
+			uvs.emplace_back(bottomLeft);
+			uvs.emplace_back(topRight);
+			uvs.emplace_back(bottomRight);
 		}
 		boundingBox = glm::vec2(maxX, maxY);
 		
@@ -98,6 +128,9 @@ namespace font {
 		
 		glBindBuffer(GL_ARRAY_BUFFER, uvsVBO);
 		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_DYNAMIC_DRAW);
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesVBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_DYNAMIC_DRAW);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);

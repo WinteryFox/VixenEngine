@@ -40,6 +40,7 @@ namespace graphics {
 	
 	Mesh::~Mesh() {
 		glDeleteBuffers(1, &indicesVBO);
+		glDeleteBuffers(1, &uvsVBO);
 		glDeleteBuffers(1, &vertexVBO);
 		glDeleteBuffers(1, &normalsVBO);
 		glDeleteVertexArrays(1, &vao);

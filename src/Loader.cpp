@@ -78,6 +78,8 @@ namespace graphics::loader {
 				indices.push_back(mesh->mFaces[i].mIndices[2]);
 			}
 			
+			std::cout << vertices.size() << " " << indices.size() << " " << uvs.size() << std::endl;
+			
 			meshes.push_back(new graphics::Mesh(vertices, indices, uvs, normals, material));
 		}
 		return new graphics::model::Model(meshes);

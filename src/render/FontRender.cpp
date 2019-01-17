@@ -11,7 +11,7 @@ namespace graphics {
 				glBindTexture(GL_TEXTURE_2D, pair.first->texture->id);
 				for (font::Text *text : pair.second) {
 					prepareInstance(text);
-					glDrawArrays(GL_TRIANGLES, 0, text->vertices.size());
+					glDrawElements(GL_TRIANGLES, text->indices.size(), GL_UNSIGNED_INT, nullptr);
 				}
 			}
 			glBindTexture(GL_TEXTURE_2D, 0);

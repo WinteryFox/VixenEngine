@@ -18,15 +18,18 @@ namespace font {
 		glm::vec3 color;
 		Font* font;
 		std::vector<glm::vec2> vertices, uvs;
+		std::vector<unsigned int> indices;
 		glm::vec2 boundingBox;
-		GLuint vao, verticesVBO, uvsVBO;
+		GLuint vao, verticesVBO, uvsVBO, indicesVBO;
 		
 	private:
 		std::string text;
 		
 	public:
 		Text(Font *font, const std::string &text, const glm::vec2 &position = glm::vec3(0.0f),
-		     const glm::vec3 &color = glm::vec3(1.0f), float size = 1.0f);
+		      const glm::vec3 &color = glm::vec3(1.0f), float size = 1.0f);
+		~Text();
+		
 		void setText(const std::string &text);
 		
 	private:
