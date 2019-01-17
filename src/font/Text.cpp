@@ -50,8 +50,8 @@ namespace font {
 		
 		unsigned int offset = 0;
 		
-		for (unsigned int i = 0; i < text.size(); i++) {
-			Character *character = font->characters[text[i]];
+		for (char i : text) {
+			Character *character = font->characters[i];
 			float x = cursorX + character->bitmapDir.x * size;
 			float y = -cursorY - character->bitmapDir.y * size;
 			float width = character->bitmapSize.x * size;
@@ -71,14 +71,6 @@ namespace font {
 			glm::vec2 topLeft(x, -y - height);
 			glm::vec2 topRight(x + width, -y - height);
 			
-			/*vertices.emplace_back(topRight);
-			vertices.emplace_back(bottomRight);
-			vertices.emplace_back(bottomLeft);
-			
-			vertices.emplace_back(bottomLeft);
-			vertices.emplace_back(topLeft);
-			vertices.emplace_back(topRight);*/
-			
 			offset = vertices.size();
 			
 			vertices.emplace_back(bottomLeft);
@@ -93,10 +85,6 @@ namespace font {
 			indices.emplace_back(offset);
 			indices.emplace_back(offset + 2);
 			indices.emplace_back(offset + 3);
-			
-			/*vertices.emplace_back(bottomLeft);
-			vertices.emplace_back(topLeft);
-			vertices.emplace_back(topRight);*/
 			
 			glm::vec2 t = character->texture;
 			glm::vec2 s = character->bitmapSize;
@@ -113,9 +101,6 @@ namespace font {
 			
 			uvs.emplace_back(bottomLeft);
 			uvs.emplace_back(topLeft);
-			uvs.emplace_back(topRight);
-			
-			uvs.emplace_back(bottomLeft);
 			uvs.emplace_back(topRight);
 			uvs.emplace_back(bottomRight);
 		}
