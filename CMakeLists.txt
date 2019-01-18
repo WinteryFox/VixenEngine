@@ -68,8 +68,8 @@ elseif (UNIX AND APPLE)
 			${GLFW}/src/cocoa_init.m
 			${GLFW}/src/cocoa_joystick.m
 			${GLFW}/src/cocoa_monitor.m
-			${GLFW}/src/cocoa_time.c
 			${GLFW}/src/cocoa_window.m
+			${GLFW}/src/cocoa_time.c
 			${GLFW}/src/posix_tls.c
 			${GLFW}/src/nsgl_context.m)
 	LIST(APPEND GLFW_HEADERS
@@ -77,6 +77,7 @@ elseif (UNIX AND APPLE)
 			${GLFW}/src/cocoa_joystick.h
 			${GLFW}/src/posix_tls.h
 			${GLFW}/src/nsgl_context)
+	set_source_files_properties(${GLFW_SRC} PROPERTIES LANGUAGE C)
 elseif (UNIX)
 	error()
 endif()
