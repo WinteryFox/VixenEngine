@@ -1,5 +1,3 @@
-#include <utility>
-
 #include "Window.h"
 #include "Loader.h"
 
@@ -44,12 +42,14 @@ namespace graphics {
 		
 		glfwMakeContextCurrent(window);
 		glfwSetWindowUserPointer(window, this);
-		
+
+#ifndef __unix__
 		glewExperimental = GL_TRUE;
 		if (glewInit() != GLEW_OK) {
 			std::cerr << "Failed to initialise GLEW" << std::endl;
 			return false;
 		}
+#endif
 		
 		glfwSwapInterval(0);
 		

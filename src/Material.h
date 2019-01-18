@@ -1,6 +1,5 @@
 #pragma once
 
-#include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <iostream>
 #include "Texture.h"

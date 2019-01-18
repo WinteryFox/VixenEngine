@@ -1,6 +1,10 @@
 #pragma once
 
+#ifndef __unix__
 #include <GL/glew.h>
+#else
+#include <GL/gl.h>
+#endif
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

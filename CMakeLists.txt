@@ -9,17 +9,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 # ---- BUILD GLEW ----
 
-set(GLEW ${CMAKE_SOURCE_DIR}/contrib/glew)
-set(GLEW_SRC
-		${GLEW}/src/glew.c
-		${GLEW}/include/GL/glew.h
-		${GLEW}/include/GL/wglew.h
-		${GLEW}/include/GL/glxew.h)
+if (NOT UNIX)
+	set(GLEW ${CMAKE_SOURCE_DIR}/contrib/glew)
+	set(GLEW_SRC
+			${GLEW}/src/glew.c
+			${GLEW}/include/GL/glew.h
+			${GLEW}/include/GL/wglew.h
+			${GLEW}/include/GL/glxew.h)
 
-add_definitions(-DGLEW_STATIC)
+	add_definitions(-DGLEW_STATIC)
 
-add_library(glew STATIC ${GLEW_SRC})
-target_include_directories(glew PUBLIC ${GLEW}/include)
+	add_library(glew STATIC ${GLEW_SRC})
+	target_include_directories(glew PUBLIC ${GLEW}/include)
+endif()
 
 # ---- BUILD GLFW ----
 
@@ -387,5 +389,5 @@ if (WIN32)
 	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw glew ${OPENGL_LIBRARIES} gdi32 user32 kernel32)
 	target_link_libraries(VixenEngine -static winpthread -dynamic)
 else()
-	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw glew ${OPENGL_LIBRARIES})
+	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw ${OPENGL_LIBRARIES})
 endif()
