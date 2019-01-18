@@ -61,7 +61,7 @@ if (WIN32)
 			${GLFW}/src/win32_platform.h
 			${GLFW}/src/wgl_context.h
 			${GLFW}/src/egl_context.h)
-elseif (UNIX && APPLE)
+elseif (UNIX AND APPLE)
 	list(APPEND GLFW_SRC
 			${GLFW}/src/cocoa_init.m
 			${GLFW}/src/cocoa_joystick.m
