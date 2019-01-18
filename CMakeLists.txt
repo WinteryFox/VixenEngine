@@ -77,12 +77,28 @@ elseif (UNIX AND APPLE)
 			${GLFW}/src/cocoa_joystick.h
 			${GLFW}/src/posix_tls.h
 			${GLFW}/src/nsgl_context)
+
 	set_source_files_properties(${GLFW_SRC} PROPERTIES LANGUAGE C)
+
+	find_library(COCOA_FRAMEWORK Cocoa)
+	find_library(IOKIT_FRAMEWORK IOKit)
+	find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
+	find_library(CORE_VIDEO_FRAMEWORK CoreVideo)
+	mark_as_advanced(COCOA_FRAMEWORK
+			IOKIT_FRAMEWORK
+			CORE_FOUNDATION_FRAMEWORK
+			CORE_VIDEO_FRAMEWORK)
+	list(APPEND GLFW_LIBS "${COCOA_FRAMEWORK}"
+			"${IOKIT_FRAMEWORK}"
+			"${CORE_FOUNDATION_FRAMEWORK}"
+			"${CORE_VIDEO_FRAMEWORK}")
 elseif (UNIX)
 	error()
 endif()
 
 add_library(glfw STATIC ${GLFW_SRC} ${GLFW_HEADER})
+target_compile_definitions(glfw PRIVATE "$<$<BOOL:${MINGW}>:UNICODE;WINVER=0x0501>")
+target_link_libraries(glfw INTERFACE ${GLFW_LIBS})
 
 # ---- BUILD ZLIB ----
 
