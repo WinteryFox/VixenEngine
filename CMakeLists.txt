@@ -7,6 +7,48 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
+# ---- BUILD IRRXML ----
+
+set(IRRXML bin/irrxml/src)
+set(IRRXML_SRC
+		${IRRXML}/CXMLReaderImpl.h
+		${IRRXML}/heapsort.h
+		${IRRXML}/irrArray.h
+		${IRRXML}/irrString.h
+		${IRRXML}/irrTypes.h
+		${IRRXML}/irrXML.cpp
+		${IRRXML}/irrXML.h)
+
+add_library(irrxml STATIC ${IRRXML_SRC})
+set_target_properties(irrxml PROPERTIES OUTPUT_NAME "irrxml")
+
+# ---- BUILD ASSIMP ----
+
+#set(ASSIMP bin/assimp)
+#set(ASSIMP_BIN bin/assimp/code)
+
+#configure_file(${ASSIMP}/revision.h.in ${ASSIMP_BIN}/revision.h)
+#configure_file(${ASSIMP}/include/assimp/config.h.in ${ASSIMP}/include/assimp/config.h)
+
+#add_library(assimp STATIC
+#		${ASSIMP_BIN}/revision.h
+#		${ASSIMP_BIN}/Version.cpp
+#		${ASSIMP_BIN}/Importer.cpp
+#		${ASSIMP_BIN}/Importer.h
+#		${ASSIMP_BIN}/scene.cpp
+#		${ASSIMP_BIN}/ColladaParser.cpp
+#		${ASSIMP_BIN}/ColladaParser.h
+#		${ASSIMP_BIN}/ColladaLoader.cpp
+#		${ASSIMP_BIN}/ColladaLoader.h
+#)
+
+#target_include_directories(assimp PUBLIC ${ASSIMP}/include)
+#target_compile_features(assimp PUBLIC cxx_attributes cxx_defaulted_functions cxx_deleted_functions cxx_final)
+#target_compile_definitions(assimp PUBLIC __STDC_LIMIT_MACROS __STDC_FORMAT_MACROS)
+#set_target_properties(assimp PROPERTIES OUTPUT_NAME "assimp")
+
+#---- BUILD ENGINE ----
+
 add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.cpp src/Camera.h src/shaders/Shader.cpp src/shaders/Shader.h src/shaders/Phong.h src/Mesh.cpp src/Mesh.h src/render/EntityRender.cpp src/render/EntityRender.h src/Entity.cpp src/Entity.h src/Loader.cpp src/Loader.h src/Light.cpp src/Light.h src/Player.cpp src/Player.h src/Model.cpp src/Model.h src/Chunk.cpp src/Chunk.h src/Material.h src/render/EntityRender.cpp src/render/EntityRender.h src/Generator.cpp src/Generator.h src/render/TerrainRender.cpp src/render/TerrainRender.h src/Image.h src/Texture.h src/shaders/Phong.cpp src/shaders/GuiShader.cpp src/shaders/GuiShader.h src/font/Font.cpp src/font/Font.h src/font/Text.cpp src/font/Text.h src/render/FontRender.cpp src/render/FontRender.h src/font/Character.h src/render/MasterRender.cpp src/render/MasterRender.h)
 
 set(OpenGL_GL_PREFERENCE GLVND)
@@ -19,14 +61,14 @@ target_link_libraries(VixenEngine ${OPENGL_LIBRARIES})
 target_include_directories(VixenEngine PUBLIC ${OPENGL_INCLUDE_DIR})
 
 if (WIN32)
-	target_link_libraries(VixenEngine glew32 glfw3 png16 freetype z assimp gdi32 user32 kernel32)
+	target_link_libraries(VixenEngine glew32 glfw3 png16 freetype assimp irrxml z gdi32 user32 kernel32)
 elseif (UNIX)
 	find_package(PkgConfig REQUIRED)
-
+	
 	pkg_search_module(GLEW REQUIRED glew)
 	target_link_libraries(VixenEngine ${GLEW_LIBRARIES})
 	target_include_directories(VixenEngine PUBLIC ${GLFW_INCLUDE_DIR})
-
+	
 	pkg_search_module(GLFW REQUIRED glfw3)
 	target_link_libraries(VixenEngine ${GLFW_LIBRARIES})
 	target_include_directories(VixenEngine PUBLIC ${GLFW_INCLUDE_DIR})
@@ -38,11 +80,11 @@ elseif (UNIX)
 	pkg_search_module(PNG REQUIRED libpng)
 	target_link_libraries(VixenEngine ${PNG_LIBRARIES})
 	target_include_directories(VixenEngine PUBLIC ${PNG_INCLUDE_DIRS})
-
+	
 	pkg_search_module(FREETYPE REQUIRED freetype)
 	target_link_libraries(VixenEngine ${FREETYPE_LIBRARIES})
 	target_include_directories(VixenEngine PUBLIC ${FREETYPE_INCLUDE_DIRS})
-
+	
 	pkg_search_module(LIBZ REQUIRED z)
 	target_link_libraries(VixenEngine ${LIBZ_LIBRARIES})
 	target_include_directories(VixenEngine PUBLIC ${LIBZ_INCLUDE_DIRS})
