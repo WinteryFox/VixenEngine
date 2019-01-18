@@ -27,9 +27,9 @@ set(GLFW ${CMAKE_SOURCE_DIR}/contrib/glfw)
 
 if(WIN32)
 	add_definitions(-D_GLFW_WIN32)
-elseif(UNIX)
+elseif(UNIX AND NOT APPLE)
 	add_definitions(-D_GLFW_WAYLAND)
-elseif(UNIX && APPLE)
+elseif(UNIX AND APPLE)
 	add_definitions(-D_GLFW_COCOA)
 endif()
 
@@ -39,23 +39,45 @@ set(GLFW_SRC
 		${GLFW}/src/input.c
 		${GLFW}/src/monitor.c
 		${GLFW}/src/vulkan.c
-		${GLFW}/src/window.c
-		${GLFW}/src/win32_init.c
-		${GLFW}/src/win32_joystick.c
-		${GLFW}/src/win32_monitor.c
-		${GLFW}/src/win32_time.c
-		${GLFW}/src/win32_tls.c
-		${GLFW}/src/win32_window.c
-		${GLFW}/src/wgl_context.c
-		${GLFW}/src/egl_context.c)
+		${GLFW}/src/window.c)
 set (GLFW_HEADERS
 		${GLFW}/src/glfw_config.h
 		${GLFW}/include/GLFW/glfw3.h
-		${GLFW}/include/GLFW/glfw3native.h
-		${GLFW}/src/win32_platform.h
-		${GLFW}/src/win32_joystick.h
-		${GLFW}/src/wgl_context.h
-		${GLFW}/src/egl_context.h)
+		${GLFW}/include/GLFW/glfw3native.h)
+
+if (WIN32)
+	list(APPEND GLFW_SRC
+			${GLFW}/src/win32_init.c
+			${GLFW}/src/win32_joystick.c
+			${GLFW}/src/win32_monitor.c
+			${GLFW}/src/win32_time.c
+			${GLFW}/src/win32_tls.c
+			${GLFW}/src/win32_window.c
+			${GLFW}/src/wgl_context.c
+			${GLFW}/src/egl_context.c)
+	list(APPEND GLFW_HEADERS
+			${GLFW}/src/win32_platform.h
+			${GLFW}/src/win32_joystick.h
+			${GLFW}/src/win32_platform.h
+			${GLFW}/src/wgl_context.h
+			${GLFW}/src/egl_context.h)
+elseif (UNIX && APPLE)
+	list(APPEND GLFW_SRC
+			${GLFW}/src/cocoa_init.m
+			${GLFW}/src/cocoa_joystick.m
+			${GLFW}/src/cocoa_monitor.m
+			${GLFW}/src/cocoa_time.c
+			${GLFW}/src/cocoa_window.m
+			${GLFW}/src/posix_tls.c
+			${GLFW}/src/nsgl_context.m)
+	LIST(APPEND GLFW_HEADERS
+			${GLFW}/src/cocoa_platform.h
+			${GLFW}/src/cocoa_joystick.h
+			${GLFW}/src/posix_tls.h
+			${GLFW}/src/nsgl_context)
+elseif (UNIX)
+	error()
+endif()
 
 add_library(glfw STATIC ${GLFW_SRC} ${GLFW_HEADER})
 
