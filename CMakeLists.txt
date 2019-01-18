@@ -4,7 +4,7 @@ project(VixenEngine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED=ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++)
+set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static-libstdc++ -static-libgcc")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 # ---- BUILD GLEW ----
@@ -365,6 +365,7 @@ target_include_directories(VixenEngine PUBLIC ${OPENGL_INCLUDE_DIR})
 
 if (WIN32)
 	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw glew ${OPENGL_LIBRARIES} gdi32 user32 kernel32)
+	target_link_libraries(VixenEngine -static winpthread -dynamic)
 else()
 	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw glew ${OPENGL_LIBRARIES})
 endif()
