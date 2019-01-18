@@ -370,8 +370,6 @@ add_library(assimp STATIC
 		${ASSIMP_BIN}/CreateAnimMesh.h)
 
 target_include_directories(assimp PUBLIC ${ASSIMP}/include/assimp ${ASSIMP}/include ${IRRXML})
-target_compile_features(assimp PUBLIC cxx_attributes cxx_defaulted_functions cxx_deleted_functions cxx_final)
-target_compile_definitions(assimp PUBLIC __STDC_LIMIT_MACROS __STDC_FORMAT_MACROS)
 set_target_properties(assimp PROPERTIES LIBRARY_OUTPUT_NAME assimp)
 
 #---- BUILD ENGINE ----
