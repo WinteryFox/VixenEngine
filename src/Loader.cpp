@@ -13,7 +13,10 @@ namespace graphics::loader {
 		const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality |
 		                                               aiProcess_PreTransformVertices);
 		if (!scene) {
+			if (file == resourcePath + "models/missing.dae")
+				exit(0x5);
 			std::cerr << "Failed to open file " << file << std::endl;
+			std::cout << importer.GetErrorString() << std::endl;
 			return loadModel(resourcePath + "models/missing.dae");
 		}
 		
