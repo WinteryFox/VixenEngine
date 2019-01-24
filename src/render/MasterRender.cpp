@@ -4,6 +4,7 @@ namespace graphics {
 	MasterRender::MasterRender() {
 		entityRender = new EntityRender();
 		fontRender = new FontRender();
+		terrainRender = new TerrainRender();
 		
 		arial = new font::Font("arial.ttf", 14);
 		fpsText = new font::Text(arial, "FPS: 0");
@@ -23,6 +24,10 @@ namespace graphics {
 		delete fpsText;
 		delete vertexText;
 		delete gpuText;
+		
+		delete entityRender;
+		delete fontRender;
+		delete entityRender;
 	}
 	
 	void MasterRender::render() {
@@ -44,6 +49,7 @@ namespace graphics {
 		
 		entityRender->render(entities, lights);
 		fontRender->render(texts);
+		terrainRender->render(chunks, lights);
 		
 		fps++;
 		double currentTime = glfwGetTime();
@@ -69,11 +75,12 @@ namespace graphics {
 		return entity;
 	}
 	
-	void MasterRender::addTerrain(int gridX, int gridZ) {
-		Mesh *mesh = terrain::Generator::flatChunk();
-		vertices += mesh->vertexCount;
+	terrain::Chunk *MasterRender::addTerrain(int gridX, int gridZ) {
+		terrain::Chunk *chunk = terrain::Generator::flatChunk(gridX, gridZ);
+		vertices += chunk->mesh->vertexCount;
 		vertexText->setText("Vertices: " + std::to_string(vertices));
-		terrains.push_back(mesh);
+		chunks.push_back(chunk);
+		return chunk;
 	}
 	
 	graphics::Light *MasterRender::addDirectionalLight(const vec3 &direction, const dvec3 &color) {

@@ -4,15 +4,16 @@
 
 namespace terrain {
 	class Chunk {
-	private:
-		
-		int tileX;
-		int tileZ;
-		int y;
-		
 	public:
+		int gridX;
+		int gridZ;
+		int y;
+		float size;
 		graphics::Mesh *mesh;
-		Chunk(graphics::Mesh *mesh, int tileX, int tileZ, int y) : mesh(mesh), tileX(tileX), tileZ(tileZ), y(y) {};
+		
+		Chunk(graphics::Mesh *mesh, float size, int tileX, int tileZ, int y) : mesh(mesh), size(size), gridX(tileX), gridZ(tileZ), y(y) {
+		
+		};
 	};
 }
 

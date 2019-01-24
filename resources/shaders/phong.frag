@@ -42,7 +42,7 @@ vec4 calcDirLight(Light light, vec3 viewDir, vec3 normal) {
 	vec3 reflectDir = reflect(-lightDir, normal);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
 
-	vec4 ambient = vec4(light.color * material.ambient, 1.0);
+	vec4 ambient = vec4(material.ambient, 1.0);
 	vec4 diffuse = vec4(light.color, 1.0) * vec4(diff * material.diffuse, 1.0);
 	vec4 specular = vec4(light.color, 1.0) * vec4(spec * material.specular, 1.0);
 
@@ -59,7 +59,7 @@ vec4 calcPointLight(Light light, vec3 viewDir, vec3 normal) {
 	float distance = length(light.position - world);
 	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 
-	vec4 ambient = vec4(light.color * material.ambient, 1.0) * attenuation;
+	vec4 ambient = vec4(material.ambient, 1.0) * attenuation;
     vec4 diffuse = vec4(light.color, 1.0) * vec4(diff * material.diffuse, 1.0) * attenuation;
     vec4 specular = vec4(light.color, 1.0) * vec4(spec * material.specular, 1.0) * attenuation;
 

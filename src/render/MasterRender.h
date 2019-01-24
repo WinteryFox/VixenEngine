@@ -5,12 +5,14 @@
 #include "FontRender.h"
 #include "TerrainRender.h"
 #include "../Generator.h"
+#include "../Chunk.h"
 
 namespace graphics {
 	class MasterRender {
 	private:
 		EntityRender *entityRender;
 		FontRender *fontRender;
+		TerrainRender *terrainRender;
 		
 		unsigned int vertices = 0;
 		
@@ -29,7 +31,7 @@ namespace graphics {
 		std::vector<Entity *> entities;
 		std::vector<graphics::Light *> lights;
 		std::map<font::Font *, std::vector<font::Text *>> texts;
-		std::vector<graphics::Mesh*> terrains;
+		std::vector<terrain::Chunk*> chunks;
 		
 	public:
 		MasterRender();
@@ -40,7 +42,7 @@ namespace graphics {
 		Entity *
 		addEntity(const std::string &file, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
 		//void addText(const std::string text, const std::string font, );
-		void addTerrain(int gridX, int gridZ);
+		terrain::Chunk *addTerrain(int gridX, int gridZ);
 		
 		graphics::Light *
 		addDirectionalLight(const vec3 &direction = vec3(0.0f, -0.5f, 0.0f), const dvec3 &color = dvec3(1.0f));

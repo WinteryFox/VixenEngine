@@ -1,7 +1,7 @@
 #include "Generator.h"
 
 namespace terrain {
-	graphics::Mesh* Generator::flatChunk(int size, int maxVertices) {
+	terrain::Chunk *Generator::flatChunk(int gridX, int gridZ, int size, int maxVertices) {
 		vector<vec3> vertices;
 		vector<unsigned int> indices;
 		vector<vec2> uvs;
@@ -14,8 +14,8 @@ namespace terrain {
 						0,
 						(float) i / ((float) maxVertices - 1) * size);
 				uvs.emplace_back(
-						(float) j / ((float) maxVertices - 1) * 10,
-						(float) i / ((float) maxVertices - 1) * 10);
+						(float) j / ((float) maxVertices - 1) * 2,
+						(float) i / ((float) maxVertices - 1) * 2);
 				normals.emplace_back(0, 1, 0);
 			}
 		}
@@ -35,8 +35,8 @@ namespace terrain {
 			}
 		}
 		
-		return new graphics::Mesh(vertices, indices, uvs, normals, new graphics::Material(
+		return new terrain::Chunk(new graphics::Mesh(vertices, indices, uvs, normals, new graphics::Material(
 				graphics::loader::Loader::generateTexture(graphics::loader::Loader::loadImage("textures/grass.png")),
-				vec3(0.05f, 0.05f, 0.05f), vec3(1, 1, 1), vec3(0, 0, 0), 50));
+				vec3(0.05f, 0.05f, 0.05f), vec3(1, 1, 1), vec3(0, 0, 0), 50)), size, gridX, gridZ, 0);
 	}
 }
