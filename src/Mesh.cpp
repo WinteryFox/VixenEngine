@@ -7,8 +7,13 @@ namespace graphics {
 	                                                                    uvCount(uvs.size()),
 	                                                                    normalCount(normals.size()),
 	                                                                    material(material) {
+#ifdef __WIN32__
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
+#elif __APPLE__
+		glGenVertexArraysAPPLE(1, &vao);
+		glBindVertexArrayAPPLE(vao);
+#endif
 		glGenBuffers(1, &vertexVBO);
 		glGenBuffers(1, &indicesVBO);
 		glGenBuffers(1, &uvsVBO);
@@ -28,8 +33,12 @@ namespace graphics {
 		glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
 		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), &normals[0], GL_STATIC_DRAW);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-		
+
+#ifdef __WIN32__
 		glBindVertexArray(0);
+#elif __APPLE__
+		glBindVertexArrayAPPLE(0);
+#endif
 	}
 	
 	Mesh::~Mesh() {
@@ -37,6 +46,10 @@ namespace graphics {
 		glDeleteBuffers(1, &uvsVBO);
 		glDeleteBuffers(1, &vertexVBO);
 		glDeleteBuffers(1, &normalsVBO);
+#ifdef __WIN32__
 		glDeleteVertexArrays(1, &vao);
+#elif __APPLE__
+		glDeleteVertexArraysAPPLE(1, &vao);
+#endif
 	}
 }

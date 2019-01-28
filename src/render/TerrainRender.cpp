@@ -38,7 +38,11 @@ namespace graphics {
 			glDisableVertexAttribArray(0);
 			glDisableVertexAttribArray(1);
 			glDisableVertexAttribArray(2);
+#ifdef __WIN32__
 			glBindVertexArray(0);
+#elif __APPLE__
+			glBindVertexArrayAPPLE(0);
+#endif
 			
 			shader->stop();
 		}
@@ -49,7 +53,11 @@ namespace graphics {
 	}
 	
 	void TerrainRender::prepareMesh(Mesh *mesh) {
+#ifdef __WIN32__
 		glBindVertexArray(mesh->vao);
+#elif __APPLE__
+		glBindVertexArrayAPPLE(mesh->vao);
+#endif
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);

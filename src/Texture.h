@@ -1,7 +1,14 @@
 #pragma once
 
 #include <iostream>
+
+#ifdef __WIN32__
 #include <GL/glew.h>
+#elif __APPLE__
+
+#include <OpenGL/gl.h>
+
+#endif
 
 namespace graphics {
 	class Texture {

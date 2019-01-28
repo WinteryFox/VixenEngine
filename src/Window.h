@@ -1,6 +1,12 @@
 #pragma once
 
+#ifdef __WIN32__
 #include <GL/glew.h>
+#elif __APPLE__
+
+#include <OpenGL/gl.h>
+
+#endif
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <string>

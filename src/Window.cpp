@@ -22,8 +22,16 @@ namespace graphics {
 		}
 		
 		glfwWindowHint(GLFW_SAMPLES, 4);
+#ifdef __WIN32__
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+#elif __APPLE__
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+#elif __linux__
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+#endif
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
@@ -43,20 +51,22 @@ namespace graphics {
 		glfwMakeContextCurrent(window);
 		glfwSetWindowUserPointer(window, this);
 
+#ifdef __WIN32__
 		glewExperimental = GL_TRUE;
 		if (glewInit() != GLEW_OK) {
 			std::cerr << "Failed to initialise GLEW" << std::endl;
 			return false;
 		}
+#endif
 		
 		glfwSwapInterval(0);
-		
-		if (GLEW_KHR_debug) {
+
+#ifdef __WIN32__
 			glEnable(GL_DEBUG_OUTPUT);
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 			glDebugMessageCallback(glDebugOutput, nullptr);
 			glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_ERROR, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-		}
+#endif
 		
 		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		glfwSetWindowPos(window, mode->width / 2 - width / 2, mode->height / 2 - height / 2);
@@ -116,6 +126,7 @@ void focusCallback(GLFWwindow* w, int focused) {
 		glfwSetInputMode(w, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
+#ifdef __WIN32__
 void APIENTRY glDebugOutput(GLenum source,
                                     GLenum type,
                                     GLuint id,
@@ -162,3 +173,4 @@ void APIENTRY glDebugOutput(GLenum source,
 	} std::cout << std::endl;
 	std::cout << std::endl;
 }
+#endif

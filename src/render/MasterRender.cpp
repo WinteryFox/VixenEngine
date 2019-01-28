@@ -27,11 +27,11 @@ namespace graphics {
 		
 		delete entityRender;
 		delete fontRender;
-		delete entityRender;
+		delete terrainRender;
 	}
 	
 	void MasterRender::render() {
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 		
 		window->update();
 		

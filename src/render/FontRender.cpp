@@ -17,7 +17,11 @@ namespace graphics {
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glDisableVertexAttribArray(0);
 			glDisableVertexAttribArray(1);
+#ifdef __WIN32__
 			glBindVertexArray(0);
+#elif __APPLE__
+			glBindVertexArrayAPPLE(0);
+#endif
 			shader->stop();
 			
 			glDisable(GL_BLEND);
@@ -33,7 +37,11 @@ namespace graphics {
 	}
 	
 	void FontRender::prepareInstance(const font::Text *text) {
+#ifdef __WIN32__
 		glBindVertexArray(text->vao);
+#elif __APPLE__
+		glBindVertexArrayAPPLE(text->vao);
+#endif
 		
 		glBindBuffer(GL_ARRAY_BUFFER, text->verticesVBO);
 		glEnableVertexAttribArray(0);
