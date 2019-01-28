@@ -42,7 +42,8 @@ namespace shaders {
 	}
 	
 	void Shader::loadLight(const shaders::Light &lightLocations, const graphics::Light &light) {
-		glUniform3f(lightLocations.color, (float) light.color.x, (float) light.color.y, (float) light.color.z);
+		glUniform3f(lightLocations.color, static_cast<float>(light.color.x), static_cast<float>(light.color.y),
+		            static_cast<float>(light.color.z));
 		if (light.type == graphics::Light::DIRECTIONAL) {
 			glUniform1i(lightLocations.type, 0);
 			glUniform3fv(lightLocations.directional, 1, &light.direction[0]);

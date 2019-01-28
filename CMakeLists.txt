@@ -22,6 +22,7 @@ if (WIN32)
 	add_definitions(-DGLEW_NO_GLU)
 
 	add_library(glew STATIC ${GLEW_SRC})
+	target_include_directories(glew PUBLIC ${GLEW}/include)
 endif()
 
 # ---- BUILD GLFW ----

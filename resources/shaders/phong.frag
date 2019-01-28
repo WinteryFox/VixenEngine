@@ -6,7 +6,7 @@ struct Light {
 	vec3 directional;
 
 	vec3 position;
-	dvec3 color;
+	vec3 color;
 
 	float quadratic;
 	float linear;

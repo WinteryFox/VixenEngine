@@ -31,7 +31,7 @@ namespace graphics {
 	}
 	
 	void MasterRender::render() {
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
 		window->update();
 		
