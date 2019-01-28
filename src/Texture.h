@@ -1,11 +1,7 @@
 #pragma once
 
 #include <iostream>
-#ifndef __unix__
 #include <GL/glew.h>
-#else
-#include <GL/gl.h>
-#endif
 
 namespace graphics {
 	class Texture {

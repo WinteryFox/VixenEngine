@@ -4,24 +4,29 @@ project(VixenEngine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED=ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static-libstdc++ -static-libgcc")
+if (NOT UNIX)
+	set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static-libstdc++ -static-libgcc")
+endif ()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 # ---- BUILD GLEW ----
 
-if (NOT UNIX)
-	set(GLEW ${CMAKE_SOURCE_DIR}/contrib/glew)
-	set(GLEW_SRC
-			${GLEW}/src/glew.c
-			${GLEW}/include/GL/glew.h
-			${GLEW}/include/GL/wglew.h
-			${GLEW}/include/GL/glxew.h)
+set(GLEW ${CMAKE_SOURCE_DIR}/contrib/glew)
+set(GLEW_SRC
+		${GLEW}/src/glew.c)
 
-	add_definitions(-DGLEW_STATIC)
+add_definitions(-DGLEW_STATIC)
+add_definitions(-DGLEW_NO_GLU)
 
-	add_library(glew STATIC ${GLEW_SRC})
-	target_include_directories(glew PUBLIC ${GLEW}/include)
+add_library(glew STATIC ${GLEW_SRC})
+
+find_library(gl OpenGL REQUIRED)
+if (UNIX AND APPLE)
+	find_library(agl AGL REQUIRED)
 endif()
+
+target_include_directories(glew PUBLIC ${GLEW}/include)
+target_link_libraries(glew ${gl} ${agl})
 
 # ---- BUILD GLFW ----
 
@@ -405,6 +410,6 @@ target_include_directories(VixenEngine PUBLIC ${OPENGL_INCLUDE_DIR})
 if (WIN32)
 	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw glew ${OPENGL_LIBRARIES} gdi32 user32 kernel32)
 	target_link_libraries(VixenEngine -static winpthread -dynamic)
-else()
-	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw ${OPENGL_LIBRARIES})
+else(UNIX AND APPLE)
+	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw glew ${OPENGL_LIBRARIES})
 endif()

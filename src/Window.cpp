@@ -3,10 +3,10 @@
 
 namespace graphics {
 	Window::Window(const std::string &name, int width, int height) : name(name) {
-		this->width = width;
-		this->height = height;
-		if (!init())
+		if (!init(width, height)) {
 			glfwTerminate();
+			std::cerr << "Failed to initialise window" << std::endl;
+		}
 	}
 	
 	Window::~Window() {
@@ -15,15 +15,15 @@ namespace graphics {
 		glfwTerminate();
 	}
 	
-	bool Window::init() {
+	bool Window::init(int width, int height) {
 		if (!glfwInit()) {
 			std::cerr << "Failed to initialise GLFW" << std::endl;
 			return false;
 		}
 		
 		glfwWindowHint(GLFW_SAMPLES, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
@@ -43,20 +43,20 @@ namespace graphics {
 		glfwMakeContextCurrent(window);
 		glfwSetWindowUserPointer(window, this);
 
-#ifndef __unix__
 		glewExperimental = GL_TRUE;
 		if (glewInit() != GLEW_OK) {
 			std::cerr << "Failed to initialise GLEW" << std::endl;
 			return false;
 		}
-#endif
 		
 		glfwSwapInterval(0);
 		
-		glEnable(GL_DEBUG_OUTPUT);
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-		glDebugMessageCallback(glDebugOutput, nullptr);
-		glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_ERROR, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+		if (GLEW_KHR_debug) {
+			glEnable(GL_DEBUG_OUTPUT);
+			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+			glDebugMessageCallback(glDebugOutput, nullptr);
+			glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_ERROR, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+		}
 		
 		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		glfwSetWindowPos(window, mode->width / 2 - width / 2, mode->height / 2 - height / 2);
@@ -92,16 +92,24 @@ namespace graphics {
 		
 		glfwSetWindowIcon(window, 1, images);
 	}
+	
+	glm::vec2 Window::size() {
+		int width;
+		int height;
+		glfwGetWindowSize(window, &width, &height);
+		return glm::vec2(width, height);
+	}
+	
+	bool Window::focused() {
+		return true; // TODO: Check if window is actually focused
+	}
 }
 
 void bufferCallback(GLFWwindow* w, int width, int height) {
-	window->width = width;
-	window->height = height;
 	glViewport(0, 0, width, height);
 }
 
 void focusCallback(GLFWwindow* w, int focused) {
-	window->focused = focused == GLFW_TRUE;
 	if (focused == GLFW_FALSE)
 		glfwSetInputMode(w, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	else

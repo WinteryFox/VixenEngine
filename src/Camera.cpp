@@ -14,7 +14,7 @@ namespace input {
 	}
 	
 	void Camera::update(double dt, double tickrate) {
-		if (!window->focused)
+		if (!window->focused())
 			return;
 		
 		GLFWwindow* w = window->window;
@@ -63,7 +63,8 @@ namespace input {
 		advance.z *= tickrate;
 		position += advance;
 		
-		projection = perspective(radians(FoV), (float) window->width / (float) window->height, 0.1f, 1000.0f);
+		glm::vec2 size = window->size();
+		projection = perspective(radians(FoV), (float) size.x / (float) size.y, 0.1f, 1000.0f);
 		view = lookAt(position, position + direction, up);
 	}
 }

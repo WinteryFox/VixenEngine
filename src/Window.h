@@ -1,12 +1,8 @@
 #pragma once
 
-#ifndef __unix__
 #include <GL/glew.h>
-#else
-#include <GL/gl.h>
-#endif
-
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include <string>
 #include <iostream>
 #include "Image.h"
@@ -17,10 +13,8 @@ namespace graphics {
 		GLFWwindow *window;
 		std::string name;
 		
-		int width;
-		int height;
-		
-		bool focused = true;
+		int glVersionMajor;
+		int glVersionMinor;
 		
 		Window(const std::string &name, int width, int height);
 		~Window();
@@ -32,12 +26,13 @@ namespace graphics {
 		
 		void setIcon(const std::string &icon);
 		
+		glm::vec2 size();
+		bool focused();
+		
 	private:
-		bool init();
+		bool init(int width, int height);
 	};
 }
-
-extern graphics::Window* window;
 
 void focusCallback(GLFWwindow* w, int focused);
 void bufferCallback(GLFWwindow* w, int width, int height);

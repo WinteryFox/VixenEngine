@@ -15,7 +15,7 @@ namespace graphics {
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
 			
-			for (auto &entity : entities) {
+			for (auto *entity : entities) {
 				prepareInstance(entity);
 				for (auto *mesh : entity->model->getMeshes()) {
 					prepareMesh(mesh);

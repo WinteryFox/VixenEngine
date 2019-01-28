@@ -16,7 +16,7 @@ namespace graphics::loader {
 			if (file == resourcePath + "models/missing.dae")
 				exit(0x5);
 			std::cerr << "Failed to open file " << file << std::endl;
-			std::cout << importer.GetErrorString() << std::endl;
+			std::cerr << importer.GetErrorString() << std::endl;
 			return loadModel(resourcePath + "models/missing.dae");
 		}
 		
