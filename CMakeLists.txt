@@ -6,7 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED=ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 if (NOT UNIX)
 	set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static-libstdc++ -static-libgcc")
-endif ()
+else ()
+	set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static-libstdc++")
+endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 # ---- BUILD GLEW ----
