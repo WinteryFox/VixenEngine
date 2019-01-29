@@ -92,7 +92,7 @@ namespace graphics::loader {
 		
 		std::ifstream stream(path.c_str(), std::ios::binary);
 		if (!stream.is_open()) {
-			if (file == resourcePath + "models/missing.dae")
+			if (file == resourcePath + "textures/missing.png" || file == resourcePath + "models/missing.png")
 				exit(0x5);
 			std::cerr << "Failed to open image file " << file << ". Are you sure you're in the right directory?"
 			          << std::endl;
