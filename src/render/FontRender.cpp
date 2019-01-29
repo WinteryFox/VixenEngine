@@ -42,8 +42,8 @@ namespace graphics {
 		glEnableVertexAttribArray(1);
 		
 		glm::vec2 size = window->size();
-		shader->loadPosition(text->position.x, size.x - text->position.y - text->boundingBox.y);
+		shader->loadPosition(text->position.x, size.y - text->position.y - text->boundingBox.y);
 		shader->loadColor(text->color);
-		shader->loadProjection(glm::ortho(0.0f, (float) size.x, 0.0f, (float) size.y));
+		shader->loadProjection(glm::ortho(0.0f, size.x, 0.0f, size.y));
 	}
 }
