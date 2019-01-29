@@ -5,20 +5,12 @@ namespace font {
 			: text(text),
 			  position(position),
 			  size(size), color(color), font(font) {
-#ifdef __WIN32__
 		glGenVertexArrays(1, &vao);
-#elif __APPLE__
-		glGenVertexArraysAPPLE(1, &vao);
-#endif
 		glGenBuffers(1, &verticesVBO);
 		glGenBuffers(1, &uvsVBO);
 		glGenBuffers(1, &indicesVBO);
-
-#ifdef __WIN32__
+		
 		glBindVertexArray(vao);
-#elif __APPLE__
-		glBindVertexArrayAPPLE(vao);
-#endif
 		
 		glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -27,11 +19,7 @@ namespace font {
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-#ifdef __WIN32__
 		glBindVertexArray(0);
-#elif __APPLE__
-		glBindVertexArrayAPPLE(0);
-#endif
 		
 		updateBuffer();
 	}
@@ -40,11 +28,7 @@ namespace font {
 		glDeleteBuffers(1, &indicesVBO);
 		glDeleteBuffers(1, &uvsVBO);
 		glDeleteBuffers(1, &verticesVBO);
-#ifdef __WIN32__
 		glDeleteVertexArrays(1, &vao);
-#elif __APPLE__
-		glDeleteVertexArraysAPPLE(1, &vao);
-#endif
 	}
 	
 	void Text::setText(const std::string &text) {
@@ -123,12 +107,8 @@ namespace font {
 		verticesCount = vertices.size();
 		uvsCount = uvs.size();
 		indicesCount = indices.size();
-
-#ifdef __WIN32__
+		
 		glBindVertexArray(vao);
-#elif __APPLE__
-		glBindVertexArrayAPPLE(vao);
-#endif
 		
 		glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec2), &vertices[0], GL_DYNAMIC_DRAW);
@@ -140,10 +120,6 @@ namespace font {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_DYNAMIC_DRAW);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-#ifdef __WIN32__
 		glBindVertexArray(0);
-#elif __APPLE__
-		glBindVertexArrayAPPLE(0);
-#endif
 	}
 }

@@ -6,24 +6,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED=ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 if (WIN32)
 	set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static-libstdc++ -static-libgcc")
-else ()
-	set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static-libstdc++")
 endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 # ---- BUILD GLEW ----
 
-if (WIN32)
-	set(GLEW ${CMAKE_SOURCE_DIR}/contrib/glew)
-	set(GLEW_SRC
-			${GLEW}/src/glew.c)
+set(GLEW ${CMAKE_SOURCE_DIR}/contrib/glew)
+set(GLEW_SRC
+		${GLEW}/src/glew.c)
 
-	add_definitions(-DGLEW_STATIC)
-	add_definitions(-DGLEW_NO_GLU)
+add_definitions(-DGLEW_STATIC)
 
-	add_library(glew STATIC ${GLEW_SRC})
-	target_include_directories(glew PUBLIC ${GLEW}/include)
-endif()
+add_library(glew STATIC ${GLEW_SRC})
+target_include_directories(glew PUBLIC ${GLEW}/include)
 
 # ---- BUILD GLFW ----
 
@@ -408,5 +403,5 @@ if (WIN32)
 	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw glew ${OPENGL_LIBRARIES} gdi32 user32 kernel32)
 	target_link_libraries(VixenEngine -static winpthread -dynamic)
 else(UNIX AND APPLE)
-	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw ${OPENGL_LIBRARIES})
+	target_link_libraries(VixenEngine png freetype assimp irrxml zlib glfw glew ${OPENGL_LIBRARIES})
 endif()
