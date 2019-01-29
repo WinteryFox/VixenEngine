@@ -36,7 +36,8 @@ namespace terrain {
 		}
 		
 		return new terrain::Chunk(new graphics::Mesh(vertices, indices, uvs, normals, new graphics::Material(
-				graphics::loader::Loader::generateTexture(graphics::loader::Loader::loadImage("textures/grass.png")),
-				vec3(0.05f, 0.05f, 0.05f), vec3(1, 1, 1), vec3(0, 0, 0), 50)), size, gridX, gridZ, 0);
+				vec3(0.05f, 0.05f, 0.05f), vec3(1, 1, 1), vec3(0, 0, 0), 50,
+				graphics::loader::Loader::generateTexture(graphics::loader::Loader::loadImage("textures/grass.png")))),
+		                          size, gridX, gridZ, 0);
 	}
 }

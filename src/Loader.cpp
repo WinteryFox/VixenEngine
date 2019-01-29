@@ -45,6 +45,15 @@ namespace graphics::loader {
 			}
 			
 			aiMaterial *aiMat = scene->mMaterials[mesh->mMaterialIndex];
+			
+			if (aiMat == nullptr) {
+				std::cerr << "Mesh is malformed (missing material), using fallback material." << std::endl;
+				material = new Material(vec3(0.1f),
+				                        vec3(1.0f),
+				                        vec3(0.0f), 0.0f,
+				                        generateTexture(loadImage(resourcePath + "models/missing.png")));
+			}
+			
 			aiString mPath;
 			if (aiReturn_SUCCESS == aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
 				std::string temp = file.substr(0, file.find_last_of('/')) + "/";
@@ -60,15 +69,24 @@ namespace graphics::loader {
 				aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
 				aiMat->Get(AI_MATKEY_SHININESS, shininess);
 				
-				material = new Material(generateTexture(loadImage(temp), GL_NEAREST),
-				                        vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
+				material = new Material(vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
 				                        vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
-				                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess);
+				                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess,
+				                        generateTexture(loadImage(temp), GL_NEAREST));
 			} else {
 				std::cerr << "Failed to find diffuse texture for model " << file << std::endl;
-				material = new Material(generateTexture(loadImage(resourcePath + "models/missing.png")), vec3(0.1f),
+				material = new Material(vec3(0.1f),
 				                        vec3(1.0f),
-				                        vec3(0.0f), 0.0f);
+				                        vec3(0.0f), 0.0f,
+				                        generateTexture(loadImage(resourcePath + "models/missing.png")));
+			}
+			
+			if (aiReturn_SUCCESS == aiMat->GetTexture(aiTextureType_NORMALS, 0, &mPath)) {
+				std::string temp = file.substr(0, file.find_last_of('/')) + "/";
+				temp += mPath.C_Str();
+				std::cout << temp << std::endl;
+				
+				material->tDiffuse = generateTexture(loadImage(temp), GL_NEAREST);
 			}
 			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {

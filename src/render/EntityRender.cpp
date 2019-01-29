@@ -50,6 +50,6 @@ namespace graphics {
 		shader->loadMaterial(mesh->material);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mesh->material->texture->id);
+		glBindTexture(GL_TEXTURE_2D, mesh->material->tDiffuse->id);
 	}
 }

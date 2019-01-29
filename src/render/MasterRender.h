@@ -41,6 +41,8 @@ namespace graphics {
 		
 		Entity *
 		addEntity(const std::string &file, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
+		
+		Entity *addEntity(Mesh *mesh, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
 		//void addText(const std::string text, const std::string font, );
 		terrain::Chunk *addTerrain(int gridX, int gridZ);
 		

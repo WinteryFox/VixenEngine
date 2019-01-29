@@ -204,7 +204,7 @@ set(FREETYPE_SRC
 		${FREETYPE}/src/truetype/truetype.c
 		${FREETYPE}/src/type1/type1.c
 		${FREETYPE}/src/type42/type42.c
-		${FREETYPE}/src/winfonts/winfnt.c)
+		${FREETYPE}/src/winfonts/winfnt.c src/shapes/Cube.h)
 
 if (WIN32)
 	enable_language(RC)
@@ -390,7 +390,7 @@ set_target_properties(assimp PROPERTIES LIBRARY_OUTPUT_NAME assimp)
 
 #---- BUILD ENGINE ----
 
-add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.cpp src/Camera.h src/shaders/Shader.cpp src/shaders/Shader.h src/shaders/Phong.h src/Mesh.cpp src/Mesh.h src/render/EntityRender.cpp src/render/EntityRender.h src/Entity.cpp src/Entity.h src/Loader.cpp src/Loader.h src/Light.cpp src/Light.h src/Player.cpp src/Player.h src/Model.cpp src/Model.h src/Chunk.h src/Material.h src/render/EntityRender.cpp src/render/EntityRender.h src/Generator.cpp src/Generator.h src/render/TerrainRender.cpp src/render/TerrainRender.h src/Image.h src/Texture.h src/shaders/Phong.cpp src/shaders/GuiShader.cpp src/shaders/GuiShader.h src/font/Font.cpp src/font/Font.h src/font/Text.cpp src/font/Text.h src/render/FontRender.cpp src/render/FontRender.h src/font/Character.h src/render/MasterRender.cpp src/render/MasterRender.h)
+add_executable(VixenEngine src/main.cpp src/Window.cpp src/Window.h src/Camera.cpp src/Camera.h src/shaders/Shader.cpp src/shaders/Shader.h src/shaders/Phong.h src/Mesh.cpp src/Mesh.h src/render/EntityRender.cpp src/render/EntityRender.h src/Entity.cpp src/Entity.h src/Loader.cpp src/Loader.h src/Light.cpp src/Light.h src/Player.cpp src/Player.h src/Model.cpp src/Model.h src/Chunk.h src/Material.h src/render/EntityRender.cpp src/render/EntityRender.h src/Generator.cpp src/Generator.h src/render/TerrainRender.cpp src/render/TerrainRender.h src/Image.h src/Texture.h src/shaders/Phong.cpp src/shaders/GuiShader.cpp src/shaders/GuiShader.h src/font/Font.cpp src/font/Font.h src/font/Text.cpp src/font/Text.h src/render/FontRender.cpp src/render/FontRender.h src/font/Character.h src/render/MasterRender.cpp src/render/MasterRender.h src/shapes/Shapes.h)
 
 set(OpenGL_GL_PREFERENCE GLVND)
 

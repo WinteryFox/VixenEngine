@@ -9,22 +9,26 @@ namespace graphics {
 	
 	class Material {
 	public:
-		Texture *texture;
 		vec3 ambient;
 		vec3 diffuse;
 		vec3 specular;
 		float shininess;
+		Texture *tDiffuse;
+		Texture *tNormal;
 		
-		Material(Texture *texture, vec3 ambient, vec3 diffuse, vec3 specular, float shininess) : texture(texture),
-		                                                                                         ambient(ambient),
-		                                                                                         diffuse(diffuse),
-		                                                                                         specular(specular),
-		                                                                                         shininess(shininess) {
+		Material(vec3 ambient, vec3 diffuse, vec3 specular, float shininess, Texture *tDiffuse,
+		         Texture *tNormal = new Texture(0)) : ambient(ambient),
+		                                              diffuse(diffuse),
+		                                              specular(specular),
+		                                              shininess(shininess),
+		                                              tDiffuse(tDiffuse),
+		                                              tNormal(tNormal) {
 			
 		}
 		
 		~Material() {
-			delete texture;
+			delete tDiffuse;
+			delete tNormal;
 		}
 	};
 }

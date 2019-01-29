@@ -8,6 +8,7 @@
 #endif
 #include "Window.h"
 #include "render/MasterRender.h"
+#include "shapes/Shapes.h"
 
 std::string resourcePath;
 graphics::Window *window;
@@ -29,7 +30,8 @@ int main() {
 	camera = new input::Camera(glm::vec3(0.0f, 2.0f, 5.0f));
 	render = new graphics::MasterRender();
 	
-	render->addEntity("models/tree/tree.dae");
+	//render->addEntity("models/tree/tree.dae");
+	render->addEntity(shapes::Cube());
 	render->addDirectionalTemperatureLight(glm::vec3(-0.5f, -0.5f, -0.5f), 5000);
 	
 	render->addTerrain(0, 0);
