@@ -78,5 +78,8 @@ void main() {
 		}
 	}
 
-	color = result * texture(texDiffuse, uv);
+	vec4 tex = texture(texDiffuse, uv);
+	if (tex.a < 0.5)
+		discard;
+	color = result * tex;
 }

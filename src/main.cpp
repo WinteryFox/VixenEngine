@@ -31,7 +31,7 @@ int main() {
 	render = new graphics::MasterRender();
 	
 	//render->addEntity("models/tree/tree.dae");
-	render->addEntity(shapes::Cube());
+	render->addEntity(shapes::Cube("models/missing.png"));
 	render->addDirectionalTemperatureLight(glm::vec3(-0.5f, -0.5f, -0.5f), 5000);
 	
 	render->addTerrain(0, 0);
