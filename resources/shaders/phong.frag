@@ -23,10 +23,13 @@ struct Material {
 in vec2 uv;
 in vec3 world;
 in mat3 TBN;
+in vec3 normal;
 
 out vec4 color;
 
 uniform sampler2D texDiffuse;
+
+uniform int hasNormal;
 uniform sampler2D texNormal;
 
 uniform vec3 viewPos;
@@ -75,9 +78,13 @@ void main() {
 	if (tex.a < 0.5) {
 		discard;
 	}
-	vec3 norm = texture(texNormal, uv).rgb;
-	norm = normalize(norm * 2.0 - 1.0);
-	norm = normalize(TBN * norm);
+
+	vec3 norm = normal;
+	if (hasNormal == 1) {
+		norm = texture(texNormal, uv).rgb;
+		norm = normalize(norm * 2.0 - 1.0);
+        norm = normalize(TBN * norm);
+	}
 
 	for (int i = 0; i < lightCount; i++) {
 		if (lights[i].type == 0) {

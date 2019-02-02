@@ -35,9 +35,14 @@ namespace graphics {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, 1);
+			
 			glDisableVertexAttribArray(0);
 			glDisableVertexAttribArray(1);
 			glDisableVertexAttribArray(2);
+			glDisableVertexAttribArray(3);
+			glDisableVertexAttribArray(4);
 			glBindVertexArray(0);
 			
 			shader->stop();
@@ -53,10 +58,15 @@ namespace graphics {
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
+		glEnableVertexAttribArray(4);
 		
 		shader->loadMaterial(mesh->material);
 		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, mesh->material->tDiffuse->id);
+		
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, mesh->material->tNormal->id);
 	}
 }

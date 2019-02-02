@@ -25,6 +25,7 @@ namespace graphics::loader {
 		static graphics::model::Model* loadModel(std::string file);
 		
 		static void calculateTangentSpace(const std::vector<glm::vec3> &vertices, const std::vector<glm::vec2> &uvs,
+		                                  const std::vector<unsigned int> &indices,
 		                                  std::vector<glm::vec3> &tangents, std::vector<glm::vec3> &bitangents);
 		static graphics::Image* loadImage(std::string file, bool flipped = false);
 		

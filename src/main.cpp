@@ -38,6 +38,7 @@ int main() {
 	render->addEntity(model);
 	
 	render->addPointTemperatureLight(glm::vec3(3.0f, 3.0f, 5.0f), 5000, 0.0007, 0.00001, 1.0);
+	//render->addDirectionalTemperatureLight(glm::vec3(-0.3f, -0.7f, -0.3f), 5000);
 	
 	render->addTerrain(0, 0);
 	render->addTerrain(0, -1);

@@ -9,6 +9,7 @@ layout(location = 4) in vec3 bitangent;
 out vec2 uv;
 out vec3 world;
 out mat3 TBN;
+out vec3 normal;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -23,4 +24,5 @@ void main() {
 	vec3 B = normalize(vec3(model * vec4(bitangent, 0.0)));
 	vec3 N = normalize(vec3(model * vec4(norm, 0.0)));
 	TBN = mat3(T, B, N);
+	normal = mat3(transpose(inverse(model))) * norm;
 }

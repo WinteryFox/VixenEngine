@@ -18,6 +18,7 @@ namespace shaders {
 		GLint diffuse;
 		GLint specular;
 		GLint shininess;
+		GLint hasNormal;
 	};
 	
 	struct Light {

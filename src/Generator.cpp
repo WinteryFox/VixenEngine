@@ -6,6 +6,8 @@ namespace terrain {
 		vector<unsigned int> indices;
 		vector<vec2> uvs;
 		vector<vec3> normals;
+		std::vector<glm::vec3> tangents;
+		std::vector<glm::vec3> bitangents;
 		
 		for (unsigned int i = 0; i < maxVertices; i++) {
 			for (unsigned int j = 0; j < maxVertices; j++) {
@@ -34,12 +36,14 @@ namespace terrain {
 				indices.push_back(bottomRight);
 			}
 		}
+		graphics::loader::Loader::calculateTangentSpace(vertices, uvs, indices, tangents, bitangents);
 		
 		return new terrain::Chunk(
-				new graphics::Mesh(vertices, indices, uvs, normals, std::vector<glm::vec3>{}, std::vector<glm::vec3>{},
+				new graphics::Mesh(vertices, indices, uvs, normals, tangents, bitangents,
 				                   new graphics::Material(
-				vec3(0.05f, 0.05f, 0.05f), vec3(1, 1, 1), vec3(0, 0, 0), 50,
-				graphics::loader::Loader::generateTexture(graphics::loader::Loader::loadImage("textures/grass.png")))),
+						                   vec3(0.05f, 0.05f, 0.05f), vec3(1, 1, 1), vec3(0, 0, 0), 50,
+						                   graphics::loader::Loader::generateTexture("textures/wall/wall.png"),
+						                   graphics::loader::Loader::generateTexture("textures/wall/wall_normal.png"))),
 				size, gridX, gridZ, 0);
 	}
 }

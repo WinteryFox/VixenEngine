@@ -43,6 +43,8 @@ namespace shaders {
 		
 		tDiffuseLocation = glGetUniformLocation(id, "texDiffuse");
 		glUniform1i(tDiffuseLocation, 0);
+		
+		materialLocation.hasNormal = glGetUniformLocation(id, "hasNormal");
 		tNormalLocation = glGetUniformLocation(id, "texNormal");
 		glUniform1i(tNormalLocation, 1);
 		
@@ -74,5 +76,6 @@ namespace shaders {
 	
 	void Phong::loadMaterial(graphics::Material *material) {
 		Shader::loadMaterial(materialLocation, material);
+		
 	}
 }

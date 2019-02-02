@@ -119,15 +119,16 @@ namespace graphics::loader {
 	}
 	
 	void Loader::calculateTangentSpace(const std::vector<glm::vec3> &vertices, const std::vector<glm::vec2> &uvs,
+	                                   const std::vector<unsigned int> &indices,
 	                                   std::vector<glm::vec3> &tangents, std::vector<glm::vec3> &bitangents) {
-		for (unsigned int i = 0; i < vertices.size() / 3; i++) {
-			glm::vec3 pos1 = vertices[i * 3];
-			glm::vec3 pos2 = vertices[i * 3 + 1];
-			glm::vec3 pos3 = vertices[i * 3 + 2];
+		for (unsigned int i = 0; i <= vertices.size(); i++) {
+			glm::vec3 pos1 = vertices[indices[i * 3]];
+			glm::vec3 pos2 = vertices[indices[i * 3 + 1]];
+			glm::vec3 pos3 = vertices[indices[i * 3 + 2]];
 			
-			glm::vec2 uv1 = uvs[i * 3];
-			glm::vec2 uv2 = uvs[i * 3 + 1];
-			glm::vec2 uv3 = uvs[i * 3 + 2];
+			glm::vec2 uv1 = uvs[indices[i * 3]];
+			glm::vec2 uv2 = uvs[indices[i * 3 + 1]];
+			glm::vec2 uv3 = uvs[indices[i * 3 + 2]];
 			
 			glm::vec3 edge1 = pos2 - pos1;
 			glm::vec3 edge2 = pos3 - pos1;
@@ -136,13 +137,13 @@ namespace graphics::loader {
 			
 			float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
 			
-			glm::vec3 tangent(f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x),
+			glm::vec3 tangent = glm::vec3(f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x),
 			                  f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y),
 			                  f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z));
 			glm::normalize(tangent);
 			tangents.push_back(tangent);
 			
-			glm::vec3 bitangent(f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x),
+			glm::vec3 bitangent = glm::vec3(f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x),
 			                    f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y),
 			                    f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z));
 			glm::normalize(bitangent);

@@ -39,6 +39,7 @@ namespace shaders {
 		glUniform3fv(materialLocations.diffuse, 1, &material->diffuse[0]);
 		glUniform3fv(materialLocations.specular, 1, &material->specular[0]);
 		glUniform1f(materialLocations.shininess, material->shininess);
+		glUniform1i(materialLocations.hasNormal, material->tNormal->id == 0 ? 0 : 1);
 	}
 	
 	void Shader::loadLight(const shaders::Light &lightLocations, const graphics::Light &light) {

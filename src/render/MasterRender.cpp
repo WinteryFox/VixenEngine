@@ -48,8 +48,8 @@ namespace graphics {
 		}
 		
 		entityRender->render(entities, lights);
-		fontRender->render(texts);
 		terrainRender->render(chunks, lights);
+		fontRender->render(texts);
 		
 		fps++;
 		double currentTime = glfwGetTime();
