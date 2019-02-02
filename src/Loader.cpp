@@ -74,7 +74,7 @@ namespace graphics::loader {
 					material = new Material(vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
 					                        vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
 					                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess,
-					                        generateTexture(loadImage(temp), GL_NEAREST));
+					                        generateTexture(loadImage(temp)));
 				} else {
 					std::cerr << "Failed to find diffuse texture for model " << file << std::endl;
 					material = new Material(vec3(0.1f),
@@ -88,7 +88,7 @@ namespace graphics::loader {
 					temp += mPath.C_Str();
 					std::cout << temp << std::endl;
 					
-					material->tNormal = generateTexture(loadImage(temp), GL_NEAREST);
+					material->tNormal = generateTexture(loadImage(temp));
 				} else {
 					std::cout << "Mesh does not have a normal map" << std::endl;
 				}
@@ -262,7 +262,7 @@ namespace graphics::loader {
 		((std::ifstream *) png_get_io_ptr(readPointer))->read((char *) data, length);
 	}
 	
-	graphics::Texture *Loader::generateTexture(Image *image, GLint filter) {
+	graphics::Texture *Loader::generateTexture(Image *image) {
 		GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -270,8 +270,9 @@ namespace graphics::loader {
 		             image->data);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
 		return new graphics::Texture(texture);
 	}
 	
