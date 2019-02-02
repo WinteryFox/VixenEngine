@@ -23,7 +23,12 @@ namespace graphics::loader {
 		
 	public:
 		static graphics::model::Model* loadModel(std::string file);
+		
+		static void calculateTangentSpace(const std::vector<glm::vec3> &vertices, const std::vector<glm::vec2> &uvs,
+		                                  std::vector<glm::vec3> &tangents, std::vector<glm::vec3> &bitangents);
 		static graphics::Image* loadImage(std::string file, bool flipped = false);
 		static graphics::Texture* generateTexture(Image* image, GLint filter = GL_NEAREST);
+		
+		static graphics::Texture *generateTexture(const std::string &texture);
 	};
 }

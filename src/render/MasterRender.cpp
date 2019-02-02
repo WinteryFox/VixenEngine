@@ -86,6 +86,18 @@ namespace graphics {
 		return entity;
 	}
 	
+	Entity *MasterRender::addEntity(graphics::Model *model, vec3 position, vec3 rotation, float scale) {
+		auto *entity = new objects::entity::Entity(model, position, rotation, scale);
+		
+		for (Mesh *mesh : model->getMeshes()) {
+			vertices += mesh->vertexCount;
+		}
+		
+		vertexText->setText("Vertices: " + std::to_string(vertices));
+		entities.push_back(entity);
+		return entity;
+	}
+	
 	terrain::Chunk *MasterRender::addTerrain(int gridX, int gridZ) {
 		terrain::Chunk *chunk = terrain::Generator::flatChunk(gridX, gridZ);
 		vertices += chunk->mesh->vertexCount;

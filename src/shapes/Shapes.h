@@ -2,17 +2,15 @@
 
 #include "../Mesh.h"
 #include "Cube.h"
-
-extern std::string resourcePath;
+#include "../Loader.h"
 
 namespace shapes {
-	graphics::Mesh *Cube(const std::string &file = "models/missing.png") {
-		std::string path = resourcePath + file;
+	graphics::Mesh *Cube(graphics::Material *material) {
+		std::vector<glm::vec3> tangents;
+		std::vector<glm::vec3> bitangents;
+		graphics::loader::Loader::calculateTangentSpace(shapes::raw::Cube::vertices, shapes::raw::Cube::uvs, tangents,
+		                                                bitangents);
 		return new graphics::Mesh(shapes::raw::Cube::vertices, shapes::raw::Cube::indices, shapes::raw::Cube::uvs,
-		                          shapes::raw::Cube::normals,
-		                          new graphics::Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(0.0f), 0.0f,
-		                                                 graphics::loader::Loader::generateTexture(
-				                                                 graphics::loader::Loader::loadImage(
-						                                                 path))));
+		                          shapes::raw::Cube::normals, tangents, bitangents, material);
 	}
 }

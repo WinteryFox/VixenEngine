@@ -6,6 +6,8 @@ namespace shaders {
 	}
 	
 	void Phong::getUniformLocations() {
+		start();
+		
 		modelMatrixLocation = glGetUniformLocation(id, "model");
 		viewMatrixLocation = glGetUniformLocation(id, "view");
 		projectionMatrixLocation = glGetUniformLocation(id, "projection");
@@ -38,6 +40,13 @@ namespace shaders {
 		materialLocation.diffuse = glGetUniformLocation(id, "material.diffuse");
 		materialLocation.specular = glGetUniformLocation(id, "material.specular");
 		materialLocation.shininess = glGetUniformLocation(id, "material.shininess");
+		
+		tDiffuseLocation = glGetUniformLocation(id, "texDiffuse");
+		glUniform1i(tDiffuseLocation, 0);
+		tNormalLocation = glGetUniformLocation(id, "texNormal");
+		glUniform1i(tNormalLocation, 1);
+		
+		stop();
 	}
 	
 	void Phong::loadProjectionMatrix(const glm::mat4 &matrix) {

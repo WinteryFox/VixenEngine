@@ -17,7 +17,7 @@ namespace graphics {
 		unsigned int vertices = 0;
 		
 		unsigned int fps = 0;
-		double lastTime;
+		double lastTime = 0;
 		
 		const double tickrate = 1.0 / 128.0;
 		double lastFrame = glfwGetTime();
@@ -43,7 +43,10 @@ namespace graphics {
 		addEntity(const std::string &file, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
 		
 		Entity *addEntity(Mesh *mesh, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
-		//void addText(const std::string text, const std::string font, );
+		
+		Entity *
+		addEntity(graphics::Model *model, vec3 position = vec3(0.0f), vec3 rotation = vec3(0.0f), float scale = 1.0f);
+		
 		terrain::Chunk *addTerrain(int gridX, int gridZ);
 		
 		graphics::Light *

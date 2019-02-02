@@ -18,6 +18,9 @@ namespace shaders {
 		
 		shaders::Material materialLocation;
 		
+		GLint tDiffuseLocation;
+		GLint tNormalLocation;
+		
 	public:
 		Phong();
 		

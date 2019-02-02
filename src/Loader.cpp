@@ -11,7 +11,8 @@ namespace graphics::loader {
 		
 		Assimp::Importer importer;
 		const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality |
-		                                               aiProcess_PreTransformVertices);
+		                                               aiProcess_PreTransformVertices | aiProcess_CalcTangentSpace |
+		                                               aiProcess_FlipUVs | aiProcess_Triangulate);
 		if (!scene) {
 			if (file == resourcePath + "models/missing.dae")
 				exit(0x5);
@@ -27,6 +28,8 @@ namespace graphics::loader {
 			std::vector<unsigned int> indices;
 			std::vector<vec2> uvs;
 			std::vector<vec3> normals;
+			std::vector<vec3> tangents;
+			std::vector<vec3> bitangents;
 			graphics::Material *material;
 			
 			if (!mesh->HasTextureCoords(0)) {
@@ -52,41 +55,43 @@ namespace graphics::loader {
 				                        vec3(1.0f),
 				                        vec3(0.0f), 0.0f,
 				                        generateTexture(loadImage(resourcePath + "models/missing.png")));
-			}
-			
-			aiString mPath;
-			if (aiReturn_SUCCESS == aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
-				std::string temp = file.substr(0, file.find_last_of('/')) + "/";
-				temp += mPath.C_Str();
-				
-				aiColor4D aiAmbient;
-				aiColor4D aiDiffuse;
-				aiColor4D aiSpecular;
-				float shininess;
-				
-				aiMat->Get(AI_MATKEY_COLOR_AMBIENT, aiAmbient);
-				aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, aiDiffuse);
-				aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
-				aiMat->Get(AI_MATKEY_SHININESS, shininess);
-				
-				material = new Material(vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
-				                        vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
-				                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess,
-				                        generateTexture(loadImage(temp), GL_NEAREST));
 			} else {
-				std::cerr << "Failed to find diffuse texture for model " << file << std::endl;
-				material = new Material(vec3(0.1f),
-				                        vec3(1.0f),
-				                        vec3(0.0f), 0.0f,
-				                        generateTexture(loadImage(resourcePath + "models/missing.png")));
-			}
-			
-			if (aiReturn_SUCCESS == aiMat->GetTexture(aiTextureType_NORMALS, 0, &mPath)) {
-				std::string temp = file.substr(0, file.find_last_of('/')) + "/";
-				temp += mPath.C_Str();
-				std::cout << temp << std::endl;
+				aiString mPath;
+				if (aiReturn_SUCCESS == aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &mPath)) {
+					std::string temp = file.substr(0, file.find_last_of('/')) + "/";
+					temp += mPath.C_Str();
+					
+					aiColor4D aiAmbient;
+					aiColor4D aiDiffuse;
+					aiColor4D aiSpecular;
+					float shininess;
+					
+					aiMat->Get(AI_MATKEY_COLOR_AMBIENT, aiAmbient);
+					aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, aiDiffuse);
+					aiMat->Get(AI_MATKEY_COLOR_SPECULAR, aiSpecular);
+					aiMat->Get(AI_MATKEY_SHININESS, shininess);
+					
+					material = new Material(vec3(aiAmbient.r, aiAmbient.g, aiAmbient.b),
+					                        vec3(aiDiffuse.r, aiDiffuse.g, aiDiffuse.b),
+					                        vec3(aiSpecular.r, aiSpecular.g, aiSpecular.b), shininess,
+					                        generateTexture(loadImage(temp), GL_NEAREST));
+				} else {
+					std::cerr << "Failed to find diffuse texture for model " << file << std::endl;
+					material = new Material(vec3(0.1f),
+					                        vec3(1.0f),
+					                        vec3(0.0f), 0.0f,
+					                        generateTexture(loadImage(resourcePath + "models/missing.png")));
+				}
 				
-				material->tDiffuse = generateTexture(loadImage(temp), GL_NEAREST);
+				if (aiReturn_SUCCESS == aiMat->GetTexture(aiTextureType_NORMALS, 0, &mPath)) {
+					std::string temp = file.substr(0, file.find_last_of('/')) + "/";
+					temp += mPath.C_Str();
+					std::cout << temp << std::endl;
+					
+					material->tNormal = generateTexture(loadImage(temp), GL_NEAREST);
+				} else {
+					std::cout << "Mesh does not have a normal map" << std::endl;
+				}
 			}
 			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -100,9 +105,49 @@ namespace graphics::loader {
 				indices.push_back(mesh->mFaces[i].mIndices[2]);
 			}
 			
-			meshes.push_back(new graphics::Mesh(vertices, indices, uvs, normals, material));
+			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+				tangents.emplace_back(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
+			}
+			
+			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+				bitangents.emplace_back(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z);
+			}
+			
+			meshes.push_back(new graphics::Mesh(vertices, indices, uvs, normals, tangents, bitangents, material));
 		}
 		return new graphics::model::Model(meshes);
+	}
+	
+	void Loader::calculateTangentSpace(const std::vector<glm::vec3> &vertices, const std::vector<glm::vec2> &uvs,
+	                                   std::vector<glm::vec3> &tangents, std::vector<glm::vec3> &bitangents) {
+		for (unsigned int i = 0; i < vertices.size() / 3; i++) {
+			glm::vec3 pos1 = vertices[i * 3];
+			glm::vec3 pos2 = vertices[i * 3 + 1];
+			glm::vec3 pos3 = vertices[i * 3 + 2];
+			
+			glm::vec2 uv1 = uvs[i * 3];
+			glm::vec2 uv2 = uvs[i * 3 + 1];
+			glm::vec2 uv3 = uvs[i * 3 + 2];
+			
+			glm::vec3 edge1 = pos2 - pos1;
+			glm::vec3 edge2 = pos3 - pos1;
+			glm::vec2 deltaUV1 = uv2 - uv1;
+			glm::vec2 deltaUV2 = uv3 - uv1;
+			
+			float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+			
+			glm::vec3 tangent(f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x),
+			                  f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y),
+			                  f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z));
+			glm::normalize(tangent);
+			tangents.push_back(tangent);
+			
+			glm::vec3 bitangent(f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x),
+			                    f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y),
+			                    f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z));
+			glm::normalize(bitangent);
+			bitangents.push_back(bitangent);
+		}
 	}
 	
 	graphics::Image *Loader::loadImage(std::string file, bool flipped) {
@@ -228,5 +273,9 @@ namespace graphics::loader {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
 		return new graphics::Texture(texture);
+	}
+	
+	graphics::Texture *Loader::generateTexture(const std::string &texture) {
+		return generateTexture(loadImage(texture));
 	}
 }
