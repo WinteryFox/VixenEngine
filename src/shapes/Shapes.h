@@ -8,7 +8,8 @@ namespace shapes {
 	graphics::Mesh *Cube(graphics::Material *material) {
 		std::vector<glm::vec3> tangents;
 		std::vector<glm::vec3> bitangents;
-		graphics::loader::Loader::calculateTangentSpace(shapes::raw::Cube::vertices, shapes::raw::Cube::uvs, tangents,
+		graphics::loader::Loader::calculateTangentSpace(shapes::raw::Cube::vertices, shapes::raw::Cube::uvs,
+		                                                shapes::raw::Cube::indices, tangents,
 		                                                bitangents);
 		return new graphics::Mesh(shapes::raw::Cube::vertices, shapes::raw::Cube::indices, shapes::raw::Cube::uvs,
 		                          shapes::raw::Cube::normals, tangents, bitangents, material);
