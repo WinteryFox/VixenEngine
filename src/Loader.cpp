@@ -122,7 +122,9 @@ namespace graphics::loader {
 	void Loader::calculateTangentSpace(const std::vector<glm::vec3> &vertices, const std::vector<glm::vec2> &uvs,
 	                                   const std::vector<unsigned int> &indices,
 	                                   std::vector<glm::vec3> &tangents, std::vector<glm::vec3> &bitangents) {
-		for (unsigned int i = 0; i <= vertices.size(); i++) {
+		tangents.reserve(vertices.size());
+		bitangents.reserve(bitangents.size());
+		for (unsigned int i = 0; i < indices.size() / 3; i++) {
 			glm::vec3 pos1 = vertices[indices[i * 3]];
 			glm::vec3 pos2 = vertices[indices[i * 3 + 1]];
 			glm::vec3 pos3 = vertices[indices[i * 3 + 2]];
