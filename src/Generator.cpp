@@ -44,7 +44,7 @@ namespace terrain {
 						                   vec3(0.05f, 0.05f, 0.05f), vec3(1, 1, 1), vec3(0, 0, 0), 50,
 						                   graphics::loader::Loader::generateTexture("textures/grass/grass.png"),
 						                   graphics::loader::Loader::generateTexture(
-								                   "textures/grass/grass_normal.png"))),
+						                   		"textures/grass/grass_normal.png"))),
 				size, gridX, gridZ, 0);
 	}
 }

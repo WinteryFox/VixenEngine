@@ -12,7 +12,7 @@ namespace graphics::loader {
 		Assimp::Importer importer;
 		const aiScene *scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality |
 		                                               aiProcess_PreTransformVertices | aiProcess_CalcTangentSpace |
-		                                               aiProcess_FlipUVs | aiProcess_Triangulate);
+		                                               aiProcess_Triangulate);
 		if (!scene) {
 			if (file == resourcePath + "models/missing.dae")
 				exit(0x5);
@@ -90,6 +90,7 @@ namespace graphics::loader {
 					
 					material->tNormal = generateTexture(loadImage(temp));
 				} else {
+					material->tNormal = new Texture(0);
 					std::cout << "Mesh does not have a normal map" << std::endl;
 				}
 			}

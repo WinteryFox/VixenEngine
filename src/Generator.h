@@ -11,7 +11,7 @@ namespace terrain {
 	using namespace std;
 	class Generator {
 	public:
-		static terrain::Chunk *flatChunk(int gridX, int gridZ, int size = 16, int maxVertices = 64);
+		static terrain::Chunk *flatChunk(int gridX, int gridZ, int size = 16, int maxVertices = 16);
 	};
 }
 

@@ -1,4 +1,4 @@
-#version 400 core
+#version 330 core
 
 struct Light {
 	int type;
@@ -79,7 +79,7 @@ void main() {
 		discard;
 	}
 
-	vec3 norm = normal;
+	vec3 norm = normalize(normal);
 	if (hasNormal == 1) {
 		norm = texture(texNormal, uv).rgb;
 		norm = normalize(norm * 2.0 - 1.0);
@@ -95,4 +95,5 @@ void main() {
 	}
 
 	color = result * tex;
+	color = clamp(color, 0.0, 1.0);
 }
