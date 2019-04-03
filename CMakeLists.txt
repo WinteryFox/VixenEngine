@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 if (WIN32)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++ -static-libgcc")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++ -static-libgcc")
 endif ()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
@@ -55,12 +55,15 @@ set(PNG_STATIC OFF CACHE BOOL "")
 
 add_subdirectory("${LIBPNG}")
 
-#set(PNG_PNG_INCLUDE_DIR "${LIBPNG}" "${CMAKE_BINARY_DIR}/contrib/libpng")
-#set(PNG_LIBRARY png)
+set(PNG_PNG_INCLUDE_DIR "${LIBPNG}" "${CMAKE_BINARY_DIR}/contrib/libpng")
+set(PNG_LIBRARY png)
 
 # ---- BUILD FREETYPE ----
 
 set(FREETYPE "${CONTRIB}/freetype")
+
+set(FT_WITH_PNG ON CACHE BOOL "")
+set(FT_WITH_ZLIB ON CACHE BOOL "")
 
 add_subdirectory("${FREETYPE}")
 
