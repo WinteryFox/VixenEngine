@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Actually just a dummy, used by the compiler to build the precompiled header.
 
-#include "assimp/version.h"
+#include <assimp/version.h>
 #include <assimp/scene.h>
 #include "ScenePrivate.h"
 

@@ -16,13 +16,13 @@ graphics::MasterRender *render;
 
 int main() {
 #ifdef __WIN32__
-	resourcePath = "../resources/";
+	resourcePath = "../../resources/";
 #elif __APPLE__
 	char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
 	
 	proc_pidpath(getpid(), pathbuf, sizeof(pathbuf));
 	resourcePath =
-			std::string(pathbuf).substr(0, std::string(pathbuf).find_last_of('/')) + std::string("/../resources/");
+			std::string(pathbuf).substr(0, std::string(pathbuf).find_last_of('/')) + std::string("/../../resources/");
 #endif
 	
 	window = new graphics::Window("Vixen Engine", 1280, 720);
