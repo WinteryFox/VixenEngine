@@ -13,10 +13,10 @@ namespace graphics {
 		shaders::Phong* shader;
 		
 	public:
-		TerrainRender();
+		TerrainRender(const std::string &resourcePath);
 		~TerrainRender();
 		
-		void render(std::vector<terrain::Chunk*> chunks, std::vector<graphics::Light*> lights);
+		void render(input::Camera *camera, std::vector<terrain::Chunk*> chunks, std::vector<graphics::Light*> lights);
 		
 		void prepareMesh(Mesh *mesh);
 		

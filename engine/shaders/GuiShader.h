@@ -10,7 +10,7 @@ namespace shaders {
 		GLint positionLocation;
 		
 	public:
-		GuiShader();
+		explicit GuiShader(const std::string &resourcePath);
 		
 		void getUniformLocations() override;
 		

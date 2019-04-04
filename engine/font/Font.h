@@ -7,8 +7,6 @@
 #include "../Texture.h"
 #include "Character.h"
 
-extern std::string resourcePath;
-
 namespace font {
 	class Font {
 	private:

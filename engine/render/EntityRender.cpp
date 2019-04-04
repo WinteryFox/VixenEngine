@@ -1,7 +1,7 @@
 #include "EntityRender.h"
 
 namespace graphics {
-	void EntityRender::render(std::vector<Entity *> &entities, std::vector<Light *> &lights) {
+	void EntityRender::render(input::Camera* camera, std::vector<Entity *> &entities, std::vector<Light *> &lights) {
 		if (!entities.empty()) {
 			shader->start();
 			

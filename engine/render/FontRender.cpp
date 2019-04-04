@@ -2,7 +2,7 @@
 #include "FontRender.h"
 
 namespace graphics {
-	void FontRender::render(std::map<font::Font *, std::vector<font::Text *>> texts) {
+	void FontRender::render(graphics::Window *window, std::map<font::Font *, std::vector<font::Text *>> texts) {
 		if (!texts.empty()) {
 			shader->start();
 			glActiveTexture(GL_TEXTURE0);
@@ -10,7 +10,7 @@ namespace graphics {
 			for (const auto &pair : texts) {
 				glBindTexture(GL_TEXTURE_2D, pair.first->texture->id);
 				for (font::Text *text : pair.second) {
-					prepareInstance(text);
+					prepareInstance(window, text);
 					glDrawElements(GL_TRIANGLES, text->indicesCount, GL_UNSIGNED_INT, nullptr);
 				}
 			}
@@ -32,7 +32,7 @@ namespace graphics {
 		glActiveTexture(GL_TEXTURE0);
 	}
 	
-	void FontRender::prepareInstance(const font::Text *text) {
+	void FontRender::prepareInstance(graphics::Window *window, const font::Text *text) {
 		glBindVertexArray(text->vao);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, text->verticesVBO);

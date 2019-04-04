@@ -6,8 +6,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Window.h"
 
-extern graphics::Window* window;
-
 namespace input {
 	using namespace glm;
 	class Camera {
@@ -36,6 +34,6 @@ namespace input {
 		
 		vec3 getPosition();
 		
-		void update(double dt, double tickrate);
+		void update(graphics::Window* window, double dt, double tickrate);
 	};
 }

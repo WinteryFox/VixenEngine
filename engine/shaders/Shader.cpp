@@ -1,8 +1,8 @@
 #include "Shader.h"
 
 namespace shaders {
-	Shader::Shader(std::string vertex, std::string fragment) {
-		id = loadAndCompile(std::move(vertex), std::move(fragment));
+	Shader::Shader(std::string resourcePath, std::string vertex, std::string fragment) {
+		id = loadAndCompile(std::move(vertex), std::move(fragment), resourcePath);
 	}
 	
 	Shader::~Shader() {
@@ -58,7 +58,7 @@ namespace shaders {
 	}
 	
 	// TODO: Move to a global loader
-	GLuint Shader::loadAndCompile(std::string vertex, std::string fragment) {
+	GLuint Shader::loadAndCompile(std::string resourcePath, std::string vertex, std::string fragment) {
 		GLuint vertexID = glCreateShader(GL_VERTEX_SHADER);
 		GLuint fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 		

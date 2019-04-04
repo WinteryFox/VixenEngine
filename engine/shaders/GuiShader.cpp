@@ -1,7 +1,7 @@
 #include "GuiShader.h"
 
 namespace shaders {
-	GuiShader::GuiShader() : Shader("gui.vert", "gui.frag") {
+	GuiShader::GuiShader(const std::string &resourcePath) : Shader(resourcePath, "gui.vert", "gui.frag") {
 		getUniformLocations();
 	}
 	

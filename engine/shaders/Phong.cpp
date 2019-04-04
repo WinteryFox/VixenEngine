@@ -1,7 +1,7 @@
 #include "Phong.h"
 
 namespace shaders {
-	Phong::Phong() : Shader("phong.vert", "phong.frag") {
+	Phong::Phong(const std::string &resourcePath) : Shader(resourcePath, "phong.vert", "phong.frag") {
 		getUniformLocations();
 	}
 	

@@ -13,8 +13,6 @@
 #include "Image.h"
 #include "Texture.h"
 
-extern std::string resourcePath;
-
 namespace graphics::loader {
 	using namespace glm;
 	class Loader {

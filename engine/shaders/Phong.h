@@ -23,7 +23,7 @@ namespace shaders {
 		GLint tNormalLocation;
 		
 	public:
-		Phong();
+		explicit Phong(const std::string &resourcePath);
 		
 		void getUniformLocations() override;
 		

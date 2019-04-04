@@ -9,8 +9,6 @@
 #include "../Light.h"
 #include "../Material.h"
 
-extern std::string resourcePath;
-
 namespace shaders {
 	struct Material {
 		GLint texture;
@@ -38,7 +36,7 @@ namespace shaders {
 	public:
 		GLuint id;
 		
-		Shader(std::string vertex, std::string fragment);
+		Shader(std::string resourcePath, std::string vertex, std::string fragment);
 		~Shader();
 		
 		void start();
@@ -56,7 +54,7 @@ namespace shaders {
 	protected:
 		virtual void getUniformLocations() = 0;
 		
-		GLuint loadAndCompile(std::string vertex, std::string fragment);
+		GLuint loadAndCompile(std::string resourcePath, std::string vertex, std::string fragment);
 	};
 }
 

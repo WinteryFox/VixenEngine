@@ -10,9 +10,6 @@
 #include "render/MasterRender.h"
 
 std::string resourcePath;
-graphics::Window *window;
-input::Camera *camera;
-graphics::MasterRender *render;
 
 int main() {
 #ifdef __WIN32__
@@ -24,10 +21,10 @@ int main() {
 	resourcePath =
 			std::string(pathbuf).substr(0, std::string(pathbuf).find_last_of('/')) + std::string("/../../resources/");
 #endif
-	
-	window = new graphics::Window("Vixen Engine", 1280, 720);
-	camera = new input::Camera(glm::vec3(0.0f, 2.0f, 5.0f));
-	render = new graphics::MasterRender();
+    
+    auto *window = new graphics::Window("Vixen Engine", 1280, 720);
+    auto *camera = new input::Camera(glm::vec3(0.0f, 2.0f, 5.0f));
+    auto *render = new graphics::MasterRender();
 	
 	render->addEntity("models/tree/tree.dae");
 	
@@ -40,7 +37,7 @@ int main() {
 	render->addTerrain(-1, 0);
 	
 	while (!window->shouldClose()) {
-		render->render();
+		render->render(window, camera);
 	}
 	
 	delete render;

@@ -13,7 +13,7 @@ namespace font {
 			delete this;
 		}
 		FT_Face font;
-		if (FT_New_Face(ft, (resourcePath + "fonts/" + file).c_str(), 0, &font)) {
+		if (FT_New_Face(ft, file.c_str(), 0, &font)) {
 			std::cerr << "Could not load font" << std::endl;
 			delete this;
 		}

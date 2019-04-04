@@ -13,7 +13,7 @@ namespace input {
 		return position;
 	}
 	
-	void Camera::update(double dt, double tickrate) {
+	void Camera::update(graphics::Window* window, double dt, double tickrate) {
 		if (!window->focused())
 			return;
 		

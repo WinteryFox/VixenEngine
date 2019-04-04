@@ -1,15 +1,15 @@
 #include "TerrainRender.h"
 
 namespace graphics {
-	TerrainRender::TerrainRender() {
-		this->shader = new shaders::Phong();
+	TerrainRender::TerrainRender(const std::string &resourcePath) {
+		this->shader = new shaders::Phong(resourcePath);
 	}
 	
 	TerrainRender::~TerrainRender() {
 		delete shader;
 	}
 	
-	void TerrainRender::render(std::vector<terrain::Chunk *> chunks, std::vector<graphics::Light*> lights) {
+	void TerrainRender::render(input::Camera *camera, std::vector<terrain::Chunk *> chunks, std::vector<graphics::Light*> lights) {
 		if (!chunks.empty()) {
 			shader->start();
 			

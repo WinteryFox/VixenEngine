@@ -29,7 +29,7 @@
 *.app
 
 # JetBrains
-.idea/
+.idea/*
 
 
 cmake-build-debug/*

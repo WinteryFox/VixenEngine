@@ -9,8 +9,6 @@
 #include "../shaders/Phong.h"
 #include "../font/Text.h"
 
-extern input::Camera* camera;
-
 namespace graphics {
 	using namespace objects::entity;
 	class EntityRender {
@@ -18,11 +16,11 @@ namespace graphics {
 		shaders::Phong* shader;
 	
 	public:
-		EntityRender() {
-			shader = new shaders::Phong();
+		explicit EntityRender(const std::string &resourcePath) {
+			shader = new shaders::Phong(resourcePath);
 		}
 		
-		void render(std::vector<Entity *> &entities, std::vector<Light *> &lights);
+		void render(input::Camera* camera, std::vector<Entity *> &entities, std::vector<Light *> &lights);
 	
 	private:
 		void prepareMesh(const Mesh *mesh);
