@@ -19,14 +19,11 @@ set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 set(SKIP_INSTALL_ALL ON)
 
-option(VIXEN_BUILD_ENGINE "Build the engine" ON)
 option(VIXEN_BUILD_TEST "Build the engine test executable" ON)
 
 #---- BUILD ENGINE ----
 
-if (VIXEN_BUILD_ENGINE)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/engine)
-endif(VIXEN_BUILD_ENGINE)
+add_subdirectory(${CMAKE_SOURCE_DIR}/engine)
 
 #---- BUILD TEST ----
 

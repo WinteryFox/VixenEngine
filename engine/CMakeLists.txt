@@ -61,7 +61,6 @@ set(ASSIMP_BUILD_SAMPLES OFF CACHE BOOL "")
 set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "")
 set(ASSIMP_NO_EXPORT ON CACHE BOOL "")
 set(ASSIMP_BUILD_COLLADA_IMPORTER ON CACHE BOOL "")
-
 set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF CACHE BOOL "")
 
 add_subdirectory("${ASSIMP}")
@@ -70,12 +69,12 @@ add_subdirectory("${ASSIMP}")
 
 add_library(engine SHARED Window.cpp Window.h Camera.cpp Camera.h shaders/Shader.cpp shaders/Shader.h shaders/Phong.h Mesh.cpp Mesh.h render/EntityRender.cpp render/EntityRender.h Entity.cpp Entity.h Loader.cpp Loader.h Light.cpp Light.h Player.cpp Player.h Model.cpp Model.h Chunk.h Material.h render/EntityRender.cpp render/EntityRender.h Generator.cpp Generator.h render/TerrainRender.cpp render/TerrainRender.h Image.h Texture.h shaders/Phong.cpp shaders/GuiShader.cpp shaders/GuiShader.h font/Font.cpp font/Font.h font/Text.cpp font/Text.h render/FontRender.cpp render/FontRender.h font/Character.h render/MasterRender.cpp render/MasterRender.h shapes/Shapes.h)
 
-set_target_properties(engine PROPERTIES OUTPUT_NAME "engine")
-
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
+
+add_dependencies(engine png freetype assimp zlib glfw glew)
 
 target_include_directories(engine PUBLIC ${LIBPNG} ${FREETYPE}/include ${CMAKE_BINARY_DIR}/engine/contrib/assimp/include ${ASSIMP}/include ${LIBPNG} ${GLEW}/include ${CMAKE_SOURCE_DIR}/engine/contrib/glm)
 
 target_link_libraries(engine -static winpthread -dynamic)
-target_link_libraries(engine png freetype assimp zlib glfw glew ${OPENGL_LIBRARIES})
+target_link_libraries(engine png freetype assimp zlib glfw glew ${OPENGL_LIBRARY})

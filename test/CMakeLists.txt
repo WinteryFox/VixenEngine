@@ -1,8 +1,12 @@
-project(test)
-
 #---- BUILD TEST ----
 
-add_executable(test ${CMAKE_SOURCE_DIR}/test/main.cpp)
+project(test)
+
+add_executable(test main.cpp)
+
+add_dependencies(test engine)
+
+link_directories(${CMAKE_BINARY_DIR}/bin ${CMAKE_BINARY_DIR}/lib)
 
 target_include_directories(test PUBLIC ${CMAKE_SOURCE_DIR}/engine)
 
