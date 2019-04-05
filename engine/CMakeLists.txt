@@ -1,3 +1,5 @@
+project(engine)
+
 set(CONTRIB "${CMAKE_SOURCE_DIR}/engine/contrib")
 
 # ---- BUILD GLEW ----
