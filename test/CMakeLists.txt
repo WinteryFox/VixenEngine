@@ -4,12 +4,7 @@ project(test)
 
 add_executable(test main.cpp)
 
-add_dependencies(test engine)
-
-link_directories(${CMAKE_BINARY_DIR}/bin ${CMAKE_BINARY_DIR}/lib)
-
 target_include_directories(test PUBLIC ${CMAKE_SOURCE_DIR}/engine)
-
 target_link_libraries(test engine)
 
 if (WIN32)

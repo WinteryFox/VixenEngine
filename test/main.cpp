@@ -6,8 +6,8 @@
 #include <zconf.h>
 
 #endif
-#include "Window.h"
-#include "render/MasterRender.h"
+#include <Window.h>
+#include <render/MasterRender.h>
 
 std::string resourcePath;
 
