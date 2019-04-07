@@ -72,9 +72,9 @@ add_library(engine SHARED Window.cpp Window.h Camera.cpp Camera.h shaders/Shader
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
-add_dependencies(engine png freetype assimp zlib glfw glew)
+target_include_directories(engine PUBLIC ${GLFW}/include ${LIBPNG} ${FREETYPE}/include ${CMAKE_BINARY_DIR}/engine/contrib/assimp/include ${ASSIMP}/include ${LIBPNG} ${GLEW}/include ${CMAKE_SOURCE_DIR}/engine/contrib/glm)
 
-target_include_directories(engine PUBLIC ${LIBPNG} ${FREETYPE}/include ${CMAKE_BINARY_DIR}/engine/contrib/assimp/include ${ASSIMP}/include ${LIBPNG} ${GLEW}/include ${CMAKE_SOURCE_DIR}/engine/contrib/glm)
+find_package(Threads REQUIRED)
 
-target_link_libraries(engine -static winpthread -dynamic)
-target_link_libraries(engine png freetype assimp zlib glfw glew ${OPENGL_LIBRARY})
+target_link_directories(engine PUBLIC ${CMAKE_BINARY_DIR}/bin)
+target_link_libraries(engine png freetype assimp zlib glfw glew ${OPENGL_LIBRARY} Threads::Threads)

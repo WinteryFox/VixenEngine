@@ -7,7 +7,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if (WIN32)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++ -static-libgcc")
 endif ()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -27,10 +26,10 @@ option(VIXEN_BUILD_TEST "Build the engine test executable" ON)
 
 #---- BUILD ENGINE ----
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/engine)
+add_subdirectory(engine/)
 
 #---- BUILD TEST ----
 
 if (VIXEN_BUILD_TEST)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/test)
+    add_subdirectory(test/)
 endif(VIXEN_BUILD_TEST)

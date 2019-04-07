@@ -137,10 +137,6 @@ SET (PROJECT_VERSION "${ASSIMP_VERSION}")
 
 SET( ASSIMP_PACKAGE_VERSION "0" CACHE STRING "the package-specific version used for uploading the sources" )
 
-# Needed for openddl_parser config, no use of c++11 at this moment
-ADD_DEFINITIONS( -DOPENDDL_NO_USE_CPP11 )
-set_property( GLOBAL PROPERTY CXX_STANDARD 11 )
-
 # Get the current working branch
 EXECUTE_PROCESS(
   COMMAND git rev-parse --abbrev-ref HEAD
