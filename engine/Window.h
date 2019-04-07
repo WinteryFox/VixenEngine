@@ -1,41 +1,31 @@
 #pragma once
 
+#include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <string>
 #include <iostream>
-#include "Image.h"
 
 namespace graphics {
-	class Window {
-	public:
-		GLFWwindow *window;
-		std::string name;
-		
-		int glVersionMajor;
-		int glVersionMinor;
-		
-		Window(const std::string &name, int width, int height);
-		~Window();
-		
-		bool shouldClose() const;
-		
-		void update();
-		void swap();
-		
-		void setIcon(const std::string &icon);
-		
-		glm::vec2 size();
-		bool focused();
-		
-	private:
-		bool init(int width, int height);
-	};
+    class Window {
+    public:
+        GLFWwindow* window;
+        const std::string name;
+        const int glVersionMajor;
+        const int glVersionMinor;
+        
+        Window(const std::string &name, int width, int height);
+        ~Window();
+        
+        const bool shouldClose() const;
+        
+        const void update() const;
+        const void swap() const;
+        const bool focused() const;
+        const glm::vec2 getSize() const;
+        
+    private:
+        const void setIcon() const;
+        bool init(const std::string &name, int width, int height);
+    };
 }
-
-void focusCallback(GLFWwindow* w, int focused);
-void bufferCallback(GLFWwindow* w, int width, int height);
-
-void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity,
-                            GLsizei length, const GLchar *message, const void *userParam);

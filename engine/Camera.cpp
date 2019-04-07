@@ -63,7 +63,7 @@ namespace input {
 		advance.z *= tickrate;
 		position += advance;
 		
-		glm::vec2 size = window->size();
+		glm::vec2 size = window->getSize();
 		projection = perspective(radians(FoV), (float) size.x / (float) size.y, 0.1f, 1000.0f);
 		view = lookAt(position, position + direction, up);
 	}

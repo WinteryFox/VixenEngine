@@ -67,14 +67,28 @@ add_subdirectory("${ASSIMP}")
 
 # ---- BUILD ENGINE ----
 
-add_library(engine SHARED Window.cpp Window.h Camera.cpp Camera.h shaders/Shader.cpp shaders/Shader.h shaders/Phong.h Mesh.cpp Mesh.h render/EntityRender.cpp render/EntityRender.h Entity.cpp Entity.h Loader.cpp Loader.h Light.cpp Light.h Player.cpp Player.h Model.cpp Model.h Chunk.h Material.h render/EntityRender.cpp render/EntityRender.h Generator.cpp Generator.h render/TerrainRender.cpp render/TerrainRender.h Image.h Texture.h shaders/Phong.cpp shaders/GuiShader.cpp shaders/GuiShader.h font/Font.cpp font/Font.h font/Text.cpp font/Text.h render/FontRender.cpp render/FontRender.h font/Character.h render/MasterRender.cpp render/MasterRender.h shapes/Shapes.h)
+add_library(engine SHARED
+        Window.cpp
+        Camera.cpp
+        Shader.cpp
+        Mesh.cpp
+        EntityRender.cpp
+        Phong.cpp
+        Entity.cpp
+        Model.cpp
+        Loader.cpp
+        Light.cpp
+        Generator.cpp
+        TerrainRender.cpp
+        GuiShader.cpp
+        Text.cpp
+        Font.cpp
+        FontRender.cpp
+        MasterRender.cpp)
 
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
-
-target_include_directories(engine PUBLIC ${GLFW}/include ${LIBPNG} ${FREETYPE}/include ${CMAKE_BINARY_DIR}/engine/contrib/assimp/include ${ASSIMP}/include ${LIBPNG} ${GLEW}/include ${CMAKE_SOURCE_DIR}/engine/contrib/glm)
-
 find_package(Threads REQUIRED)
 
-target_link_directories(engine PUBLIC ${CMAKE_BINARY_DIR}/bin)
-target_link_libraries(engine png freetype assimp zlib glfw glew ${OPENGL_LIBRARY} Threads::Threads)
+target_include_directories(engine PUBLIC ${GLFW}/include ${LIBPNG} ${FREETYPE}/include ${CMAKE_BINARY_DIR}/engine/contrib/assimp/include ${ASSIMP}/include ${LIBPNG} ${GLEW}/include ${CMAKE_SOURCE_DIR}/engine/contrib/glm)
+target_link_libraries(engine Threads::Threads freetype png assimp glfw glew ${OPENGL_LIBRARY})
