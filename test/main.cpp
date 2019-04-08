@@ -1,21 +1,29 @@
 #include <Window.h>
-#include <EntityRender.h>
+#include <Camera.h>
+#include <MasterRender.h>
 
 int main() {
-    graphics::Window* window = new graphics::Window("Hello!", 1720, 720);
+    auto *window = new graphics::Window("Vixen Engine", 1280, 720);
+    auto *camera = new input::Camera(glm::vec3(0.0f, 2.0f, 5.0f));
+    auto *render = new graphics::MasterRender();
     
-    graphics::EntityRender* entityRender = new graphics::EntityRender("../../resources/");
-    input::Camera* camera = new input::Camera();
-    std::vector<objects::entity::Entity*> entities;
-    std::vector<graphics::Light*> lights;
+    //render->addEntity("models/tree/tree.dae");
+    
+    render->addPointTemperatureLight(glm::vec3(3.0f, 3.0f, 5.0f), 5000, 0.0007, 0.00001, 1.0);
+    //render->addDirectionalTemperatureLight(glm::vec3(-0.3f, -0.7f, -0.3f), 20000);
+    
+    render->addTerrain(0, 0);
+    render->addTerrain(0, -1);
+    render->addTerrain(-1, -1);
+    render->addTerrain(-1, 0);
     
     while (!window->shouldClose()) {
-        window->update();
-        
-        entityRender->render(camera, entities, lights);
-        
-        window->swap();
+        render->render(window, camera);
     }
+    
+    delete render;
+    delete camera;
+    delete window;
     
     return 0;
 }
