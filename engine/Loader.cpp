@@ -155,8 +155,9 @@ namespace graphics::loader {
     }
     
     graphics::Image *Loader::loadImage(std::string file, bool flipped) {
-        std::ifstream stream(file.c_str(), std::ios::binary);
+        std::ifstream stream(("../../resources/" + file).c_str(), std::ios::binary);
         if (!stream.is_open()) {
+            std::cerr << "Failed to find file " << file << std::endl;
             if (file == "textures/missing.png" || file == "models/missing.png") {
                 std::cerr << "Failed to open image file " << file << ". Are you sure you're in the right directory?"
                           << std::endl;

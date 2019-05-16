@@ -7,7 +7,7 @@ int main() {
     auto *camera = new input::Camera(glm::vec3(0.0f, 2.0f, 5.0f));
     auto *render = new graphics::MasterRender();
     
-    //render->addEntity("models/tree/tree.dae");
+    render->addEntity("../../resources/models/tree/tree.dae");
     
     render->addPointTemperatureLight(glm::vec3(3.0f, 3.0f, 5.0f), 5000, 0.0007, 0.00001, 1.0);
     //render->addDirectionalTemperatureLight(glm::vec3(-0.3f, -0.7f, -0.3f), 20000);

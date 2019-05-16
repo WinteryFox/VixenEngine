@@ -3,7 +3,7 @@
 
 namespace font {
 	Font::Font(const std::string &file, unsigned int fontSize) : fontSize(fontSize) {
-		loadFont(file);
+		loadFont("../../resources/fonts/" + file);
 	}
 	
 	void Font::loadFont(const std::string &file) {
@@ -14,7 +14,7 @@ namespace font {
 		}
 		FT_Face font;
 		if (FT_New_Face(ft, file.c_str(), 0, &font)) {
-			std::cerr << "Could not load font" << std::endl;
+			std::cerr << "Could not load font: " << file.c_str() << std::endl;
 			delete this;
 		}
 		

@@ -2,7 +2,7 @@
 
 namespace shaders {
 	Shader::Shader(std::string resourcePath, std::string vertex, std::string fragment) {
-		id = loadAndCompile(std::move(vertex), std::move(fragment), resourcePath);
+		id = loadAndCompile(resourcePath, std::move(vertex), std::move(fragment));
 	}
 	
 	Shader::~Shader() {

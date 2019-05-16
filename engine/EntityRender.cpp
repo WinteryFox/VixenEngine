@@ -2,7 +2,7 @@
 
 namespace graphics {
 	EntityRender::EntityRender(const std::string &resourcePath) {
-		shader = new shaders::Phong("../resources/");
+		shader = new shaders::Phong("../../resources/");
 	}
 	
 	void EntityRender::render(input::Camera* camera, std::vector<objects::entity::Entity *> &entities, std::vector<Light *> &lights) {
